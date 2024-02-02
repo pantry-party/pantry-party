@@ -7,7 +7,7 @@ router.get('/health', (req, res, next) => {
 });
 
 // ROUTER: /api/households
-router.use('/households', require('./households'));
+// router.use('/households', require('./households'));
 
 // ROUTER: /api/users
 router.use('/users', require('./users'));
