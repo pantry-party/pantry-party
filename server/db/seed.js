@@ -127,7 +127,7 @@ const buildDb = async () => {
         //Run our functions
         await dropTables()
         await createTables()
-
+        await joinCodeFns()
         await createInitialHouseholds()
         await createInitialUsers()
         await createInitialItems()
