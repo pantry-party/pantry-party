@@ -18,6 +18,8 @@ const households = [
 async function joinCodeFns () {
     try {
         console.log('initializing household code generation')
+        client.connect()
+
         await client.query(`
             create function gen_random_bytes(int) returns bytea as
             '$libdir/pgcrypto', 'pg_random_bytes' language c strict;
@@ -62,7 +64,11 @@ async function joinCodeFns () {
         console.log('initialized household code generation')
     } catch (error) {
         throw error
+    } finally {
+        client.end()
     }
 }
 
-module.exports = { households, joinCodeFns }
+joinCodeFns()
+
+module.exports = { households }
