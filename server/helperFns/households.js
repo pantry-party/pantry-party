@@ -52,7 +52,7 @@ async function createUserHousehold ({ name }) {
     }
 }
 
-async function createSharedHoushold ({ name }) {
+async function createSharedHousehold ({ name }) {
     try {
         const {
             rows: [household]
@@ -101,4 +101,4 @@ async function updateHousehold (id, fields) {
     }
 }
 
-module.exports = { getHouseholdbyId, getHouseholdbyJoinCode, createUserHousehold, createSharedHoushold, updateHousehold }
+module.exports = { getHouseholdbyId, getHouseholdbyJoinCode, createUserHousehold, createSharedHousehold, updateHousehold }
