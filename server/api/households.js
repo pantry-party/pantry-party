@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
-
-const { getHouseholdbyId, getHouseholdbyJoinCode, createUserHousehold, createSharedHoushold, updateHousehold } = require('../helperFns/households')
+const util = require('../helperFns/util.js')
+const { getHouseholdbyId, getHouseholdbyJoinCode, createUserHousehold, createSharedHousehold, updateHousehold } = require('../helperFns/households')
 const { getUserbyHouseholdId } = require('../helperFns/users')
 
 router.get('/:id', async (req, res, next) => {
@@ -58,3 +58,5 @@ router.put('/:id', async (req, res, next) => {
         next(error)
     }
 })
+
+module.exports = router
