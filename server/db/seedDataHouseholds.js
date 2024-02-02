@@ -18,7 +18,6 @@ const households = [
 async function joinCodeFns () {
     try {
         console.log('initializing household code generation')
-        
         await client.query(`
             create function gen_random_bytes(int) returns bytea as
             '$libdir/pgcrypto', 'pg_random_bytes' language c strict;

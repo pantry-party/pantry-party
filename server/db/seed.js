@@ -44,14 +44,14 @@ const createTables = async () => {
         CREATE TABLE items (
             id SERIAL PRIMARY KEY,
             name varchar(50) NOT NULL,
-            "dateMoved" timestamp NOT NULL,
+            "dateMoved" date,
             "inPantry" boolean NOT NULL,
             sharing boolean,
             "isLow" BOOLEAN DEFAULT false,
             category varchar(25) NOT NULL,
             expiry timestamp,
             "ownerId" INTEGER REFERENCES users(id),
-            "householdId" INTEGER REFERENCES households(id) NOT NULL,
+            "householdId" INTEGER REFERENCES households(id) NOT NULL
         );
         `)
         console.log("tables built!")
@@ -69,9 +69,9 @@ const createInitialHouseholds = async () => {
             const {
                 rows: [households]
             } = await client.query(`
-                INSERT INTO households(id, name, "joinCode")
-                VALUES($1, $2, $3);
-            `, [household.id, household.name, household.joinCode]
+                INSERT INTO households(name, "joinCode")
+                VALUES($1, $2);
+            `, [household.name, household.joinCode]
             )
         }
         console.log("created households")
@@ -88,9 +88,9 @@ const createInitialUsers = async () => {
             const {
                 rows: [users]
             } = await client.query(`
-                INSERT INTO users(id, name, username, password, color, "sharedHouse", "defaultHouse")
-                VALUES($1, $2, $3, $4, $5, $6, $7);
-            `, [user.id, user.name, user.username, user.password, user.color, user.sharedHouse, user.defaultHouse]
+                INSERT INTO users(name, username, password, color, "sharedHouse", "defaultHouse")
+                VALUES($1, $2, $3, $4, $5, $6);
+            `, [user.name, user.username, user.password, user.color, user.sharedHouse, user.defaultHouse]
             )
         }
         console.log("created users")
@@ -107,9 +107,9 @@ const createInitialItems = async () => {
             const {
                 rows: [items]
             } = await client.query(`
-                INSERT INTO items(id, name, "dateMoved", "inPantry", sharing, "isLow", category, expiry, "ownerId", "householdId")
+                INSERT INTO items(name, "dateMoved", "inPantry", sharing, "isLow", category, expiry, "ownerId", "householdId")
                 VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9);
-            `, [item.id, item.name, item.dateMoved, item.inPantry, item.sharing, item.isLow, item.category, item.expiry, item.ownerId]
+            `, [item.name, item.dateMoved, item.inPantry, item.sharing, item.isLow, item.category, item.expiry, item.ownerId, item.householdId]
             )
         }
         console.log("created items")
@@ -127,7 +127,6 @@ const buildDb = async () => {
         //Run our functions
         await dropTables()
         await createTables()
-
         await createInitialHouseholds()
         await createInitialUsers()
         await createInitialItems()

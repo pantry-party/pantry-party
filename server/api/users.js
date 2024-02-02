@@ -5,8 +5,6 @@ const jwt = require("jsonwebtoken")
 const { JWT_SECRET } = require("../secrets")
 const SALT_ROUNDS = 10
 
-router.use('/users')
-
 const {
     createUser, 
     getAllUsers, 
