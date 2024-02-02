@@ -1,4 +1,4 @@
-const client = require("../../../Unit04/PERN-Project/server/db/client")
+const client = require('./client.js')
 
 //Households require a name and may contain a joinCode
 const households = [
