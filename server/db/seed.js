@@ -1,9 +1,9 @@
 //pulling in the connection to our local database
 const client = require('./client')
 
-const { items } = require('./seedDataItems')
-const { users } = require('./seedDataUsers')
 const { households } = require('./seedDataHouseholds')
+const { users } = require('./seedDataUsers')
+const { items } = require('./seedDataItems')
 
 //Drop tables for data cleanliness
 const dropTables = async () => {
