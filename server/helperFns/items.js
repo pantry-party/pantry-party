@@ -71,7 +71,7 @@ const createItem = async ({ name, inPantry, sharing, category, expiry, ownerId, 
             rows: [item]
         } = await client.query(
             `
-            INSERT INTO items(name, inPantry, sharing, category, expiry, ownerId, householdId)
+            INSERT INTO items(name, "inPantry", sharing, category, expiry, "ownerId", "householdId")
             VALUES($1, $2, $3, $4, $5, $6, $7) 
             RETURNING *;
             `,
