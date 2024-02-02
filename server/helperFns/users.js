@@ -1,4 +1,4 @@
-const client = require('../client')
+const client = require('../db/client')
 
 const createUser = async ({ name, username, password, defaultHouse }) => {
     try {

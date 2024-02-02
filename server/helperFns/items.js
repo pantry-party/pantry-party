@@ -1,4 +1,4 @@
-const client = require('../client')
+const client = require('../db/client')
 const util = require('../util')
 
 const getAllItems = async () => {
