@@ -56,7 +56,7 @@ async function joinCodeFns () {
             $$ language plpgsql;
         `)
 
-        console.log('initializing household code generation')
+        console.log('initialized household code generation')
     } catch (error) {
         throw error
     }
