@@ -9,8 +9,8 @@ async function getHouseholdbyId (id) {
             `
                 SELECT *
                 FROM households
-                WHERE id =${id};
-            `
+                WHERE id =$1;
+            `, [id]
         )
         return household
     } catch (error) {
@@ -26,8 +26,8 @@ async function getHouseholdbyJoinCode (joinCode) {
             `
                 SELECT *
                 FROM households
-                WHERE joinCode =${joinCode};
-            `
+                WHERE joinCode =$1;
+            `, [joinCode]
         )
         return household
     } catch (error) {
@@ -42,9 +42,9 @@ async function createUserHousehold ({ name }) {
         } = await client.query(
             `
                 INSERT INTO users(name)
-                VALUES(${name});
+                VALUES($1);
                 RETURNING *;
-            `
+            `, [name]
         )
         return household
     } catch (error) {
@@ -59,9 +59,9 @@ async function createSharedHoushold ({ name }) {
         } = await client.query(
             `
                 INSERT INTO users(name, "joinCode")
-                VALUES(${name}, unique_random(6, 'households', 'joinCode'));
+                VALUES($1, unique_random(6, 'households', 'joinCode'));
                 RETURNING *;
-            `
+            `, [name]
         )
         return household
     } catch (error) {
