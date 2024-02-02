@@ -2,12 +2,16 @@ const client = require("../../../Unit04/PERN-Project/server/db/client")
 
 //Households require a name and may contain a joinCode
 const households = [
-    {name: "User 1's Household"},
-    {name: "User 2's Household"},
-    {name: "User 3's Household"},
-    {name: "User 4's Household"},
+    {name: "Cara's Household"},
+    {name: "Sam's Household"},
+    {name: "Paulina's Household"},
+    {name: "Lindsay's Household"},
     {name: "The Party Household", joinCode: "cRrbGL"},
-    {name: "An Especially Boring Household", joinCode: "ZL55vc"}
+    {name: "An Especially Boring Household", joinCode: "ZL55vc"},
+    {name: "Santa's Household"},
+    {name: "Toothfairy's Household"},
+    {name: "Tink's Household"},
+    {name: "Pooh's Household"},
 ]
 
 //join code generation functions by Derek Sivers. Article: https://sive.rs/rand1
