@@ -1,5 +1,5 @@
 const client = require('../db/client')
-const util = require('../util')
+const util = require('./util')
 
 const getAllItems = async () => {
     try {
@@ -39,7 +39,7 @@ const getItemsByUser = async (ownerId) => {
             = await client.query(`
         SELECT * 
         FROM items
-        WHERE "onwerId" = $1
+        WHERE "ownerId"=$1
         ORDER BY category;
         `, [ownerId]
         )
@@ -56,6 +56,38 @@ const getItemsByHousehold = async (householdId) => {
         SELECT * 
         FROM items
         WHERE "householdId" = $1
+        ORDER BY category;
+        `, [householdId]
+            )
+        return rows
+    } catch (error) {
+        throw error
+    }
+}
+
+const getItemsByHouseholdPantry = async (householdId) => {
+    try {
+        const { rows }
+            = await client.query(`
+        SELECT * 
+        FROM items
+        WHERE "householdId" = $1 AND "inPantry" = true
+        ORDER BY category;
+        `, [householdId]
+            )
+        return rows
+    } catch (error) {
+        throw error
+    }
+}
+
+const getItemsByHouseholdGroceryList = async (householdId) => {
+    try {
+        const { rows }
+            = await client.query(`
+        SELECT * 
+        FROM items
+        WHERE "householdId" = $1 AND "inPantry" = false
         ORDER BY category;
         `, [householdId]
             )
@@ -92,7 +124,7 @@ const updateItem = async (id, fields) => {
         let item;
         if (util.dbFields(toUpdate).insert.length > 0) {
             const { rows } = await client.query(`
-            UPDATE item
+            UPDATE items
             SET ${util.dbFields(toUpdate).insert}
             WHERE id = ${id}
             RETURNING *;
@@ -118,4 +150,4 @@ async function deleteItem(id) {
     }
 }
 
-module.exports = {getAllItems, getItemById, getItemsByHousehold, getItemsByUser, createItem, updateItem, deleteItem}
+module.exports = {getAllItems, getItemById, getItemsByHousehold, getItemsByHouseholdPantry, getItemsByHouseholdGroceryList, getItemsByUser, createItem, updateItem, deleteItem}

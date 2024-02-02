@@ -1,7 +1,7 @@
 const express = require('express');
-const util = require('util')
-const router=express.Router()
-const {getAllItems, getItembyId, getItemsByHousehold, getItemsbyUser, createItem, updateItem, deleteItem} = require ('../helperFns/items.js')
+const util = require('../helperFns/util.js')
+const router = express.Router()
+const {getAllItems, getItemById, getItemsByHousehold, getItemsByHouseholdPantry, getItemsByHouseholdGroceryList, getItemsByUser, createItem, updateItem, deleteItem} = require ('../helperFns/items.js')
 
 router.get('/', async(req, res, next) => {
     try {
@@ -21,18 +21,36 @@ router.get('/:id', async (req, res, next) => {
     }
 })
 
-router.get('/:ownerId', async (req, res, next) => {
+router.get('/owner/:id', async (req, res, next) => {
     try {
-        const items = await getItemsbyUser(req.params.id)
+        const items = await getItemsByUser(req.params.id)
         res.send(items)
     } catch (error) {
         next (error)
     }
 })
 
-router.get('/:householdId', async (req, res, next) => {
+router.get('/household/:id', async (req, res, next) => {
     try {
         const items = await getItemsByHousehold(req.params.id)
+        res.send(items)
+    } catch (error) {
+        next (error)
+    }
+})
+
+router.get('/household/:id/pantry', async (req, res, next) => {
+    try {
+        const items = await getItemsByHouseholdPantry(req.params.id)
+        res.send(items)
+    } catch (error) {
+        next (error)
+    }
+})
+
+router.get('/household/:id/grocerylist', async (req, res, next) => {
+    try {
+        const items = await getItemsByHouseholdGroceryList(req.params.id)
         res.send(items)
     } catch (error) {
         next (error)
@@ -48,7 +66,7 @@ router.post('/', async (req, res, next) => {
     }
 })
 
-router.put('/:id', async (req, res, next) => {
+router.patch('/:id', async (req, res, next) => {
     try {
         const item = await updateItem(req.params.id, req.body)
         res.send(item)
