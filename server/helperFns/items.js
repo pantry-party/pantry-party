@@ -128,7 +128,7 @@ const updateItem = async (id, fields) => {
             SET ${util.dbFields(toUpdate).insert}
             WHERE id = ${id}
             RETURNING *;
-            `, Object.values(toUpdate))
+            `, [Object.values(toUpdate)])
             item = rows[0]
         }
         return item;
