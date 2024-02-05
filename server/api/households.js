@@ -4,10 +4,12 @@ const util = require('../helperFns/util.js')
 const { getHouseholdbyId, getHouseholdbyJoinCode, createUserHousehold, createSharedHousehold, updateHousehold } = require('../helperFns/households')
 const { getUserbyHouseholdId } = require('../helperFns/users')
 
-router.get('/:id', async (req, res, next) => {
+router.get('/id/:id', async (req, res, next) => {
     try {
         const household = await getHouseholdbyId(req.params.id)
-        household.users = await getUserbyHouseholdId(req.params.id)
+        if (household.joinCode){
+            household.users = await getUserbyHouseholdId(req.params.id)
+        }
 
         res.send(household)
     } catch (error) {
