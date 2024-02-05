@@ -26,7 +26,7 @@ async function getHouseholdbyJoinCode (joinCode) {
             `
                 SELECT *
                 FROM households
-                WHERE joinCode =$1;
+                WHERE "joinCode" =$1;
             `, [joinCode]
         )
         return household
@@ -41,8 +41,8 @@ async function createUserHousehold ({ name }) {
             rows: [household]
         } = await client.query(
             `
-                INSERT INTO users(name)
-                VALUES($1);
+                INSERT INTO households(name)
+                VALUES($1)
                 RETURNING *;
             `, [name]
         )
@@ -58,8 +58,8 @@ async function createSharedHousehold ({ name }) {
             rows: [household]
         } = await client.query(
             `
-                INSERT INTO users(name, "joinCode")
-                VALUES($1, unique_random(6, 'households', 'joinCode'));
+                INSERT INTO households(name, "joinCode")
+                VALUES($1, unique_random(6, 'households', 'joinCode'))
                 RETURNING *;
             `, [name]
         )
