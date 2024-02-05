@@ -59,7 +59,7 @@ const createTables = async () => {
         CREATE TABLE items (
             id SERIAL PRIMARY KEY,
             name varchar(50) NOT NULL,
-            "dateMoved" date,
+            "dateMoved" timestamp NOT NULL,
             "inPantry" boolean NOT NULL,
             sharing boolean,
             "isLow" BOOLEAN DEFAULT false,
