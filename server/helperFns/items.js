@@ -5,8 +5,9 @@ const getAllItems = async () => {
     try {
         const { rows }
             = await client.query(`
-        SELECT * 
+        SELECT items.*, users.color 
         FROM items 
+        LEFT JOIN users ON items."ownerId" = users.id
         ORDER BY category;
         `)
         return rows
@@ -21,9 +22,10 @@ const getItemById = async (id) => {
             rows: [item]
         } = await client.query(
             `
-            SELECT * 
+            SELECT items.*, users.color
             FROM items
-            WHERE id = $1;
+            LEFT JOIN users ON items."ownerId" = users.id
+            WHERE items.id = $1;
             `,
             [id]
         )
@@ -53,8 +55,9 @@ const getItemsByHousehold = async (householdId) => {
     try {
         const { rows }
             = await client.query(`
-        SELECT * 
+        SELECT items.*, users.color
         FROM items
+        LEFT JOIN users ON items."ownerId" = users.id
         WHERE "householdId" = $1
         ORDER BY category;
         `, [householdId]
@@ -69,10 +72,11 @@ const getItemsByHouseholdPantry = async (householdId) => {
     try {
         const { rows }
             = await client.query(`
-        SELECT * 
+        SELECT items.*, users.color
         FROM items
+        LEFT JOIN users ON items."ownerId" = users.id
         WHERE "householdId" = $1 AND "inPantry" = true
-        ORDER BY category;
+        ORDER BY dateMoved, category;
         `, [householdId]
             )
         return rows
@@ -85,8 +89,9 @@ const getItemsByHouseholdGroceryList = async (householdId) => {
     try {
         const { rows }
             = await client.query(`
-        SELECT * 
+        SELECT items.*, users.color, SUBSTRING(users.name, 1, 1) AS "userInitial"
         FROM items
+        LEFT JOIN users ON items."ownerId" = users.id
         WHERE "householdId" = $1 AND "inPantry" = false
         ORDER BY category;
         `, [householdId]
@@ -97,17 +102,17 @@ const getItemsByHouseholdGroceryList = async (householdId) => {
     }
 }
 
-const createItem = async ({ name, inPantry, sharing, category, expiry, ownerId, householdId }) => {
+const createItem = async ({ name, dateMoved, inPantry, sharing, category, expiry, ownerId, householdId }) => {
     try {
         const {
             rows: [item]
         } = await client.query(
             `
-            INSERT INTO items(name, "inPantry", sharing, category, expiry, "ownerId", "householdId")
-            VALUES($1, $2, $3, $4, $5, $6, $7) 
+            INSERT INTO items(name, "dateMoved", "inPantry", sharing, category, expiry, "ownerId", "householdId")
+            VALUES($1, $2, $3, $4, $5, $6, $7, $8) 
             RETURNING *;
             `,
-            [name, inPantry, sharing, category, expiry, ownerId, householdId]
+            [name, dateMoved, inPantry, sharing, category, expiry, ownerId, householdId]
         )
         return item
     } catch (error) {
@@ -128,7 +133,7 @@ const updateItem = async (id, fields) => {
             SET ${util.dbFields(toUpdate).insert}
             WHERE id = ${id}
             RETURNING *;
-            `, [Object.values(toUpdate)])
+            `, Object.values(toUpdate))
             item = rows[0]
         }
         return item;
