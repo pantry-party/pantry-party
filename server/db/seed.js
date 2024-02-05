@@ -38,7 +38,7 @@ const dropTables = async () => {
 //Create tables to give data a home
 const createTables = async () => {
     try {
-        console.log("building tables...")
+        console.log("Building tables...")
         await client.query(`
         CREATE TABLE households (
             id SERIAL PRIMARY KEY,
@@ -69,7 +69,7 @@ const createTables = async () => {
             "householdId" INTEGER REFERENCES households(id) NOT NULL
         );
         `)
-        console.log("tables built!")
+        console.log("Tables built!")
     } catch (error) {
         console.error(error)
     }
@@ -79,8 +79,8 @@ const createTables = async () => {
 //Create households
 const createInitialHouseholds = async () => {
     try {
+        console.log('Initializing households table...')
         for (const household of households) {
-            console.log(household)
             const {
                 rows: [households]
             } = await client.query(`
@@ -89,7 +89,7 @@ const createInitialHouseholds = async () => {
             `, [household.name, household.joinCode]
             )
         }
-        console.log("created households")
+        console.log("Households initialized!")
     } catch (error) {
         throw error
     }
@@ -98,8 +98,8 @@ const createInitialHouseholds = async () => {
 //Create users
 const createInitialUsers = async () => {
     try {
+        console.log('Initializing users table...')
         for (const user of users) {
-            console.log(user)
             const {
                 rows: [users]
             } = await client.query(`
@@ -108,7 +108,7 @@ const createInitialUsers = async () => {
             `, [user.name, user.username, user.password, user.color, user.sharedHouse, user.defaultHouse]
             )
         }
-        console.log("created users")
+        console.log("Users initialized!")
     } catch (error) {
         throw error
     }
@@ -117,8 +117,8 @@ const createInitialUsers = async () => {
 //Create items
 const createInitialItems = async () => {
     try {
+        console.log('Initializing items table...')
         for (const item of items) {
-            console.log(item)
             const {
                 rows: [items]
             } = await client.query(`
@@ -127,7 +127,7 @@ const createInitialItems = async () => {
             `, [item.name, item.dateMoved, item.inPantry, item.sharing, item.isLow, item.category, item.expiry, item.ownerId, item.householdId]
             )
         }
-        console.log("created items")
+        console.log("Items initialized!")
     } catch (error) {
         throw error
     }
@@ -136,7 +136,7 @@ const createInitialItems = async () => {
 //join code generation functions by Derek Sivers. Article: https://sive.rs/rand1
 async function joinCodeFns() {
     try {
-        console.log('initializing household code generation')
+        console.log('Creating functions...')
         await client.query(`
             create function gen_random_bytes(int) returns bytea as
             '$libdir/pgcrypto', 'pg_random_bytes' language c strict;
@@ -177,7 +177,7 @@ async function joinCodeFns() {
             end;
             $$ language plpgsql;
         `)
-        console.log('initialized household code generation')
+        console.log('Functions created!')
     } catch (error) {
         throw error
     }
