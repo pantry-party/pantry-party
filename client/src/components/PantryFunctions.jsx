@@ -1,6 +1,6 @@
 //alerts
 
-export default PantryFunctions () {
+export default function PantryFunctions () {
 
     return (<div></div>)
 }
