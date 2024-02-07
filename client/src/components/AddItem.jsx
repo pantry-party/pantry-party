@@ -1,6 +1,6 @@
 //add new form available on pantry and grocery list 
 
-export default AddItem () {
+export default function AddItem () {
 
     return (<div></div>)
 }
