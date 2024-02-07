@@ -1,12 +1,12 @@
 import "./App.css"
 import React from "react"
 import { Routes, Route } from "react-router-dom"
-import Login from "./components/Login.jsx"
-import Register from "./components/register"
-import AccountDisplay from "./components/accountDisplay"
-import PantryList from "./components/pantryList"
-import GroceryList from "./components/groceryList"
-import GroceryEdit from "./components/groceryEdit"
+import Login from "./components/Login"
+import Register from "./components/Register"
+import AccountDisplay from "./components/AccountDisplay"
+import PantryList from "./components/PantryList"
+import GroceryList from "./components/GroceryList"
+import GroceryEdit from "./components/GroceryEdit"
 import { bottlesIcon, dairyIcon, dryIcon, freezerIcon, mealsIcon, otherIcon, produceIcon, proteinIcon } from "./styles/icons.jsx"
 
 
