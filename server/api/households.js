@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const util = require('../helperFns/util.js')
 const { getHouseholdbyId, getHouseholdbyJoinCode, createUserHousehold, createSharedHousehold, updateHousehold } = require('../helperFns/households')
 const { getUserbyHouseholdId } = require('../helperFns/users')
 
