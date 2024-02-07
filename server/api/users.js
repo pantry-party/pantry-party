@@ -50,6 +50,12 @@ router.get("/household/:id", async (req, res, next) => {
 // PATCH - /api/users/:id - update user
 router.patch('/:id', async (req, res, next) => {
     try {
+        const { password } = req.body
+        if (password) {
+            const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS)
+            req.body.password = hashedPassword
+        }
+
         const user = await updateUser(req.params.id, req.body)
         res.send(user)
     } catch (error) {
