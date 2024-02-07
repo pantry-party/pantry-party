@@ -1,12 +1,11 @@
-import "./App.css";
-import React from "react";
-import { Routes, Route } from "react-router-dom";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import AccountDisplay from "./components/AccountDisplay";
-import PantryList from "./components/PantryList";
-import GroceryList from "./components/GroceryList";
-import GroceryEdit from "./components/GroceryEdit";
+import "./App.css"
+import { Routes, Route } from "react-router-dom"
+import Login from "./components/Login"
+import Register from "./components/Register"
+import AccountDisplay from "./components/AccountDisplay"
+import PantryList from "./components/PantryList"
+import GroceryList from "./components/GroceryList"
+import GroceryEdit from "./components/GroceryEdit"
 
 function App() {
 
@@ -23,7 +22,7 @@ function App() {
         </Routes>
       </div>
     </>
-  );
+  )
 }
 
-export default App;
+export default App

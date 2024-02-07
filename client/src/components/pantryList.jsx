@@ -1,1 +1,0 @@
-//content/display of the pantry
