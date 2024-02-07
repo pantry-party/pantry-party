@@ -1,6 +1,6 @@
 //navigation pane
 
-export default Navigation () {
+export default function Navigation () {
 
     return (<div></div>)
 }

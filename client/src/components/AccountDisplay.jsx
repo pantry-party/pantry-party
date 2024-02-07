@@ -1,6 +1,6 @@
 //display of account information
 
-export default AccountDisplay () {
+export default function AccountDisplay () {
 
     return (<div></div>)
 }
