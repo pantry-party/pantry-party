@@ -14,6 +14,7 @@ function App() {
   
   return (
     <>
+    {bottlesIcon}
       <div>
         <Routes>
           <Route path="/" element={<Login />} />
