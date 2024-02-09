@@ -76,7 +76,7 @@ const getItemsByHouseholdPantry = async (householdId) => {
         FROM items
         LEFT JOIN users ON items."ownerId" = users.id
         WHERE "householdId" = $1 AND "inPantry" = true
-        ORDER BY dateMoved, category;
+        ORDER BY "dateMoved", category;
         `, [householdId]
             )
         return rows
