@@ -1,6 +1,41 @@
-
+import { useLoginUserMutation } from "../storage/pantryPartyApi"
+import { useState } from "react"
 
 export default function Login () {
+    const [login, userLogin] = useLoginUserMutation()
 
-    return (<div></div>)
+    const [username, setUsername] = useState('')
+    const [password, setPassword] = useState('')
+
+    if (userLoad.isLoading) {
+        return <div>Loading...</div>
+    }
+
+    async function handleSubmit (e) {
+        e.preventDefault()
+        await login({ username, password })
+    }
+
+    return (<div>
+        <form title='Login Form' onSubmit={handleSubmit}>
+                <h3>Sign In</h3>
+                {userLogin.isError && <p>{userLogin.error.error}</p>}
+                <label>Username: 
+                        <input
+                        value={username} 
+                        onChange={(event) => {setUsername(event.target.value)}}
+                        />
+                    </label>
+                    <br/>
+                <label>Password: 
+                    <input
+                        value={password}
+                        type='password'
+                        onChange={(event) => {setPassword(event.target.value)}}
+                    />
+                </label>
+                <br/>
+                <button type="submit">Sign in</button>
+            </form>
+    </div>)
 }
