@@ -1,8 +1,7 @@
 import "./App.css"
 import React from "react"
 import { Routes, Route } from "react-router-dom"
-import Login from "./components/Login"
-import Register from "./components/Register"
+import Navigation from "./components/Navigation.jsx"
 import AccountDisplay from "./components/AccountDisplay"
 import PantryList from "./components/PantryList"
 import GroceryList from "./components/GroceryList"
@@ -14,12 +13,10 @@ function App() {
   
   return (
     <>
-    {bottlesIcon}
+    <Navigation />
       <div>
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/account" element={<AccountDisplay />} />
+          <Route path="/" element={<AccountDisplay />} />
           <Route path="/pantry" element={<PantryList />} />
           <Route path="/groceryList" element={<GroceryList />} />
           <Route path="/groceryList/edit" element={<GroceryEdit />} />
