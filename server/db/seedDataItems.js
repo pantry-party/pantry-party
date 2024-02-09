@@ -5,7 +5,7 @@ const items = [
         inPantry: true, 
         sharing: null,
         isLow: false,
-        category: "fruit",
+        category: "produce",
         expiry: null, 
         ownerId: null,
         householdId: 5
@@ -16,7 +16,7 @@ const items = [
         inPantry: true, 
         sharing: null,
         isLow: false,
-        category: "vegetable",
+        category: "produce",
         expiry: null, 
         ownerId: null,
         householdId: 5
@@ -49,9 +49,9 @@ const items = [
         inPantry: true, 
         sharing: false,
         isLow: false,
-        category: "cans",
+        category: "cans & bottles",
         expiry: null, 
-        ownerId: 1,
+        ownerId: 6,
         householdId: 5
     },
     {
@@ -60,9 +60,9 @@ const items = [
         inPantry: true, 
         sharing: true,
         isLow: false,
-        category: "drinks",
+        category: "cans & bottles",
         expiry: null, 
-        ownerId: 1,
+        ownerId: 5,
         householdId: 5
     },
     {
@@ -71,7 +71,7 @@ const items = [
         inPantry: true, 
         sharing: null,
         isLow: false,
-        category: "condiments",
+        category: "cans & bottles",
         expiry: null, 
         ownerId: null,
         householdId: 5
@@ -82,9 +82,9 @@ const items = [
         inPantry: false, 
         sharing: null,
         isLow: false,
-        category: "snacks",
+        category: "dry goods",
         expiry: null, 
-        ownerId: null,
+        ownerId: 6,
         householdId: 5
     },
     {
@@ -93,7 +93,7 @@ const items = [
         inPantry: true, 
         sharing: null,
         isLow: false,
-        category: "fruit",
+        category: "dry goods",
         expiry: null, 
         ownerId: null,
         householdId: 5
@@ -106,7 +106,7 @@ const items = [
         isLow: false,
         category: "freezer",
         expiry: null, 
-        ownerId: 2,
+        ownerId: 5,
         householdId: 5
     },
     {
