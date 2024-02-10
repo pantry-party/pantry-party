@@ -2,8 +2,14 @@
 import { useState } from "react"
 import { useGetGroceryItemsbyHouseholdIdQuery } from "../storage/pantryPartyApi"
 import { editIcon, addIcon } from "../styles/icons"
+import { handleCheck } from "./GroceryFunctions"
 
 export default function GroceryList() {
+    const groceryPull = useGetGroceryItemsbyHouseholdIdQuery(5)
+    if (groceryPull.isLoading) {
+        return <div>Pulling out grocery list...</div>
+    }
+    const groceryList = groceryPull.data
     const categories = [
         "Cans & Bottles",
         "Dairy",
@@ -15,13 +21,20 @@ export default function GroceryList() {
         "Other"
     ]
 
-    const groceryPull = useGetGroceryItemsbyHouseholdIdQuery(5)
-    if (groceryPull.isLoading) {
-        return <div>Pulling out grocery list...</div>
-    }
-    const groceryList = groceryPull.data
+    // const categoryObjs = [
+    //     { name: "Cans & Bottles", hasItems: false },
+    //     { name: "Dairy", hasItems: false },
+    //     { name: "Dry Goods", hasItems: false },
+    //     { name: "Freezer", hasItems: false },
+    //     { name: "Meals", hasItems: false },
+    //     { name: "Produce", hasItems: false },
+    //     { name: "Proteins", hasItems: false },
+    //     { name: "Other", hasItems: false }
+    // ]
 
-    console.log(groceryList)
+    //ideas for sorting list by categories with items first 
+         // map through the commented out categoryObjs array instead of categories and add an if to the categoryObjs.map for if category.hasItems==true, else will print the remaining
+
     return (<>
         {/* title, subtitle, and add to list and edit buttons*/}
         <div>
@@ -30,18 +43,21 @@ export default function GroceryList() {
             <button title="Edit Item">{editIcon}</button>
             <button title="Add New Item">{addIcon}</button>
         </div>
-        {/* alphabetically ordered categories where items>0 */}
+        {/* alphabetically ordered categories -- add logic for populated cats first */}
         <div>
-            {categories.map((cat) => {
-                console.log(cat.toLowerCase())
+            {categories.map((category) => {
                 return (<>
-                    <h4>{cat}</h4>
+                    <h4>{category}</h4>
                     {groceryList.map((item) => {
-                        if (item.category == cat.toLowerCase()) {
+                        if (item.category == category.toLowerCase()) {
                             return (
-                                <li>
+                                <li key={item.id}>
                                     {item.ownerId ? <>{item.userInitial}</> : <>&ensp;</>}
-                                    <input type="checkbox"></input>
+                                    <input
+                                        type="checkbox"
+                                        defaultChecked={item.inPantry}
+                                        onChange={(e) => { handleCheck(e.target.checked) }}
+                                    ></input>
                                     {item.name}
                                 </li>
                             )
@@ -49,11 +65,11 @@ export default function GroceryList() {
                     })}
                     <li>
                         <button title="Add Item">{addIcon}</button>
-                        <input placeholder={cat}></input>
+                        <input placeholder={category}></input>
                     </li>
                 </>)
-            })}
 
+            })}
         </div>
     </>
     )
