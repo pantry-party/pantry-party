@@ -2,9 +2,13 @@
 import { useState } from "react"
 import { useGetGroceryItemsbyHouseholdIdQuery } from "../storage/pantryPartyApi"
 import { editIcon, addIcon } from "../styles/icons"
-import { handleCheck } from "./GroceryFunctions"
+import { handleCheck, addToCategory } from "./GroceryFunctions"
+import GroceryEdit from "./GroceryEdit"
+import AddItem from "./AddItem"
 
 export default function GroceryList() {
+    const [itemAdd, setItemAdd] = useState("")
+
     const groceryPull = useGetGroceryItemsbyHouseholdIdQuery(5)
     if (groceryPull.isLoading) {
         return <div>Pulling out grocery list...</div>
@@ -33,15 +37,15 @@ export default function GroceryList() {
     // ]
 
     //ideas for sorting list by categories with items first 
-         // map through the commented out categoryObjs array instead of categories and add an if to the categoryObjs.map for if category.hasItems==true, else will print the remaining
+    // map through the commented out categoryObjs array instead of categories and add an if to the categoryObjs.map for if category.hasItems==true, else will print the remaining
 
     return (<>
         {/* title, subtitle, and add to list and edit buttons*/}
         <div>
             <h1>Your Grocery List</h1>
             <h3>Check things off to add them to your pantry!</h3>
-            <button title="Edit Item">{editIcon}</button>
-            <button title="Add New Item">{addIcon}</button>
+            <button title="Edit Item" onClick={GroceryEdit}>{editIcon}</button>
+            <button title="Add New Item" onClick={AddItem}>{addIcon}</button>
         </div>
         {/* alphabetically ordered categories -- add logic for populated cats first */}
         <div>
@@ -56,17 +60,26 @@ export default function GroceryList() {
                                     <input
                                         type="checkbox"
                                         defaultChecked={item.inPantry}
-                                        onChange={(e) => { handleCheck(e.target.checked) }}
-                                    ></input>
+                                        onChange={(e) => { handleCheck(item.id, e.target.checked) }}
+                                    />
                                     {item.name}
                                 </li>
                             )
                         }
                     })}
-                    <li>
-                        <button title="Add Item">{addIcon}</button>
-                        <input placeholder={category}></input>
-                    </li>
+                    {/* Might be counterintuitive to have add button (submit) to the left of input 
+                    ???? how do i make it so that only one form takes typed input, not all???
+                    */}
+
+                    <form onSubmit={addToCategory(category)} key={category}>
+                        <button title="Add Item" type="submit"> {addIcon} </button>
+                        <input
+                            type="text"
+                            placeholder={category}
+                            value={itemAdd}
+                            onChange={(e) => { setItemAdd(e.target.value);console.log(setItemAdd) }}
+                        />
+                    </form>
                 </>)
 
             })}
