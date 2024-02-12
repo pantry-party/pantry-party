@@ -4,14 +4,23 @@ import { useState, useEffect } from 'react'
 export default function Register () {
     const [createUser, userCreation] = useCreateUserMutation()
     const [createHousehold, householdCreation] = useCreateUserHouseholdMutation()
-    console.log(userCreation)
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [name, setName] = useState('')
     const [color, setColor] = useState('')
 
-    if (userCreation.isLoading) {
+    useEffect(() => {
+        if (householdCreation.isSuccess && !userCreation.isSuccess) {
+            createUser({ name, username, password, defaultHouse: householdCreation.data.id, color })
+        }
+
+        if (userCreation.isSuccess) {
+            console.log(userCreation)
+        }
+    }, [householdCreation.isSuccess, userCreation.isSuccess])
+
+    if (userCreation.isLoading || householdCreation.isLoading) {
         return <div>Loading...</div>
     }
 
@@ -19,8 +28,7 @@ export default function Register () {
         e.preventDefault()
         let defaultName = `${name}'s Household`
 
-        await createHousehold({ name: defaultName })
-        await createUser({ name, username, password, defaultHouse: householdCreation.data.id, color })
+        await createHousehold({ name: defaultName }) 
     }
 
     return (<div>

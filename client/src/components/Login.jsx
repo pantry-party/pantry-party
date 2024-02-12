@@ -1,13 +1,21 @@
 import { useLoginUserMutation } from "../storage/pantryPartyApi"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 
 export default function Login () {
     const [login, userLogin] = useLoginUserMutation()
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
-
-    if (userLoad.isLoading) {
+    
+    useEffect(() => {
+            
+        if (userLogin.isSuccess) {
+            console.log(userLogin)
+        }
+            
+    }, [userLogin.isSuccess])
+    
+    if (userLogin.isLoading) {
         return <div>Loading...</div>
     }
 
