@@ -1,5 +1,6 @@
 //content/display of grocery list
-import { useState } from "react"
+import { useState, useContext } from "react"
+import { categoriesContext } from "../storage/context"
 import { useGetGroceryItemsbyHouseholdIdQuery } from "../storage/pantryPartyApi"
 import { editIcon, addIcon } from "../styles/icons"
 import { handleCheck } from "./GroceryFunctions"
@@ -9,34 +10,14 @@ import AddToCategory from "./GroceryListAdds"
 
 export default function GroceryList() {
     const groceryPull = useGetGroceryItemsbyHouseholdIdQuery(5)
-    
+    const categories = useContext(categoriesContext)
+    const groceryList = groceryPull.data
+
     if (groceryPull.isLoading) {
         return <div>Pulling out grocery list...</div>
     } if (groceryPull.error) {
         return <div>Your grocery list blew away...</div>
     }
-    const groceryList = groceryPull.data
-    const categories = [
-        "Cans & Bottles",
-        "Dairy",
-        "Dry Goods",
-        "Freezer",
-        "Meals",
-        "Produce",
-        "Proteins",
-        "Other"
-    ]
-
-    // const categoryObjs = [
-    //     { name: "Cans & Bottles", hasItems: false },
-    //     { name: "Dairy", hasItems: false },
-    //     { name: "Dry Goods", hasItems: false },
-    //     { name: "Freezer", hasItems: false },
-    //     { name: "Meals", hasItems: false },
-    //     { name: "Produce", hasItems: false },
-    //     { name: "Proteins", hasItems: false },
-    //     { name: "Other", hasItems: false }
-    // ]
 
     //ideas for sorting list by categories with items first 
     // map through the commented out categoryObjs array instead of categories and add an if to the categoryObjs.map for if category.hasItems==true, else will print the remaining
@@ -54,9 +35,9 @@ export default function GroceryList() {
             {categories.map((category) => {
                 return (
                     <>
-                        <h4>{category}</h4>
+                        <h3>{category.icon} {category.name}</h3>
                         {groceryList.map((item) => {
-                            if (item.category == category.toLowerCase()) {
+                            if (item.category == category.name.toLowerCase()) {
                                 return (
                                     <li key={item.id}>
                                         {item.ownerId ? <>{item.userInitial}</> : <>&ensp;</>}
@@ -70,7 +51,7 @@ export default function GroceryList() {
                                 )
                             }
                         })}
-                        <AddToCategory category={category} />
+                        <AddToCategory category={category.name} />
                     </>
                 )
             })}
