@@ -9,11 +9,11 @@ import "../styles/colors.css"
 import Login from "./Login"
 import  { userContext, householdContext, tokenContext } from "../storage/context"
 
-export default function AccountDisplay() {
+export default function AccountDisplay({userInfo, setUserInfo, household, setHousehold}) {
     const [token, setToken] = useState(null)
-    const [userInfo, setUserInfo] = useState({})
+    // const [userInfo, setUserInfo] = useState({})
 
-    const [household, setHousehold] = useState({})
+    // const [household, setHousehold] = useState({})
     const householdId = userInfo.sharedHouse || userInfo.defaultHouse
     const householdDetails = useGetHouseholdbyIdQuery(householdId)
     
@@ -66,7 +66,6 @@ export default function AccountDisplay() {
         
         return (
             <div className="householdInfo">
-            <householdContext.Provider value={householdDetails.data}>
                 <h3> {household.name}</h3>
                 {household.users && household.users.map((user) => {
                     return (
@@ -74,7 +73,6 @@ export default function AccountDisplay() {
                         
                     )
                 })}
-            </householdContext.Provider>
             </div>
         )
     }
@@ -100,7 +98,7 @@ export default function AccountDisplay() {
 
     return (
         <div>
-            <userContext.Provider value={userInfo}>
+            
                 {!userInfo.username && <Register userInfo={userInfo} setUserInfo={setUserInfo} />}
                 {!userInfo.username && <Login userInfo={userInfo} setUserInfo={setUserInfo} />}
                 {userInfo.username && 
@@ -111,7 +109,7 @@ export default function AccountDisplay() {
                         <button onClick={() => { setToken(null) }}> Log out </button>
                     </div>}
                     
-            </userContext.Provider>
+         
         </div>
     )
 }
