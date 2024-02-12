@@ -15,3 +15,8 @@ export const categoriesContext = createContext([
 // import { categoriesContext } from "../storage/context.jsx" -> at the top with other imports
 // const categories = useContext(categoriesContext) -> where your useState variables etc go
 // {categories.map((category) => {return <div> <p> {category.icon} {category.name} </p> </div>}) }
+
+export const userContext = createContext({})
+export const tokenContext = createContext(null)
+export const householdContext = createContext({})
+export const housenameContext = createContext("")
