@@ -12,7 +12,7 @@ export default function Login ({userInfo, setUserInfo}) {
         if (userLogin.isSuccess) {
             console.log(userLogin)
             setUserInfo(userLogin.data.user)
-            console.log(userLogin.data.user.username)
+            console.log(userLogin.data.user)
         }
             
     }, [userLogin.isSuccess])

@@ -1,27 +1,26 @@
 //display of account information
 
-import React from "react"
-import { useContext, createContext, useState } from "react"
+import React, { useEffect, useContext, createContext, useState } from "react"
 import { userIcon } from "../styles/icons"
-import { useCreateSharedHouseholdMutation, useEditHouseholdMutation, useEditUserMutation, useGetHouseholdbyJoinCodeQuery } from "../storage/pantryPartyApi"
+import { useGetHouseholdbyIdQuery, useCreateSharedHouseholdMutation, useEditHouseholdMutation, useEditUserMutation, useGetHouseholdbyJoinCodeQuery } from "../storage/pantryPartyApi"
 import Register from "./Register"
-import {colorForm, nameForm, passwordForm, sharedHouseholdForm, joinHouseholdForm, renameHouseholdForm, leaveHouseholdForm, removeMemberForm} from "./AccountFunctions"
+import { colorForm, nameForm, passwordForm, sharedHouseholdForm, joinHouseholdForm, renameHouseholdForm, leaveHouseholdForm, removeMemberForm } from "./AccountFunctions"
 import "../styles/colors.css"
 import Login from "./Login"
-
-export const userContext = createContext({ id: 1, name: "Paulina", color: "pink", sharedHousehold: 5 })
-export const tokenContext = createContext(null)
-export const householdContext = createContext({ users: [{ id: 2, name: "Cara", color: "yellow" }, { id: 3, name: "Samantha", color: "purple" }, { id: 4, name: "Lindsay", color: "blue" }] })
-export const housenameContext = createContext("Paulina's household")
+import  { userContext, householdContext, tokenContext } from "../storage/context"
 
 export default function AccountDisplay() {
     const [token, setToken] = useState(null)
     const [userInfo, setUserInfo] = useState({})
-    const housename = useContext(housenameContext)
-    const household = useContext(householdContext)
+
+    const [household, setHousehold] = useState({})
+    const householdId = userInfo.sharedHouse || userInfo.defaultHouse
+    const householdDetails = useGetHouseholdbyIdQuery(householdId)
+    
     const [createSharedHousehold, sharedHouseholdInfo] = useCreateSharedHouseholdMutation()
     const [editHousehold, editedHousehold] = useEditHouseholdMutation()
     const [editUser, editedUser] = useEditUserMutation()
+    
     const [displayForm, setDisplayForm] = useState("")
     const [newColor, setNewColor] = useState("")
     const [newName, setNewName] = useState("")
@@ -31,7 +30,6 @@ export default function AccountDisplay() {
     const [newHouseholdName, setNewHouseholdName] = useState("")
     const [checked, setChecked] = useState(false)
     const [removal, setRemoval] = useState("") 
-    
 
     const accountInfo = () => {
         return (
@@ -48,22 +46,35 @@ export default function AccountDisplay() {
                         {displayForm === "colorForm" && colorForm({newColor, setNewColor})} 
                         {displayForm === "nameForm" && nameForm({newName, setNewName})} 
                         {displayForm === "passwordForm" && passwordForm({newPassword, setNewPassword})}
-                        {console.log(newColor)}
                     </div>
                 </div>
             </>
         )
     }
 
+    useEffect(() => {
+        if (householdDetails.isSuccess) {
+            console.log(householdDetails.data)
+            setHousehold(householdDetails.data)
+        }}, [householdDetails.isSuccess])
+
+        if (householdDetails.isloading) { 
+                return <div> Loading... </div>}
+
+
     const householdInfo = () => {
+        
         return (
             <div className="householdInfo">
-                <h3> {housename}</h3>
-                {household.users.map((user) => {
+            <householdContext.Provider value={householdDetails.data}>
+                <h3> {household.name}</h3>
+                {household.users && household.users.map((user) => {
                     return (
                         <p className={user.color} id={user.id}> {userIcon} {user.name} </p>
+                        
                     )
                 })}
+            </householdContext.Provider>
             </div>
         )
     }
@@ -90,9 +101,9 @@ export default function AccountDisplay() {
     return (
         <div>
             <userContext.Provider value={userInfo}>
-                {!token && <Register userInfo={userInfo} setUserInfo={setUserInfo} />}
-                {!token && <Login userInfo={userInfo} setUserInfo={setUserInfo} />}
-                {
+                {!userInfo.username && <Register userInfo={userInfo} setUserInfo={setUserInfo} />}
+                {!userInfo.username && <Login userInfo={userInfo} setUserInfo={setUserInfo} />}
+                {userInfo.username && 
                     <div className="accountPage">
                         {accountInfo()}
                         {householdInfo()}
