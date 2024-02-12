@@ -1,7 +1,7 @@
 //content/display of grocery list
 import { useState, useContext } from "react"
 import { categoriesContext } from "../storage/context"
-import { useGetGroceryItemsbyHouseholdIdQuery } from "../storage/pantryPartyApi"
+import { useGetGroceryItemsbyHouseholdIdQuery, useEditItemMutation } from "../storage/pantryPartyApi"
 import { editIcon, addIcon } from "../styles/icons"
 import { handleCheck } from "./GroceryFunctions"
 import GroceryEdit from "./GroceryEdit"
@@ -12,6 +12,7 @@ export default function GroceryList() {
     const groceryPull = useGetGroceryItemsbyHouseholdIdQuery(5)
     const categories = useContext(categoriesContext)
     const groceryList = groceryPull.data
+    const [editItem, editedItem] = useEditItemMutation()
 
     if (groceryPull.isLoading) {
         return <div>Pulling out grocery list...</div>
@@ -44,7 +45,9 @@ export default function GroceryList() {
                                         <input
                                             type="checkbox"
                                             defaultChecked={item.inPantry}
-                                            onChange={(e) => { handleCheck(item.id, e.target.checked) }}
+                                            onChange={(e) => {
+                                                editItem({ id: item.id, inPantry: true })
+                                            }}
                                         />
                                         {item.name}
                                     </li>
