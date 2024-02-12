@@ -1,16 +1,16 @@
 const client = require('../db/client')
 
-const createUser = async ({ name, username, password, defaultHouse }) => {
+const createUser = async ({ name, username, password, color, defaultHouse }) => {
     try {
         const {
             rows: [users],
         } = await client.query(
             `
-                INSERT INTO users(name, username, password, "defaultHouse")
-                VALUES($1, $2, $3, $4)
+                INSERT INTO users(name, username, password, color, "defaultHouse")
+                VALUES($1, $2, $3, $4, $5)
                 RETURNING *;
             `,
-            [name, username, password, defaultHouse]
+            [name, username, password, color, defaultHouse]
         )
         return users
     } catch (error) {

@@ -66,9 +66,9 @@ router.patch('/:id', async (req, res, next) => {
 // POST - /api/users/register - create a new user
 router.post("/register", async (req, res, next) => {
     try {
-        const { name, username, password, defaultHouse } = req.body
+        const { name, username, password, color, defaultHouse } = req.body
         const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS)
-        const user = await createUser({ name, username, password: hashedPassword, defaultHouse })
+        const user = await createUser({ name, username, password: hashedPassword, color, defaultHouse })
         delete user.password
         const token = jwt.sign(user, JWT_SECRET)
 
