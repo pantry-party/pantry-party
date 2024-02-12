@@ -1,7 +1,7 @@
 import { useCreateUserMutation, useCreateUserHouseholdMutation } from "../storage/pantryPartyApi"
 import { useState, useEffect } from 'react'
 
-export default function Register () {
+export default function Register ({userInfo, setUserInfo}) {
     const [createUser, userCreation] = useCreateUserMutation()
     const [createHousehold, householdCreation] = useCreateUserHouseholdMutation()
 
@@ -17,6 +17,8 @@ export default function Register () {
 
         if (userCreation.isSuccess) {
             console.log(userCreation)
+            console.log(userCreation.data.user)
+            setUserInfo(userCreation.data.user)
         }
     }, [householdCreation.isSuccess, userCreation.isSuccess])
 
