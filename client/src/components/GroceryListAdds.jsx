@@ -6,7 +6,6 @@ export default function AddToCategory({ category }) {
     const [createItem, itemCreation] = useCreateItemMutation()
     const [name, setName] = useState("")
 
-
     if (itemCreation.isLoading) {
         return <div>Loading...</div>
     } if (itemCreation.isError) {

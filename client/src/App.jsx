@@ -5,7 +5,7 @@ import Navigation from "./components/Navigation.jsx"
 import AccountDisplay from "./components/AccountDisplay"
 import PantryList from "./components/PantryList"
 import GroceryList from "./components/GroceryList"
-import GroceryEdit from "./components/GroceryEdit"
+import EditItem from "./components/EditItem.jsx"
 import { bottlesIcon, dairyIcon, dryIcon, freezerIcon, mealsIcon, otherIcon, produceIcon, proteinIcon } from "./styles/icons.jsx"
 import { userContext, householdContext } from "./storage/context.jsx"
 
