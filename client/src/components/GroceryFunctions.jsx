@@ -16,8 +16,3 @@ export function handleCheck(itemId, event) {
     //     inPantry: event })
     return (<></>)
 }
-
-export function addToCategory(category){
-    //category parameter taken from groceryList map
-    return (<></>)
-}

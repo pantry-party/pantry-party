@@ -2,16 +2,18 @@
 import { useState } from "react"
 import { useGetGroceryItemsbyHouseholdIdQuery } from "../storage/pantryPartyApi"
 import { editIcon, addIcon } from "../styles/icons"
-import { handleCheck, addToCategory } from "./GroceryFunctions"
+import { handleCheck } from "./GroceryFunctions"
 import GroceryEdit from "./GroceryEdit"
 import AddItem from "./AddItem"
+import AddToCategory from "./GroceryListAdds"
 
 export default function GroceryList() {
-    const [itemAdd, setItemAdd] = useState("")
-
     const groceryPull = useGetGroceryItemsbyHouseholdIdQuery(5)
+    
     if (groceryPull.isLoading) {
         return <div>Pulling out grocery list...</div>
+    } if (groceryPull.error) {
+        return <div>Your grocery list blew away...</div>
     }
     const groceryList = groceryPull.data
     const categories = [
@@ -50,40 +52,29 @@ export default function GroceryList() {
         {/* alphabetically ordered categories -- add logic for populated cats first */}
         <div>
             {categories.map((category) => {
-                return (<>
-                    <h4>{category}</h4>
-                    {groceryList.map((item) => {
-                        if (item.category == category.toLowerCase()) {
-                            return (
-                                <li key={item.id}>
-                                    {item.ownerId ? <>{item.userInitial}</> : <>&ensp;</>}
-                                    <input
-                                        type="checkbox"
-                                        defaultChecked={item.inPantry}
-                                        onChange={(e) => { handleCheck(item.id, e.target.checked) }}
-                                    />
-                                    {item.name}
-                                </li>
-                            )
-                        }
-                    })}
-                    {/* Might be counterintuitive to have add button (submit) to the left of input 
-                    ???? how do i make it so that only one form takes typed input, not all???
-                    */}
-
-                    <form onSubmit={addToCategory(category)} key={category}>
-                        <button title="Add Item" type="submit"> {addIcon} </button>
-                        <input
-                            type="text"
-                            placeholder={category}
-                            value={itemAdd}
-                            onChange={(e) => { setItemAdd(e.target.value);console.log(setItemAdd) }}
-                        />
-                    </form>
-                </>)
-
+                return (
+                    <>
+                        <h4>{category}</h4>
+                        {groceryList.map((item) => {
+                            if (item.category == category.toLowerCase()) {
+                                return (
+                                    <li key={item.id}>
+                                        {item.ownerId ? <>{item.userInitial}</> : <>&ensp;</>}
+                                        <input
+                                            type="checkbox"
+                                            defaultChecked={item.inPantry}
+                                            onChange={(e) => { handleCheck(item.id, e.target.checked) }}
+                                        />
+                                        {item.name}
+                                    </li>
+                                )
+                            }
+                        })}
+                        <AddToCategory category={category} />
+                    </>
+                )
             })}
-        </div>
+        </div >
     </>
     )
 }
