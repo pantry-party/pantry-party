@@ -1,18 +1,19 @@
 //content/display of grocery list
 import { useState, useContext } from "react"
 import { categoriesContext } from "../storage/context"
-import { useGetGroceryItemsbyHouseholdIdQuery, useEditItemMutation } from "../storage/pantryPartyApi"
-import { editIcon, addIcon } from "../styles/icons"
-import { handleCheck } from "./GroceryFunctions"
-import GroceryEdit from "./GroceryEdit"
+import { useGetGroceryItemsbyHouseholdIdQuery, useEditItemMutation, useDeleteItemMutation } from "../storage/pantryPartyApi"
+import { editIcon, addIcon, goBackIcon, deleteIcon } from "../styles/icons"
 import AddItem from "./AddItem"
 import AddToCategory from "./GroceryListAdds"
+import EditItem from "./EditItem"
 
 export default function GroceryList() {
     const groceryPull = useGetGroceryItemsbyHouseholdIdQuery(5)
     const categories = useContext(categoriesContext)
     const groceryList = groceryPull.data
+    const [deleteItem, deletedItem] = useDeleteItemMutation()
     const [editItem, editedItem] = useEditItemMutation()
+    const [editMode, setEditMode] = useState(false)
 
     if (groceryPull.isLoading) {
         return <div>Pulling out grocery list...</div>
@@ -28,7 +29,8 @@ export default function GroceryList() {
         <div>
             <h1>Your Grocery List</h1>
             <h3>Check things off to add them to your pantry!</h3>
-            <button title="Edit Item" onClick={GroceryEdit}>{editIcon}</button>
+            {!editMode && <button title="Edit Items" onClick={() => { setEditMode(true) }}>{editIcon}</button>}
+            {editMode && <button title="Close Editor" onClick={() => { setEditMode(false) }}>{goBackIcon}</button>}
             <button title="Add New Item" onClick={AddItem}>{addIcon}</button>
         </div>
         {/* alphabetically ordered categories -- add logic for populated cats first */}
@@ -42,15 +44,19 @@ export default function GroceryList() {
                                 return (
                                     <li key={item.id}>
                                         {item.ownerId ? <>{item.userInitial}</> : <>&ensp;</>}
-                                        <input
+                                        {!editMode && <input
                                             type="checkbox"
                                             defaultChecked={item.inPantry}
                                             onChange={(e) => {
                                                 editItem({ id: item.id, inPantry: true })
                                             }}
-                                        />
+                                        />}
+                                        {editMode && <button onClick={EditItem} >{editIcon}</button>}
                                         {item.name}
-                                    </li>
+                                        {editMode && <button onClick={(e) => {
+                                            deleteItem({ id: item.id })
+                                        }}>{deleteIcon}</button>}
+                                    </li >
                                 )
                             }
                         })}
