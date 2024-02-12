@@ -51,9 +51,9 @@ export default function GroceryList() {
                                                 editItem({ id: item.id, inPantry: true })
                                             }}
                                         />}
-                                        {editMode && <button onClick={EditItem} >{editIcon}</button>}
+                                        {editMode && <button title="Edit Item Details" onClick={EditItem} >{editIcon}</button>}
                                         {item.name}
-                                        {editMode && <button onClick={(e) => {
+                                        {editMode && <button title="Delete from List" onClick={(e) => {
                                             deleteItem({ id: item.id })
                                         }}>{deleteIcon}</button>}
                                     </li >
