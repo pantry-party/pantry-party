@@ -8,7 +8,7 @@ import Register from "./Register"
 import {colorForm, nameForm, passwordForm, sharedHouseholdForm, joinHouseholdForm, renameHouseholdForm, leaveHouseholdForm, removeMemberForm} from "./AccountFunctions"
 import "../styles/colors.css"
 import Login from "./Login"
-import Register from "./Register"
+// import Register from "./Register"
 
 export const userContext = createContext({ id: 1, name: "Paulina", color: "pink", sharedHousehold: 5 })
 export const tokenContext = createContext(null)
