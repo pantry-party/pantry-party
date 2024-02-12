@@ -1,7 +1,7 @@
 import { useLoginUserMutation } from "../storage/pantryPartyApi"
 import { useState, useEffect } from "react"
 
-export default function Login () {
+export default function Login ({userInfo, setUserInfo}) {
     const [login, userLogin] = useLoginUserMutation()
 
     const [username, setUsername] = useState('')
@@ -11,6 +11,8 @@ export default function Login () {
             
         if (userLogin.isSuccess) {
             console.log(userLogin)
+            setUserInfo(userLogin.data.user)
+            console.log(userLogin.data.user.username)
         }
             
     }, [userLogin.isSuccess])

@@ -8,7 +8,6 @@ import Register from "./Register"
 import {colorForm, nameForm, passwordForm, sharedHouseholdForm, joinHouseholdForm, renameHouseholdForm, leaveHouseholdForm, removeMemberForm} from "./AccountFunctions"
 import "../styles/colors.css"
 import Login from "./Login"
-import Register from "./Register"
 
 export const userContext = createContext({ id: 1, name: "Paulina", color: "pink", sharedHousehold: 5 })
 export const tokenContext = createContext(null)
@@ -17,14 +16,13 @@ export const housenameContext = createContext("Paulina's household")
 
 export default function AccountDisplay() {
     const [token, setToken] = useState(null)
-    const userInfo = useContext(userContext)
+    const [userInfo, setUserInfo] = useState({})
     const housename = useContext(housenameContext)
     const household = useContext(householdContext)
     const [createSharedHousehold, sharedHouseholdInfo] = useCreateSharedHouseholdMutation()
     const [editHousehold, editedHousehold] = useEditHouseholdMutation()
     const [editUser, editedUser] = useEditUserMutation()
     const [displayForm, setDisplayForm] = useState("")
-    console.log(token)
     const [newColor, setNewColor] = useState("")
     const [newName, setNewName] = useState("")
     const [newPassword, setNewPassword] = useState("")
@@ -33,6 +31,7 @@ export default function AccountDisplay() {
     const [newHouseholdName, setNewHouseholdName] = useState("")
     const [checked, setChecked] = useState(false)
     const [removal, setRemoval] = useState("") 
+    
 
     const accountInfo = () => {
         return (
@@ -91,8 +90,8 @@ export default function AccountDisplay() {
     return (
         <div>
             <userContext.Provider value={userInfo}>
-                {!token && <Register />}
-                {}
+                {!token && <Register userInfo={userInfo} setUserInfo={setUserInfo} />}
+                {!token && <Login userInfo={userInfo} setUserInfo={setUserInfo} />}
                 {
                     <div className="accountPage">
                         {accountInfo()}
@@ -100,6 +99,7 @@ export default function AccountDisplay() {
                         {accountOptions()}
                         <button onClick={() => { setToken(null) }}> Log out </button>
                     </div>}
+                    
             </userContext.Provider>
         </div>
     )
