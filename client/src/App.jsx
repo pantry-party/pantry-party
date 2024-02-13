@@ -24,7 +24,7 @@ function App() {
               <Route path="/" element={<AccountDisplay userInfo={userInfo} setUserInfo={setUserInfo} household={household} setHousehold={setHousehold}/>} />
               <Route path="/pantry" element={<PantryList />} />
               <Route path="/groceryList" element={<GroceryList />} />
-              <Route path="/groceryList/edit" element={<GroceryEdit />} />
+              <Route path="/groceryList/edit" element={<EditItem />} />
             </Routes>
           </householdContext.Provider>
         </userContext.Provider>
