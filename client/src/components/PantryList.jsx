@@ -7,7 +7,7 @@ import { categoriesContext } from "../storage/context.jsx"
 
 export default function PantryList() {
   const { data = {}, error, isLoading,} = useGetPantryItemsbyHouseholdIdQuery(5)
-  const [currentDate, setCurrentDate] = useState(getDate());
+  const [currentDate, setCurrentDate] = useState(getDate())
   const categories = useContext(categoriesContext)
 
   if (isLoading) {
@@ -19,41 +19,30 @@ export default function PantryList() {
 
   console.log(data)
 
-  // function for getting the date to display in the format we want
+  //function for the date
   function getDate() {
-    const today = new Date();
-    const month = today.getMonth() + 1;
-    const date = today.getDate();
-    return `${month}/${date}`;
+    const today = new Date()
+    const month = today.getMonth() + 1
+    const date = today.getDate()
+    return `${month}/${date}`
   }
 
 return ( <>
-  {/* titles (dates for each week) and add new item to the pantry button */}
+  {/* title(weekly dates) and add new item to the pantry button */}
   <div>
       <h1>Week of {currentDate}</h1>
         <button title="Add New Item" onClick={AddItem}>{addIcon}</button>
     </div>
 
+  {/* display items and icons */}
     <div>
-      {data.map((item) => (
-        <div key={item.id} >
-          <h2>{item.name}</h2>  
+    {data.map((item) => (
+      <div key={item.id} className={item.category}>
+      <h2>{item.name}</h2>
+         <p> {categories.find((category) => item.category === category.name.toLowerCase()).icon} </p> 
        </div>
       ))}
     </div>
-
-  {/* temporary icon display */}
-    {categories.map((category) => {return <div> <p> {category.icon} </p> </div>}) } 
     </>
   )
 }
-
-//icon ideas:
-// function getIcon(category) {
-
-// }
-
-// {categories.find((category) => {
-//   return category.name == item.category
-//   <p>{categoryObj.icon}</p>
-// })}
