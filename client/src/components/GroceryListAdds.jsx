@@ -1,7 +1,7 @@
 import { useState, useContext } from "react"
 import { addIcon } from "../styles/icons"
 import { useCreateItemMutation } from "../storage/pantryPartyApi"
-import { categoriesContext, userContext } from "../storage/context"
+import { userContext } from "../storage/context"
 
 export default function AddToCategory({ category }) {
     const [createItem, itemCreation] = useCreateItemMutation()
@@ -18,7 +18,6 @@ export default function AddToCategory({ category }) {
     async function handleSubmit(e) {
         e.preventDefault()
         const dateMoved = new Date()
-        category = category.toLowerCase()
         if (name == "") {
         } else {
             await createItem({

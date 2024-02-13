@@ -12,6 +12,7 @@ export default function GroceryList() {
     const householdId = userInfo.sharedHouse || userInfo.defaultHouse
     const groceryPull = useGetGroceryItemsbyHouseholdIdQuery(householdId)
     const categories = useContext(categoriesContext)
+    let orderedCategories = []
     const groceryList = groceryPull.data
     const [deleteItem, deletedItem] = useDeleteItemMutation()
     const [editItem, editedItem] = useEditItemMutation()
@@ -23,10 +24,23 @@ export default function GroceryList() {
         return <div>Your grocery list blew away...</div>
     }
 
-   
+    function categoryOrder() {
+        let has = []
+        let empty = []
+        categories.forEach((cat) => { empty.push(cat.name.toLowerCase()) })
 
-    //ideas for sorting list by categories with items first 
-    // map through the commented out categoryObjs array instead of categories and add an if to the categoryObjs.map for if category.hasItems==true, else will print the remaining
+        groceryList.forEach((item) => {
+            if (empty.includes(item.category) && has.length < 8) {
+                let i = empty.indexOf(item.category)
+                if (!has.includes(item.category)) {
+                    has.push(empty[i])
+                    empty.splice(i, 1)
+                }
+            }
+        })
+        orderedCategories = has.concat(empty)
+    }
+    categoryOrder()
 
     return (<>
         {/* title, subtitle, and add to list and edit buttons*/}
@@ -39,12 +53,15 @@ export default function GroceryList() {
         </div>
         {/* alphabetically ordered categories -- add logic for populated cats first */}
         <div>
-            {categories.map((category) => {
+            {orderedCategories.map((category) => {
                 return (
                     <>
-                        <h3>{category.icon} {category.name}</h3>
+                        <h3>
+                            {categories.find((cat) => category === cat.name.toLowerCase()).icon} &ensp;
+                            {categories.find((cat) => category === cat.name.toLowerCase()).name}
+                        </h3>
                         {groceryList.map((item) => {
-                            if (item.category == category.name.toLowerCase()) {
+                            if (item.category == category) {
                                 return (
                                     <li key={item.id}>
                                         {item.ownerId ? <>{item.userInitial}</> : <>&ensp;</>}
@@ -55,7 +72,7 @@ export default function GroceryList() {
                                                 editItem({ id: item.id, inPantry: true })
                                             }}
                                         />}
-                                        {editMode && <button title="Edit Item Details" onClick={EditItem} >{editIcon}</button>}
+                                        {editMode && <button title="Edit Item Details" onClick={() => { <EditItem item={item} /> }} >{editIcon}</button>}
                                         {item.name}
                                         {editMode && <button title="Delete from List" onClick={(e) => {
                                             deleteItem({ id: item.id })
@@ -64,7 +81,7 @@ export default function GroceryList() {
                                 )
                             }
                         })}
-                        {!editMode &&<AddToCategory category={category.name} />}
+                        {!editMode && <AddToCategory category={category} />}
                     </>
                 )
             })}
