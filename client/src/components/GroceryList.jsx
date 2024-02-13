@@ -64,7 +64,7 @@ export default function GroceryList() {
                                 )
                             }
                         })}
-                        <AddToCategory category={category.name} />
+                        {!editMode &&<AddToCategory category={category.name} />}
                     </>
                 )
             })}
