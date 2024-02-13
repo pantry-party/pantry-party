@@ -1,6 +1,6 @@
 //content/display of grocery list
 import { useState, useContext } from "react"
-import { categoriesContext } from "../storage/context"
+import { categoriesContext, userContext } from "../storage/context"
 import { useGetGroceryItemsbyHouseholdIdQuery, useEditItemMutation, useDeleteItemMutation } from "../storage/pantryPartyApi"
 import { editIcon, addIcon, goBackIcon, deleteIcon } from "../styles/icons"
 import AddItem from "./AddItem"
@@ -8,7 +8,9 @@ import AddToCategory from "./GroceryListAdds"
 import EditItem from "./EditItem"
 
 export default function GroceryList() {
-    const groceryPull = useGetGroceryItemsbyHouseholdIdQuery(5)
+    const userInfo = useContext(userContext)
+    const householdId = userInfo.sharedHouse || userInfo.defaultHouse
+    const groceryPull = useGetGroceryItemsbyHouseholdIdQuery(householdId)
     const categories = useContext(categoriesContext)
     const groceryList = groceryPull.data
     const [deleteItem, deletedItem] = useDeleteItemMutation()
@@ -20,6 +22,8 @@ export default function GroceryList() {
     } if (groceryPull.error) {
         return <div>Your grocery list blew away...</div>
     }
+
+   
 
     //ideas for sorting list by categories with items first 
     // map through the commented out categoryObjs array instead of categories and add an if to the categoryObjs.map for if category.hasItems==true, else will print the remaining
