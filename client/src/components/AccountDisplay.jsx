@@ -4,10 +4,10 @@ import React, { useEffect, useContext, createContext, useState } from "react"
 import { userIcon, addUsersIcon, removeUserIcon, createHouseholdIcon, joinHouseholdIcon, leaveHouseholdIcon, renameHouseholdIcon, colorIcon, passwordIcon, nameIcon } from "../styles/icons"
 import { useGetHouseholdbyIdQuery, useCreateSharedHouseholdMutation, useEditHouseholdMutation, useEditUserMutation, useGetHouseholdbyJoinCodeQuery } from "../storage/pantryPartyApi"
 import Register from "./Register"
-import { colorForm, nameForm, passwordForm, sharedHouseholdForm, joinHouseholdForm, renameHouseholdForm, leaveHouseholdForm, removeMemberForm } from "./AccountFunctions"
 import "../styles/colors.css"
 import Login from "./Login"
 import  { userContext, householdContext, tokenContext } from "../storage/context"
+import { ColorForm, NameForm, PasswordForm, sharedHouseholdForm, joinHouseholdForm, renameHouseholdForm, leaveHouseholdForm, removeMemberForm } from "./AccountFunctions" 
 
 export default function AccountDisplay({userInfo, setUserInfo, household, setHousehold}) {
     const [token, setToken] = useState(null)
@@ -37,9 +37,9 @@ export default function AccountDisplay({userInfo, setUserInfo, household, setHou
                     {/* Change your password */}
                     <button onClick={() => {  setDisplayForm("passwordForm") }}> {passwordIcon} Change your password </button>
                     <div className="accountUpdateForms">
-                        {displayForm === "colorForm" && colorForm({newColor, setNewColor})} 
-                        {displayForm === "nameForm" && nameForm({newName, setNewName})} 
-                        {displayForm === "passwordForm" && passwordForm({newPassword, setNewPassword})}
+                        {displayForm === "colorForm" && <ColorForm newColor={newColor} setNewColor={setNewColor} userInfo={userInfo} setUserInfo={setUserInfo}/>}
+                        {displayForm === "nameForm" && <NameForm newName={newName} setNewName={setNewName} userInfo={userInfo} setUserInfo={setUserInfo}/>} 
+                        {displayForm === "passwordForm" && <PasswordForm newPassword={newPassword} setNewPassword={setNewPassword} userInfo={userInfo} setUserInfo={setUserInfo}/>}
                     </div>
                 </div>
             </>
