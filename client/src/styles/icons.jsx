@@ -23,7 +23,7 @@ export const deleteIcon = <FontAwesomeIcon icon={faTrash} />
 export const addIcon = <FontAwesomeIcon icon={faCirclePlus} />
 
 // accounts icons
-import { faCircleUser, faUserPlus, faUserMinus, faHouseUser, faHouseMedical, faHouseCircleXmark, faHouseCircleExclamation} from '@fortawesome/free-solid-svg-icons'
+import { faCircleUser, faUserPlus, faUserMinus, faHouseUser, faHouseMedical, faHouseCircleXmark, faHouseCircleExclamation } from '@fortawesome/free-solid-svg-icons'
 
 export const userIcon = <FontAwesomeIcon icon={faCircleUser} />
 export const addUsersIcon = <FontAwesomeIcon icon={faUserPlus} />
@@ -40,3 +40,10 @@ import { faBasketShopping, faKitchenSet, faUser } from '@fortawesome/free-solid-
 export const groceryListIcon = <FontAwesomeIcon icon={faBasketShopping} />
 export const pantryIcon = <FontAwesomeIcon icon={faKitchenSet} />
 export const accountIcon = <FontAwesomeIcon icon={faUser} />
+
+// action icons 
+import { faArrowRotateLeft, faXmark, faCircleXmark} from '@fortawesome/free-solid-svg-icons'
+
+export const goBackIcon = <FontAwesomeIcon icon={faArrowRotateLeft} />
+export const xIcon = <FontAwesomeIcon icon={faXmark} />
+export const xCircleIcon = <FontAwesomeIcon icon={faCircleXmark} />

@@ -1,42 +1,25 @@
 //content/display of grocery list
-import { useState } from "react"
-import { useGetGroceryItemsbyHouseholdIdQuery } from "../storage/pantryPartyApi"
-import { editIcon, addIcon } from "../styles/icons"
-import { handleCheck } from "./GroceryFunctions"
-import GroceryEdit from "./GroceryEdit"
+import { useState, useContext } from "react"
+import { categoriesContext } from "../storage/context"
+import { useGetGroceryItemsbyHouseholdIdQuery, useEditItemMutation, useDeleteItemMutation } from "../storage/pantryPartyApi"
+import { editIcon, addIcon, goBackIcon, deleteIcon } from "../styles/icons"
 import AddItem from "./AddItem"
 import AddToCategory from "./GroceryListAdds"
+import EditItem from "./EditItem"
 
 export default function GroceryList() {
     const groceryPull = useGetGroceryItemsbyHouseholdIdQuery(5)
-    
+    const categories = useContext(categoriesContext)
+    const groceryList = groceryPull.data
+    const [deleteItem, deletedItem] = useDeleteItemMutation()
+    const [editItem, editedItem] = useEditItemMutation()
+    const [editMode, setEditMode] = useState(false)
+
     if (groceryPull.isLoading) {
         return <div>Pulling out grocery list...</div>
     } if (groceryPull.error) {
         return <div>Your grocery list blew away...</div>
     }
-    const groceryList = groceryPull.data
-    const categories = [
-        "Cans & Bottles",
-        "Dairy",
-        "Dry Goods",
-        "Freezer",
-        "Meals",
-        "Produce",
-        "Proteins",
-        "Other"
-    ]
-
-    // const categoryObjs = [
-    //     { name: "Cans & Bottles", hasItems: false },
-    //     { name: "Dairy", hasItems: false },
-    //     { name: "Dry Goods", hasItems: false },
-    //     { name: "Freezer", hasItems: false },
-    //     { name: "Meals", hasItems: false },
-    //     { name: "Produce", hasItems: false },
-    //     { name: "Proteins", hasItems: false },
-    //     { name: "Other", hasItems: false }
-    // ]
 
     //ideas for sorting list by categories with items first 
     // map through the commented out categoryObjs array instead of categories and add an if to the categoryObjs.map for if category.hasItems==true, else will print the remaining
@@ -46,7 +29,8 @@ export default function GroceryList() {
         <div>
             <h1>Your Grocery List</h1>
             <h3>Check things off to add them to your pantry!</h3>
-            <button title="Edit Item" onClick={GroceryEdit}>{editIcon}</button>
+            {!editMode && <button title="Edit Items" onClick={() => { setEditMode(true) }}>{editIcon}</button>}
+            {editMode && <button title="Close Editor" onClick={() => { setEditMode(false) }}>{goBackIcon}</button>}
             <button title="Add New Item" onClick={AddItem}>{addIcon}</button>
         </div>
         {/* alphabetically ordered categories -- add logic for populated cats first */}
@@ -54,23 +38,29 @@ export default function GroceryList() {
             {categories.map((category) => {
                 return (
                     <>
-                        <h4>{category}</h4>
+                        <h3>{category.icon} {category.name}</h3>
                         {groceryList.map((item) => {
-                            if (item.category == category.toLowerCase()) {
+                            if (item.category == category.name.toLowerCase()) {
                                 return (
                                     <li key={item.id}>
                                         {item.ownerId ? <>{item.userInitial}</> : <>&ensp;</>}
-                                        <input
+                                        {!editMode && <input
                                             type="checkbox"
                                             defaultChecked={item.inPantry}
-                                            onChange={(e) => { handleCheck(item.id, e.target.checked) }}
-                                        />
+                                            onChange={(e) => {
+                                                editItem({ id: item.id, inPantry: true })
+                                            }}
+                                        />}
+                                        {editMode && <button title="Edit Item Details" onClick={EditItem} >{editIcon}</button>}
                                         {item.name}
-                                    </li>
+                                        {editMode && <button title="Delete from List" onClick={(e) => {
+                                            deleteItem({ id: item.id })
+                                        }}>{deleteIcon}</button>}
+                                    </li >
                                 )
                             }
                         })}
-                        <AddToCategory category={category} />
+                        <AddToCategory category={category.name} />
                     </>
                 )
             })}
