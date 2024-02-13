@@ -1,17 +1,9 @@
 //choose/edit color, join household, create household,  add users to household, leave household, log out
 
-import { useContext } from "react"
-
-export default function AccountFunctions() {
-
-    return (
-        <div> </div>
-    )
-}
+import { useContext, useState } from "react"
 
 export const colorForm = ({newColor, setNewColor}) => {
     const colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet", "pink", "gray", "teal", "brown"]
-
     return (
         <form id="colorForm" className="accountForm" onSubmit={(e) => { colorFormSubmit(e) }}>
             <label> Colors:
@@ -92,7 +84,7 @@ export const renameHouseholdForm = ({newHouseholdName, setNewHouseholdName}) => 
 export const leaveHouseholdForm = ({checked, setChecked}) => {
 
     return (
-        <form>
+        <form id="leaveHouseholdForm" className="householdForms" onSubmit={(e) => {leaveHouseholdSubmit(e)}}>
             <label> Are you sure?
                 <input type="checkbox" onCheck={(e) => { setChecked(e.target.value) }} />
             </label>
@@ -102,9 +94,8 @@ export const leaveHouseholdForm = ({checked, setChecked}) => {
 }
 
 export const removeMemberForm = ({removal, setRemoval, household}) => {
-    {console.log(household)}
     return (
-        <form>
+        <form id="removeMemberForm" className="householdForms" onSubmit={(e) => {removeMemberSubmit(e)}}>
             <label> Which member would you like to remove?
                 <select name="members" onChange={(e) => { setRemoval(e.target.value) }}>
                     <option value={""}> Select </option>
@@ -113,10 +104,36 @@ export const removeMemberForm = ({removal, setRemoval, household}) => {
                             <option value={user.id}> {user.name} </option>
                         )
                     })}
-
                 </select>
             </label>
             <button type="submit" className="submitButton"> Submit </button>
         </form>
+    )
+}
+
+
+export default function AccountFunctions() {
+    const [createSharedHousehold, sharedHouseholdInfo] = useCreateSharedHouseholdMutation()
+    const [editHousehold, editedHousehold] = useEditHouseholdMutation()
+    const [editUser, editedUser] = useEditUserMutation()
+
+    const colorFormSubmit = async () => {}
+
+    const nameFormSubmit = async () => {}
+
+    const passwordFormSubmit = async () => {}
+
+    const sharedHouseholdSubmit = async () => {}
+
+    const joinHouseholdSubmit = async () => {}
+
+    const leaveHouseholdSubmit = async () => {}
+    
+    const renameHouseholdSubmit = async () => {}
+
+    const removeMemberSubmit = async () => {}
+    
+    return (
+        <div> </div>
     )
 }
