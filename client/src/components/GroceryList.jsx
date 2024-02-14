@@ -12,11 +12,14 @@ export default function GroceryList() {
     const householdId = userInfo.sharedHouse || userInfo.defaultHouse
     const groceryPull = useGetGroceryItemsbyHouseholdIdQuery(householdId)
     const categories = useContext(categoriesContext)
-    let orderedCategories = []
     const groceryList = groceryPull.data
     const [deleteItem, deletedItem] = useDeleteItemMutation()
     const [editItem, editedItem] = useEditItemMutation()
     const [editMode, setEditMode] = useState(false)
+    const [itemEdit, setItemEdit] = useState(false)
+    const [editId, setEditId] = useState("")
+    const [addForm, setAddForm] = useState(false)
+    let orderedCategories = []
 
     if (groceryPull.isLoading) {
         return <div>Pulling out grocery list...</div>
@@ -42,15 +45,29 @@ export default function GroceryList() {
     }
     categoryOrder()
 
+    function itemEditor(itemId) {
+        if (itemEdit == false) {
+            setItemEdit(!itemEdit)
+            setEditId(itemId)
+        } else if (itemEdit == true && itemId == editId) {
+            setItemEdit(!itemEdit)
+        } else if (itemEdit == true) {
+            setEditId(itemId)
+        }
+    }
+
     return (<>
         {/* title, subtitle, and add to list and edit buttons*/}
         <div>
             <h1>Your Grocery List</h1>
             <h3>Check things off to add them to your pantry!</h3>
-            {!editMode && <button title="Edit Items" onClick={() => { setEditMode(true) }}>{editIcon}</button>}
-            {editMode && <button title="Close Editor" onClick={() => { setEditMode(false) }}>{goBackIcon}</button>}
-            <button title="Add New Item" onClick={AddItem}>{addIcon}</button>
+            {!editMode
+                ? <button title="Edit Items" onClick={() => { setEditMode(true) }}>{editIcon}</button>
+                : <button title="Close Editor" onClick={() => { setEditMode(false) }}>{goBackIcon}</button>}
+            <button title="Add New Item" onClick={() => { setAddForm(!addForm) }}>{addIcon}</button>
         </div>
+        {/* link to add form component */}
+        {addForm && <AddItem householdId={householdId} location="groceryList" />}
         {/* alphabetically ordered categories -- add logic for populated cats first */}
         <div>
             {orderedCategories.map((category) => {
@@ -63,21 +80,24 @@ export default function GroceryList() {
                         {groceryList.map((item) => {
                             if (item.category == category) {
                                 return (
-                                    <li key={item.id}>
-                                        {item.ownerId ? <>{item.userInitial}</> : <>&ensp;</>}
-                                        {!editMode && <input
-                                            type="checkbox"
-                                            defaultChecked={item.inPantry}
-                                            onChange={(e) => {
-                                                editItem({ id: item.id, inPantry: true })
-                                            }}
-                                        />}
-                                        {editMode && <button title="Edit Item Details" onClick={() => { <EditItem item={item} /> }} >{editIcon}</button>}
-                                        {item.name}
-                                        {editMode && <button title="Delete from List" onClick={(e) => {
-                                            deleteItem({ id: item.id })
-                                        }}>{deleteIcon}</button>}
-                                    </li >
+                                    <>
+                                        <div key={item.id}>
+                                            {item.ownerId ? <>{item.userInitial}</> : <>&ensp;</>}
+                                            {!editMode && <input
+                                                type="checkbox"
+                                                defaultChecked={item.inPantry}
+                                                onChange={(e) => {
+                                                    editItem({ id: item.id, inPantry: true })
+                                                }}
+                                            />}
+                                            {editMode && <button title="Edit Item Details" onClick={() => { itemEditor(item.id) }} >{editIcon}</button>}
+                                            {item.name}
+                                            {editMode && <button title="Delete from List" onClick={(e) => {
+                                                deleteItem({ id: item.id })
+                                            }}>{deleteIcon}</button>}
+                                        </div >
+                                        {itemEdit && item.id === editId && <EditItem item={item} />}
+                                    </>
                                 )
                             }
                         })}
