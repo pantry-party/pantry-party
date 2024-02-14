@@ -13,6 +13,18 @@ import { userContext, householdContext } from "./storage/context.jsx"
 function App() {
   const [userInfo, setUserInfo] = useState({})
   const [household, setHousehold] = useState({})
+  const item = {
+    name: "lemonade",
+    dateMoved: "2024-01-08",
+    inPantry: true, 
+    sharing: false,
+    isLow: false,
+    category: "cans & bottles",
+    expiry: null, 
+    ownerId: 1,
+    householdId: 5
+  }
+  const userTest = { name: 'Cara', username: 'cara1', id: 1, color: 'yellow', sharedHouse: null, defaultHouse: 1 }
 
   return (
     <>
@@ -25,6 +37,7 @@ function App() {
               <Route path="/pantry" element={<PantryList />} />
               <Route path="/groceryList" element={<GroceryList />} />
               <Route path="/groceryList/edit" element={<EditItem />} />
+              <Route path="/testing" element={<EditItem item={item} user={userTest} />} />
             </Routes>
           </householdContext.Provider>
         </userContext.Provider>

@@ -14,13 +14,15 @@ export const produceIcon = <FontAwesomeIcon icon={faAppleWhole} />
 export const proteinIcon = <FontAwesomeIcon icon={faDrumstickBite} />
 
 // alerts icons
-import { faCircleExclamation, faCircleInfo, faPencil, faTrash, faCirclePlus } from '@fortawesome/free-solid-svg-icons'
+import { faCircleExclamation, faCircleInfo, faPencil, faTrash, faCirclePlus, faCircleCheck } from '@fortawesome/free-solid-svg-icons'
 
 export const alertIcon = <FontAwesomeIcon icon={faCircleExclamation} />
 export const infoIcon = <FontAwesomeIcon icon={faCircleInfo} />
 export const editIcon = <FontAwesomeIcon icon={faPencil} />
 export const deleteIcon = <FontAwesomeIcon icon={faTrash} />
 export const addIcon = <FontAwesomeIcon icon={faCirclePlus} />
+export const sharingIcon = <FontAwesomeIcon icon={faCircleCheck} />
+export const notSharingIcon = <FontAwesomeIcon icon={faCircleXmark} />
 
 // accounts icons
 import { faCircleUser, faUserPlus, faUserMinus, faHouseUser, faHouseMedical, faHouseCircleXmark, faHouseCircleExclamation } from '@fortawesome/free-solid-svg-icons'

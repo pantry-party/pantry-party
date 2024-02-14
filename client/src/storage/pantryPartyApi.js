@@ -17,7 +17,7 @@ export const pantryPartyApi = createApi({
         }),
         getHouseholdbyId: builder.query({
             query: (id) => `/households/id/${id}`,
-            providesTags: ["Household"]
+            providesTags: ["Household", "User"]
         }),
         getHouseholdbyJoinCode: builder.query({
             query: (joinCode) => `/households/join/${joinCode}`,
