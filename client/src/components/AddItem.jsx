@@ -12,17 +12,38 @@ export default function AddItem({ householdId, location }) {
     const [createNewItem, newItem] = useCreateItemMutation()
 
     const [name, setName] = useState("")
-    const [category, setCategory] = useState("")
-    const [ownerId, setOwnerId] = useState(null)
+    const [category, setCategory] = useState("select")
+    const [ownerId, setOwnerId] = useState(false)
     const [expiry, setExpiry] = useState(null)
     const [sharing, setSharing] = useState(null)
     const [error, setError] = useState("")
 
     async function handleGrocerySubmit(e) {
         e.preventDefault()
+        setError("")
         const dateMoved = new Date()
         if (name == "") {
             setError("Item needs a name")
+        } else if (category == "select") {
+            setError("Item needs a category")
+        } else if (ownerId == false) {
+            try {
+                await createNewItem({
+                    name,
+                    category,
+                    dateMoved,
+                    householdId: householdId,
+                    inPantry: false
+                })
+            }
+            catch (error) {
+                setError(error)
+            }
+            setName("")
+            setCategory("select")
+            setOwnerId(false)
+            console.log(ownerId)
+            console.log('end of add')
         } else {
             try {
                 await createNewItem({
@@ -37,18 +58,22 @@ export default function AddItem({ householdId, location }) {
             catch (error) {
                 setError(error)
             }
+            setName("")
+            setCategory("select")
+            setOwnerId(false)
+            console.log(ownerId)
+            console.log('end of add')
         }
-        setName("")
-        setCategory("select")
-        setOwnerId(null)
-        setError("")
     }
 
     async function handlePantrySubmit(e) {
         e.preventDefault()
+        setError("")
         const dateMoved = new Date()
         if (name == "") {
             setError("Item needs a name")
+        } else if (category == "select") {
+            setError("Item needs a category")
         } else {
             try {
                 await createNewItem({
@@ -65,13 +90,12 @@ export default function AddItem({ householdId, location }) {
             catch (error) {
                 setError(error)
             }
+            setName("")
+            setCategory("select")
+            setOwnerId(false)
+            setExpiry(null)
+            setSharing(null)
         }
-        setName("")
-        setCategory("select")
-        setOwnerId(null)
-        setExpiry(null)
-        setSharing(null)
-        setError("")
     }
 
     if (loc == "groceryList") {
@@ -99,10 +123,10 @@ export default function AddItem({ householdId, location }) {
                     <input
                         id="ownership"
                         type="checkbox"
-                        defaultChecked={false}
+                        defaultChecked={ownerId}
                         onChange={(e) => {
-                            if (ownerId != null) { setOwnerId(null) }
-                            else { setOwnerId(userInfo.id) }
+                            if (ownerId == false) { setOwnerId(userInfo.id) }
+                            else { setOwnerId(false) }
                         }}
                     /> This is my Item! <br />
                     <button type="submit">{addIcon} Add to List</button>
@@ -144,8 +168,8 @@ export default function AddItem({ householdId, location }) {
                         type="checkbox"
                         defaultChecked={false}
                         onChange={(e) => {
-                            if (ownerId != null) { setOwnerId(null) }
-                            else { setOwnerId(userInfo.id) }
+                            if (ownerId == false) { setOwnerId(userInfo.id) }
+                            else { setOwnerId(false) }
                         }}
                     /> This is my Item! <br />
                     <label for="ownership">Sharing: </label>
