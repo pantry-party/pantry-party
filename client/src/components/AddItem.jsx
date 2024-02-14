@@ -81,7 +81,7 @@ export default function AddItem({ householdId, location }) {
                     category,
                     dateMoved,
                     householdId: householdId,
-                    inPantry: false
+                    inPantry: true
                 })
             }
             catch (error) {
@@ -100,7 +100,7 @@ export default function AddItem({ householdId, location }) {
                     dateMoved,
                     householdId: householdId,
                     ownerId,
-                    inPantry: false
+                    inPantry: true
                 })
             }
             catch (error) {
