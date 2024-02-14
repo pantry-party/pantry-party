@@ -74,17 +74,14 @@ export default function AddItem({ householdId, location }) {
             setError("Item needs a name")
         } else if (category == "select") {
             setError("Item needs a category")
-        } else {
+        } else if (ownerId == false) {
             try {
                 await createNewItem({
                     name,
                     category,
-                    expiry,
                     dateMoved,
                     householdId: householdId,
-                    ownerId,
-                    sharing: sharing,
-                    inPantry: true
+                    inPantry: false
                 })
             }
             catch (error) {
@@ -93,8 +90,27 @@ export default function AddItem({ householdId, location }) {
             setName("")
             setCategory("select")
             setOwnerId(false)
-            setExpiry(null)
-            setSharing(null)
+            console.log(ownerId)
+            console.log('end of add')
+        } else {
+            try {
+                await createNewItem({
+                    name,
+                    category,
+                    dateMoved,
+                    householdId: householdId,
+                    ownerId,
+                    inPantry: false
+                })
+            }
+            catch (error) {
+                setError(error)
+            }
+            setName("")
+            setCategory("select")
+            setOwnerId(false)
+            console.log(ownerId)
+            console.log('end of add')
         }
     }
 
