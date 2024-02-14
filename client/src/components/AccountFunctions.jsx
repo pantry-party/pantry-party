@@ -1,13 +1,29 @@
 //choose/edit color, join household, create household,  add users to household, leave household, log out
 
-import { useContext, useState } from "react"
+import { useEffect } from "react"
+import { useEditUserMutation } from "../storage/pantryPartyApi"
 
-export const colorForm = ({newColor, setNewColor}) => {
+export const ColorForm = ({newColor, setNewColor, userInfo, setUserInfo}) => {
     const colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet", "pink", "gray", "teal", "brown"]
+    const [editUser, editedUser] = useEditUserMutation()
+
+    useEffect(() => {
+        if (editedUser.isSuccess) {
+            console.log(editedUser.data)
+            setUserInfo(editedUser.data)
+        }
+    }, [editedUser.isSuccess])
+
+    const colorFormSubmit = async (e, color) => {
+        e.preventDefault()
+        console.log(18, color)
+        await editUser({id: userInfo.id, color})
+    }
+
     return (
-        <form id="colorForm" className="accountForm" onSubmit={(e) => { colorFormSubmit(e) }}>
+        <form id="colorForm" className="accountForm" onSubmit={(e) => {colorFormSubmit(e, newColor) }}>
             <label> Colors:
-                <select required name="colors" onChange={(e) => { setNewColor(e.target.value) }}>
+                <select required name="colors" onChange={(e) => {setNewColor(e.target.value)}}>
                     <option value={""}> Select </option>
                     {colors.map((color) => {
                         return (
@@ -21,22 +37,51 @@ export const colorForm = ({newColor, setNewColor}) => {
     )
 }
 
-export const nameForm = ({newName, setNewName}) => {
+export const NameForm = ({newName, setNewName, userInfo, setUserInfo}) => {
+    const [editUser, editedUser] = useEditUserMutation()
+
+    useEffect(() => {
+        if (editedUser.isSuccess) {
+            console.log(editedUser.data)
+            setUserInfo(editedUser.data)
+        }
+    }, [editedUser.isSuccess])
+
+    const nameFormSubmit = async (e, name) => {
+        e.preventDefault()
+        console.log(42, name)
+        await editUser({id: userInfo.id, name})
+    }
 
     return (
-        <form id="nameForm" className="accountForm" onSubmit={(e) => { nameFormSubmit() }}>
+        <form id="nameForm" className="accountForm" onSubmit={(e) => { nameFormSubmit(e, newName) }}>
             <label> New Name:
                 <input type="text" onChange={(e) => { setNewName(e.target.value) }} />
             </label>
             <button type="submit" className="submitButton"> Submit </button>
+            {message && <p> {message} </p>}
         </form>
     )
 }
 
-export const passwordForm = ({newPassword, setNewPassword}) => {
+export const PasswordForm = ({newPassword, setNewPassword, userInfo, setUserInfo}) => {
+    const [editUser, editedUser] = useEditUserMutation()
+
+    useEffect(() => {
+        if (editedUser.isSuccess) {
+            console.log(editedUser.data)
+            setUserInfo(editedUser.data)
+        }
+    }, [editedUser.isSuccess])
+
+    const passwordFormSubmit = async (e, password) => {
+        e.preventDefault()
+        console.log(80, password)
+        await editUser({id: userInfo.id, password})
+    }
 
     return (
-        <form id="passwordForm" className="accountForm" onSubmit={(e) => { passwordFormSubmit(e) }}>
+        <form id="passwordForm" className="accountForm" onSubmit={(e) => { passwordFormSubmit(e, newPassword) }}>
             <label> New Password:
                 <input type="text" onChange={(e) => { setNewPassword(e.target.value) }} />
             </label>
@@ -115,9 +160,7 @@ export const removeMemberForm = ({removal, setRemoval, household}) => {
 export default function AccountFunctions() {
     const [createSharedHousehold, sharedHouseholdInfo] = useCreateSharedHouseholdMutation()
     const [editHousehold, editedHousehold] = useEditHouseholdMutation()
-    const [editUser, editedUser] = useEditUserMutation()
-
-    const colorFormSubmit = async () => {}
+   
 
     const nameFormSubmit = async () => {}
 
