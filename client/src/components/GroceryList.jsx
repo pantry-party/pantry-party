@@ -6,7 +6,6 @@ import { editIcon, addIcon, goBackIcon, deleteIcon } from "../styles/icons"
 import AddItem from "./AddItem"
 import AddToCategory from "./GroceryListAdds"
 import EditItem from "./EditItem"
-import { faSleigh } from "@fortawesome/free-solid-svg-icons"
 
 export default function GroceryList() {
     const userInfo = useContext(userContext)
@@ -91,9 +90,7 @@ export default function GroceryList() {
                                                     editItem({ id: item.id, inPantry: true })
                                                 }}
                                             />}
-                                            
                                             {editMode && <button title="Edit Item Details" onClick={() => { itemEditor(item.id) }} >{editIcon}</button>}
-
                                             {item.name}
                                             {editMode && <button title="Delete from List" onClick={(e) => {
                                                 deleteItem({ id: item.id })
