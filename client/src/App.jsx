@@ -14,6 +14,7 @@ function App() {
   const [userInfo, setUserInfo] = useState({})
   const [household, setHousehold] = useState({})
   const item = {
+    id: 12,
     name: "lemonade",
     dateMoved: "2024-01-08",
     inPantry: true, 
