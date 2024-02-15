@@ -42,8 +42,6 @@ export default function AddItem({ householdId, location }) {
             setName("")
             setCategory("select")
             setOwnerId(false)
-            console.log(ownerId)
-            console.log('end of add')
         } else {
             try {
                 await createNewItem({
@@ -61,8 +59,6 @@ export default function AddItem({ householdId, location }) {
             setName("")
             setCategory("select")
             setOwnerId(false)
-            console.log(ownerId)
-            console.log('end of add')
         }
     }
 
@@ -81,6 +77,7 @@ export default function AddItem({ householdId, location }) {
                     category,
                     dateMoved,
                     householdId: householdId,
+                    sharing,
                     inPantry: true
                 })
             }
@@ -90,8 +87,6 @@ export default function AddItem({ householdId, location }) {
             setName("")
             setCategory("select")
             setOwnerId(false)
-            console.log(ownerId)
-            console.log('end of add')
         } else {
             try {
                 await createNewItem({
@@ -100,6 +95,7 @@ export default function AddItem({ householdId, location }) {
                     dateMoved,
                     householdId: householdId,
                     ownerId,
+                    sharing,
                     inPantry: true
                 })
             }
@@ -109,8 +105,6 @@ export default function AddItem({ householdId, location }) {
             setName("")
             setCategory("select")
             setOwnerId(false)
-            console.log(ownerId)
-            console.log('end of add')
         }
     }
 
@@ -139,10 +133,9 @@ export default function AddItem({ householdId, location }) {
                     <input
                         id="ownership"
                         type="checkbox"
-                        defaultChecked={ownerId}
+                        checked={ownerId}
                         onChange={(e) => {
-                            if (ownerId == false) { setOwnerId(userInfo.id) }
-                            else { setOwnerId(false) }
+                            ownerId == false ? setOwnerId(userInfo.id) : setOwnerId(false)
                         }}
                     /> This is my Item! <br />
                     <button type="submit">{addIcon} Add to List</button>
@@ -182,10 +175,9 @@ export default function AddItem({ householdId, location }) {
                     <input
                         id="ownership"
                         type="checkbox"
-                        defaultChecked={false}
+                        checked={ownerId}
                         onChange={(e) => {
-                            if (ownerId == false) { setOwnerId(userInfo.id) }
-                            else { setOwnerId(false) }
+                            ownerId == false ? setOwnerId(userInfo.id) : setOwnerId(false)
                         }}
                     /> This is my Item! <br />
                     <label for="ownership">Sharing: </label>
