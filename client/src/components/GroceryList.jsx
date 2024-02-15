@@ -96,7 +96,7 @@ export default function GroceryList() {
                                                 deleteItem({ id: item.id })
                                             }}>{deleteIcon}</button>}
                                         </div >
-                                        {itemEdit && item.id === editId && <EditItem item={item} />}
+                                        {itemEdit && item.id === editId && <EditItem item={item} user={userInfo} />}
                                     </>
                                 )
                             }
