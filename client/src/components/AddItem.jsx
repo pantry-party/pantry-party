@@ -77,6 +77,7 @@ export default function AddItem({ householdId, location }) {
                     category,
                     dateMoved,
                     householdId: householdId,
+                    sharing,
                     inPantry: true
                 })
             }
@@ -94,6 +95,7 @@ export default function AddItem({ householdId, location }) {
                     dateMoved,
                     householdId: householdId,
                     ownerId,
+                    sharing,
                     inPantry: true
                 })
             }
