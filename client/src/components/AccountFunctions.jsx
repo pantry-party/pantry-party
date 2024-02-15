@@ -1,7 +1,7 @@
 //choose/edit color, join household, create household,  add users to household, leave household, log out
 
 import { useEffect } from "react"
-import { useEditUserMutation } from "../storage/pantryPartyApi"
+import { useEditUserMutation, useCreateSharedHouseholdMutation } from "../storage/pantryPartyApi"
 
 export const ColorForm = ({newColor, setNewColor, userInfo, setUserInfo}) => {
     const colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet", "pink", "gray", "teal", "brown"]
@@ -90,10 +90,38 @@ export const PasswordForm = ({newPassword, setNewPassword, userInfo, setUserInfo
     )
 }
 
-export const sharedHouseholdForm = ({newHousehold, setNewHousehold}) => {
+export const SharedHouseholdForm = ({userInfo, setUserInfo, newHousehold, setNewHousehold, householdMessage, setHouseholdMessage}) => {
+    const [createHousehold, createdHousehold] = useCreateSharedHouseholdMutation()
+    const [editUser, editedUser] = useEditUserMutation()
+    
+    useEffect(() => {
+        if (createdHousehold.isSuccess) {
+            console.log(createdHousehold.data)
+            updateUserHousehold(userInfo, createdHousehold.data.id)
+            setNewHousehold(createdHousehold.data)
+            setHouseholdMessage(`Share your join code: ${createdHousehold.data.joinCode}`)
+        }
+    }, [createdHousehold.isSuccess])
+
+    useEffect(() => {
+        if (editedUser.isSuccess) {
+            console.log(editedUser.data)
+            setUserInfo(editedUser.data)
+        }
+    }, [editedUser.isSuccess])
+
+    const sharedHouseholdSubmit = async (e, newHousehold) => {
+        e.preventDefault()
+        console.log(105, newHousehold)
+        await createHousehold({name: newHousehold})
+    }
+
+    const updateUserHousehold = async (userInfo, householdId) => {
+        await editUser({id: userInfo.id, sharedHouse: householdId})
+    }
 
     return (
-        <form id="sharedHouseholdForm" className="householdForms" onSubmit={(e) => { sharedHouseholdSubmit(e) }}>
+        <form id="sharedHouseholdForm" className="householdForms" onSubmit={(e) => { sharedHouseholdSubmit(e, newHousehold) }}>
             <label> New Household Name:
                 <input type="text" onChange={(e) => { setNewHousehold(e.target.value) }} />
             </label>

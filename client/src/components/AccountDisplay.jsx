@@ -6,8 +6,7 @@ import { useGetHouseholdbyIdQuery, useCreateSharedHouseholdMutation, useEditHous
 import Register from "./Register"
 import "../styles/colors.css"
 import Login from "./Login"
-import  { userContext, householdContext, tokenContext } from "../storage/context"
-import { ColorForm, NameForm, PasswordForm, sharedHouseholdForm, joinHouseholdForm, renameHouseholdForm, leaveHouseholdForm, removeMemberForm } from "./AccountFunctions" 
+import { ColorForm, NameForm, PasswordForm, SharedHouseholdForm, joinHouseholdForm, renameHouseholdForm, leaveHouseholdForm, removeMemberForm } from "./AccountFunctions" 
 
 export default function AccountDisplay({userInfo, setUserInfo, household, setHousehold}) {
     const [token, setToken] = useState(null)
@@ -24,6 +23,9 @@ export default function AccountDisplay({userInfo, setUserInfo, household, setHou
     const [newHouseholdName, setNewHouseholdName] = useState("")
     const [checked, setChecked] = useState(false)
     const [removal, setRemoval] = useState("") 
+
+    const [accountMessage, setAccountMessage] = useState("")
+    const [householdMessage, setHouseholdMessage] = useState("")
 
     const accountInfo = () => {
         return (
@@ -78,12 +80,13 @@ export default function AccountDisplay({userInfo, setUserInfo, household, setHou
                 {userInfo.sharedHouse && <button onClick={() => { setDisplayForm("leaveHouseholdForm")  }}> {leaveHouseholdIcon} Leave this household </button>}
                 {userInfo.sharedHouse && <button onClick={() => {  setDisplayForm("removeMemberForm") }}> {removeUserIcon} Remove a household member </button>}
                 <div className="accountForms"> 
-                    {displayForm === "sharedHouseholdForm" && sharedHouseholdForm({newHousehold, setNewHousehold})} 
+                    {displayForm === "sharedHouseholdForm" && < SharedHouseholdForm userInfo={userInfo} setUserInfo={setUserInfo} newHousehold={newHousehold} setNewHousehold={setNewHousehold} householdMessage={householdMessage} setHouseholdMessage={setHouseholdMessage}/>} 
                     {displayForm === "joinHouseholdForm" && joinHouseholdForm({joinCode, setJoinCode})} 
                     {displayForm === "renameHouseholdForm" && renameHouseholdForm({newHouseholdName, setNewHouseholdName})}
                     {displayForm === "leaveHouseholdForm" && leaveHouseholdForm({checked, setChecked})} 
                     {displayForm === "removeMemberForm" && removeMemberForm({removal, setRemoval, household})} 
                 </div> 
+                {householdMessage && <p> {householdMessage} </p>}
             </div>
         )
     }
