@@ -1,7 +1,7 @@
 //choose/edit color, join household, create household,  add users to household, leave household, log out
 
 import { useEffect } from "react"
-import { useEditUserMutation, useCreateSharedHouseholdMutation } from "../storage/pantryPartyApi"
+import { useEditUserMutation, useCreateSharedHouseholdMutation, useGetHouseholdbyJoinCodeQuery } from "../storage/pantryPartyApi"
 
 export const ColorForm = ({newColor, setNewColor, userInfo, setUserInfo}) => {
     const colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet", "pink", "gray", "teal", "brown"]
@@ -130,7 +130,34 @@ export const SharedHouseholdForm = ({userInfo, setUserInfo, newHousehold, setNew
     )
 }
 
-export const joinHouseholdForm = ({joinCode, setJoinCode}) => {
+export const JoinHouseholdForm = ({userInfo, setUserInfo, joinCode, setJoinCode}) => {
+    const [householdDetails] = useGetHouseholdbyJoinCodeQuery(joinCode)
+    const [editUser, editedUser] = useEditUserMutation()
+    
+    useEffect(() => {
+        if (householdDetails.isSuccess) {
+            console.log(householdDetails.data)
+            setHousehold(householdDetails.data)
+            updateUserHousehold(userInfo.id, householdDetails.data.id)
+        }}, [householdDetails.isSuccess])
+
+        // const joinHouseholdSubmit = async (e, joinCode) => {
+        //     e.preventDefault()
+        //     console.log(144, joinCode)
+        //     await householdFind({joinCode})
+        // } 
+
+        useEffect(() => {
+            if (editedUser.isSuccess) {
+                console.log(editedUser.data)
+                setUserInfo(editedUser.data)
+            }
+        }, [editedUser.isSuccess])
+    
+
+        const updateUserHousehold = async (userInfo, householdId) => {
+            await editUser({id: userInfo.id, sharedHouse: householdId})
+    }   
 
     return (
         <form id="joinHouseholdForm" className="householdForm" onSubmit={(e) => { joinHouseholdSubmit(e) }}>

@@ -6,7 +6,7 @@ import { useGetHouseholdbyIdQuery, useCreateSharedHouseholdMutation, useEditHous
 import Register from "./Register"
 import "../styles/colors.css"
 import Login from "./Login"
-import { ColorForm, NameForm, PasswordForm, SharedHouseholdForm, joinHouseholdForm, renameHouseholdForm, leaveHouseholdForm, removeMemberForm } from "./AccountFunctions" 
+import { ColorForm, NameForm, PasswordForm, SharedHouseholdForm, JoinHouseholdForm, renameHouseholdForm, leaveHouseholdForm, removeMemberForm } from "./AccountFunctions" 
 
 export default function AccountDisplay({userInfo, setUserInfo, household, setHousehold}) {
     const [token, setToken] = useState(null)
@@ -82,7 +82,7 @@ export default function AccountDisplay({userInfo, setUserInfo, household, setHou
                 {userInfo.sharedHouse && <button onClick={() => {  setDisplayForm("removeMemberForm") }}> {removeUserIcon} Remove a household member </button>}
                 <div className="accountForms"> 
                     {displayForm === "sharedHouseholdForm" && < SharedHouseholdForm userInfo={userInfo} setUserInfo={setUserInfo} newHousehold={newHousehold} setNewHousehold={setNewHousehold} householdMessage={householdMessage} setHouseholdMessage={setHouseholdMessage}/>} 
-                    {displayForm === "joinHouseholdForm" && joinHouseholdForm({joinCode, setJoinCode})} 
+                    {displayForm === "joinHouseholdForm" && < JoinHouseholdForm userInfo={userInfo} setUserInfo={setUserInfo} joinCode={joinCode} setJoinCode={setJoinCode} />} 
                     {displayForm === "renameHouseholdForm" && renameHouseholdForm({newHouseholdName, setNewHouseholdName})}
                     {displayForm === "leaveHouseholdForm" && leaveHouseholdForm({checked, setChecked})} 
                     {displayForm === "removeMemberForm" && removeMemberForm({removal, setRemoval, household})} 
