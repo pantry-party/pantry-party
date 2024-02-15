@@ -4,9 +4,15 @@ import { useEditItemMutation, useDeleteItemMutation, useCreateItemMutation } fro
 import "../styles/colors.css"
 import { categoriesContext } from "../storage/context.jsx"
 import { sharingIcon, notSharingIcon, alertIcon, deleteIcon } from "../styles/icons.jsx"
+import { useLocation } from "react-router-dom"
 
 export default function EditItem ({item, user}) {
     const [key, setKey] = useState('')
+    const location = useLocation()
+    let pantry = true
+    if (location.pathname === "/groceryList") {
+        pantry = false
+    }
     
     const [category, setCategory] = useState(item.category)
     const [ownerId, setOwnerId] = useState(item.ownerId || 0)
@@ -28,7 +34,10 @@ export default function EditItem ({item, user}) {
         if (itemEdit.isSuccess && move) {
             createItem(groceryCopy)
             setGroceryCopy({})
+            setMove(false)
         }
+
+
     }, [itemEdit.isSuccess, itemDeletion.isSuccess])
 
     useEffect(() => {
@@ -75,7 +84,6 @@ export default function EditItem ({item, user}) {
         let editObj = {id: item.id, category, ownerId, sharing}
         
         if(ownerId == 0) {
-            console.log('ownerId 0')
             editObj.ownerId = null
         }
 
@@ -111,7 +119,7 @@ export default function EditItem ({item, user}) {
         }
         
         console.log(editObj)
-        EditItem(editObj)
+        edit(editObj)
     }
     
     function BaseForm () {
@@ -129,9 +137,12 @@ export default function EditItem ({item, user}) {
                     <option>Select</option>
                     <option value="category" >Category</option>
                     <option value="ownerId" >Ownership</option>
-                    <option value="sharing" >Sharing</option>
-                    <option value="isLow" >Inventory</option>
-                    <option value="expiry" >Expiry</option>
+                    {pantry && (<>
+                        <option value="sharing" >Sharing</option>
+                        <option value="isLow" >Inventory</option>
+                        <option value="expiry" >Expiry</option>
+                    </>)}
+                    
                 </select>
             </label>
             <br />
@@ -188,7 +199,7 @@ export default function EditItem ({item, user}) {
             <fieldset name={key} onChange={(e) => {setOwnerId(e.target.value)}} >
                 <legend>Update the ownership of {item.name}: </legend>
                 <label>Set as mine <span className={user.color} >{categories.find((category) => item.category === category.name.toLowerCase()).icon}</span>
-                    <input type="radio" name={key} value={user.id} defaultChecked={+ownerId === user.id} />
+                    <input type="radio" name={key} value={user.id} defaultChecked={ownerId == user.id} />
                 </label>
                 <br />
                 <label>Set as household {categories.find((category) => item.category === category.name.toLowerCase()).icon}
