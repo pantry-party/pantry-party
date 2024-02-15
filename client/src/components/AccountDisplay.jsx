@@ -74,9 +74,10 @@ export default function AccountDisplay({userInfo, setUserInfo, household, setHou
     const accountOptions = () => {
         return (
             <div className="accountOptions">
-                {!userInfo.sharedHouse && <button onClick={() => { setDisplayForm("sharedHouseholdForm") }}> {addUsersIcon} Create a household to share </button>}
                 <button onClick={()=>{setDisplayForm("joinHouseholdForm") }}> {joinHouseholdIcon} Join a household </button> 
                 <button onClick={() => {  setDisplayForm("renameHouseholdForm")  }}> {renameHouseholdIcon} Rename your household </button>
+                {!userInfo.sharedHouse && <button onClick={() => { setDisplayForm("sharedHouseholdForm") }}> {addUsersIcon} Create a household to share </button>}
+                {userInfo.sharedHouse && <button onClick={() => {setHouseholdMessage(`Your household code is ${household.joinCode}`)}} > {addUsersIcon} Invite household members </button>}
                 {userInfo.sharedHouse && <button onClick={() => { setDisplayForm("leaveHouseholdForm")  }}> {leaveHouseholdIcon} Leave this household </button>}
                 {userInfo.sharedHouse && <button onClick={() => {  setDisplayForm("removeMemberForm") }}> {removeUserIcon} Remove a household member </button>}
                 <div className="accountForms"> 
