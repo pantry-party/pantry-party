@@ -63,11 +63,11 @@ export default function GroceryList() {
             <h3>Check things off to add them to your pantry!</h3>
             {!editMode
                 ? <button title="Edit Items" onClick={() => { setEditMode(true) }}>{editIcon}</button>
-                : <button title="Close Editor" onClick={() => { setEditMode(false) }}>{goBackIcon}</button>}
+                : <button title="Close Editor" onClick={() => { setEditMode(false); setItemEdit(false) }}>{goBackIcon}</button>}
             <button title="Add New Item" onClick={() => { setAddForm(!addForm) }}>{addIcon}</button>
         </div>
         {/* link to add form component */}
-        {addForm && <AddItem householdId={householdId} location="groceryList" />}
+        {addForm && <AddItem householdId={householdId} location="groceryList" setAddForm={setAddForm} />}
         {/* alphabetically ordered categories -- add logic for populated cats first */}
         <div>
             {orderedCategories.map((category) => {
@@ -82,7 +82,7 @@ export default function GroceryList() {
                                 return (
                                     <>
                                         <div key={item.id}>
-                                            {item.ownerId ? <>{item.userInitial}</> : <>&ensp;</>}
+                                            {item.ownerId ? <span className={item.color}>{item.userInitial}</span> : <>&ensp;</>}
                                             {!editMode && <input
                                                 type="checkbox"
                                                 defaultChecked={item.inPantry}
