@@ -105,6 +105,7 @@ export default function EditItem ({item, user}) {
             editObj.isLow = true
 
         } else if (inventory === "delete" && !move) {
+            console.log(item.id)
             deleteItem(item.id)
             return
         } else if (inventory === "delete" && move) {

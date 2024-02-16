@@ -3,6 +3,7 @@ import { useGetPantryItemsbyHouseholdIdQuery } from "../storage/pantryPartyApi"
 import { useContext, useState } from "react"
 import { addIcon, alertIcon, sharingIcon, notSharingIcon } from "../styles/icons"
 import AddItem from "./AddItem"
+import EditItem from "./EditItem"
 import { categoriesContext, userContext } from "../storage/context.jsx"
 
 export default function PantryList() {
@@ -10,6 +11,8 @@ export default function PantryList() {
   const householdId = userInfo.sharedHouse || userInfo.defaultHouse
   const { data = {}, error, isLoading,} = useGetPantryItemsbyHouseholdIdQuery(householdId)
   const categories = useContext(categoriesContext)
+  const [itemEdit, setItemEdit] = useState(false)
+  const [editId, setEditId] = useState("")
   const [addForm, setAddForm] = useState(false)
 
 
@@ -22,6 +25,18 @@ export default function PantryList() {
 
   console.log(data)
 
+  //edit items
+  function itemEditor(itemId) {
+    if (itemEdit == false) {
+        setItemEdit(!itemEdit)
+        setEditId(itemId)
+    } else if (itemEdit == true && itemId == editId) {
+        setItemEdit(!itemEdit)
+    } else if (itemEdit == true) {
+        setEditId(itemId)
+    }
+}
+
   //format dateMoved
   const dateType = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
 
@@ -32,7 +47,7 @@ export default function PantryList() {
   }
 
 return (<>
-  {/* title and add new item to the pantry button */}
+  {/* title, add new item button */}
   <div>
     <h1>Your Pantry</h1>
     <button title="Add New Item" onClick={() => { setAddForm(!addForm) }}>{addIcon}</button>
@@ -47,15 +62,23 @@ return (<>
   <div>
     {data.map((item) => (
       <div key={item.id} className={item.category}>
-      <p>{categories.find((category) => item.category === category.name.toLowerCase()).icon}</p>
-      {console.log(item)} 
-      <h2>{item.name} {item.isLow && <span className="blue"> {alertIcon}</span>} </h2>
-      <p>{ parseDate(item.dateMoved) }</p>
 
-      {item.sharing && <div className="green"> {sharingIcon}</div>} 
-      {item.sharing === false && <div className="red"> {notSharingIcon}</div>} 
+  {/* edit item button */}
+  <span className={item.color} >
+    <button title="Edit Item Details" onClick={() => { itemEditor(item.id) }}>{categories.find((category) => item.category === category.name.toLowerCase()).icon}</button> 
+  </span>
 
-       </div>
+      {console.log(item)}
+
+    <h2>{item.name} {item.isLow && <span className="blue"> {alertIcon}</span>} </h2>
+    <p>{ parseDate(item.dateMoved) }</p>
+      
+  {/* display alerts */}
+    {item.sharing && <div className="green"> {sharingIcon}</div>} 
+    {item.sharing === false && <div className="red"> {notSharingIcon}</div>}
+
+  {itemEdit && item.id === editId && <EditItem item={item} user={userInfo} />} 
+      </div>
       ))}
   </div>
   </>
