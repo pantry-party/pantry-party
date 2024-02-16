@@ -53,7 +53,9 @@ router.post('/shared', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
     try {
         const household = await updateHousehold(req.params.id, req.body)
-
+        if (household.joinCode){
+            household.users = await getUserbyHouseholdId(req.params.id)
+        }
         res.send(household)
     } catch (error) {
         next(error)
