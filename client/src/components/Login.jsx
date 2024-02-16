@@ -1,8 +1,11 @@
 import { useLoginUserMutation } from "../storage/pantryPartyApi"
 import { useState, useEffect } from "react"
+import { useDispatch } from 'react-redux'
+import { updateToken, updateUser } from '../storage/slice'
 
 export default function Login ({userInfo, setUserInfo}) {
     const [login, userLogin] = useLoginUserMutation()
+    const dispatch = useDispatch()
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -12,6 +15,8 @@ export default function Login ({userInfo, setUserInfo}) {
         if (userLogin.isSuccess) {
             console.log(userLogin)
             setUserInfo(userLogin.data.user)
+            dispatch(updateUser(userLogin.data.user))
+            dispatch(updateToken(userLogin.data.token))
             console.log(userLogin.data.user)
         }
             

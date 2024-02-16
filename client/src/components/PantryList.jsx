@@ -5,15 +5,18 @@ import { addIcon, alertIcon, sharingIcon, notSharingIcon } from "../styles/icons
 import AddItem from "./AddItem"
 import EditItem from "./EditItem"
 import { categoriesContext, userContext } from "../storage/context.jsx"
+import { useSelector } from "react-redux"
 
 export default function PantryList() {
   const userInfo = useContext(userContext)
   const householdId = userInfo.sharedHouse || userInfo.defaultHouse
-  const { data = {}, error, isLoading,} = useGetPantryItemsbyHouseholdIdQuery(householdId)
+  const { data = {}, error, isLoading, } = useGetPantryItemsbyHouseholdIdQuery(householdId)
   const categories = useContext(categoriesContext)
   const [itemEdit, setItemEdit] = useState(false)
   const [editId, setEditId] = useState("")
   const [addForm, setAddForm] = useState(false)
+
+  const token = useSelector((it) => it.state.token)
 
 
   if (isLoading) {
@@ -38,7 +41,7 @@ export default function PantryList() {
 }
 
   //format dateMoved
-  const dateType = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
+  const dateType = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
 
   function parseDate(timestamp) {
     const date = new Date(timestamp)
@@ -53,10 +56,10 @@ return (<>
     <button title="Add New Item" onClick={() => { setAddForm(!addForm) }}>{addIcon}</button>
   </div>
 
-  {/* link to add form component */}
-  <div>
-    {addForm && <AddItem householdId={householdId} location="pantry" />}
-  </div>
+    {/* link to add form component */}
+    <div>
+      {addForm && <AddItem householdId={householdId} location="pantry" />}
+    </div>
 
   {/* display items and icons */}
   <div>
@@ -80,7 +83,7 @@ return (<>
   {itemEdit && item.id === editId && <EditItem item={item} user={userInfo} />} 
       </div>
       ))}
-  </div>
+    </div>
   </>
   )
 }
