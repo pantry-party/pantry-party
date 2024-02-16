@@ -4,7 +4,7 @@ import { categoriesContext, userContext } from "../storage/context"
 import { useCreateItemMutation } from "../storage/pantryPartyApi"
 import { addIcon } from "../styles/icons"
 
-export default function AddItem({ householdId, location }) {
+export default function AddItem({ householdId, location, setAddForm }) {
     const loc = location
     const categories = useContext(categoriesContext)
     const userInfo = useContext(userContext)
@@ -42,6 +42,7 @@ export default function AddItem({ householdId, location }) {
             setName("")
             setCategory("select")
             setOwnerId(false)
+            setAddForm(false)
         } else {
             try {
                 await createNewItem({
@@ -59,6 +60,7 @@ export default function AddItem({ householdId, location }) {
             setName("")
             setCategory("select")
             setOwnerId(false)
+            setAddForm(false)
         }
     }
 
