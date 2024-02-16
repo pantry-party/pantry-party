@@ -1,7 +1,7 @@
 //content/display of the pantry
 import { useGetPantryItemsbyHouseholdIdQuery } from "../storage/pantryPartyApi"
 import { useContext, useState } from "react"
-import { addIcon } from "../styles/icons"
+import { addIcon, alertIcon, sharingIcon, notSharingIcon } from "../styles/icons"
 import AddItem from "./AddItem"
 import { categoriesContext, userContext } from "../storage/context.jsx"
 
@@ -17,13 +17,19 @@ export default function PantryList() {
     return <div>Loading...</div>
   }
   if (error) {
-    return <div>Error: {error.message}</div>
+    return <div>Log in to open your pantry...{error.message}</div>
   }
 
   console.log(data)
 
-  //sort items by dateMoved
-    // data.sort((a, b) => a.dateMoved-b.dateMoved)
+  //format dateMoved
+  const dateType = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'}
+
+  function parseDate(timestamp) {
+    const date = new Date(timestamp)
+
+    return date.toLocaleDateString(undefined, dateType)
+  }
 
 return (<>
   {/* title and add new item to the pantry button */}
@@ -43,31 +49,15 @@ return (<>
       <div key={item.id} className={item.category}>
       <p>{categories.find((category) => item.category === category.name.toLowerCase()).icon}</p>
       {console.log(item)} 
-      <h2>{item.name}</h2>
-      <p>{item.dateMoved}</p>
+      <h2>{item.name} {item.isLow && <span className="blue"> {alertIcon}</span>} </h2>
+      <p>{ parseDate(item.dateMoved) }</p>
+
+      {item.sharing && <div className="green"> {sharingIcon}</div>} 
+      {item.sharing === false && <div className="red"> {notSharingIcon}</div>} 
+
        </div>
       ))}
   </div>
   </>
   )
 }
-
-  // //display weekly date range
-  // function getWeeks() {
-  //   const start = new Date("2024-01-01")
-  //   const end = new Date("2024-09-31")
-    
-  //   const DAY = 24 * 60 * 60 * 1000
-  
-  //     const weeks = []
-  //     for (let newStart = start.valueOf(); newStart < end; newStart += DAY * 7) {
-  //       const days = []
-  //       for (let d = newStart; d < newStart + 7 * DAY; d += DAY) {
-  //         days.push(new Date(d))
-  //       }
-  //       weeks.push(days)
-  //     }
-  //     console.log(weeks)
-  
-  //     return `${weeks}`
-  //   }
