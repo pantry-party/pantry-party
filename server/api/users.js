@@ -1,5 +1,6 @@
 const express = require("express")
 const router = express.Router()
+const { authRequired } = require('./utils')
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 const { JWT_SECRET } = require("../secrets")
@@ -22,6 +23,24 @@ router.get("/", async (req, res, next) => {
         res.send(users)
     } catch (error) {
         console.log("error from router get", error)
+        next(error)
+    }
+})
+
+//GET current user -- from CU's personal project
+router.get('/current', authRequired, async (req, res, next) => {
+    try {
+        const token = req.get('Authorization').split(' ')[1]
+        
+        if (!token) {
+            throw new Error('User is not logged in')
+        }
+
+        const user = jwt.verify(token, JWT_SECRET)
+        
+        delete user.iat
+        res.send(user)
+    } catch (error) {
         next(error)
     }
 })

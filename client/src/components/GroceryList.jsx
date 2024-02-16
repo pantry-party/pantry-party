@@ -1,5 +1,6 @@
 //content/display of grocery list
 import { useState, useContext } from "react"
+import { useSelector } from "react-redux"
 import { categoriesContext, userContext } from "../storage/context"
 import { useGetGroceryItemsbyHouseholdIdQuery, useEditItemMutation, useDeleteItemMutation } from "../storage/pantryPartyApi"
 import { editIcon, addIcon, goBackIcon, deleteIcon } from "../styles/icons"
@@ -20,6 +21,10 @@ export default function GroceryList() {
     const [editId, setEditId] = useState("")
     const [addForm, setAddForm] = useState(false)
     let orderedCategories = []
+
+    // Redux states for token and user passing
+    const token = useSelector((it) => it.state.token)
+    const user = useSelector((it) => it.state.user)
 
     if (groceryPull.isLoading) {
         return <div>Pulling out grocery list...</div>
@@ -93,7 +98,7 @@ export default function GroceryList() {
                                             {editMode && <button title="Edit Item Details" onClick={() => { itemEditor(item.id) }} >{editIcon}</button>}
                                             {item.name}
                                             {editMode && <button title="Delete from List" onClick={(e) => {
-                                                deleteItem({ id: item.id })
+                                                deleteItem(item.id)
                                             }}>{deleteIcon}</button>}
                                         </div >
                                         {itemEdit && item.id === editId && <EditItem item={item} user={userInfo} />}
