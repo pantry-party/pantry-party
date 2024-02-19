@@ -10,8 +10,7 @@ export default function Login ({userInfo, setUserInfo}) {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     
-    useEffect(() => {
-            
+    useEffect(() => {    
         if (userLogin.isSuccess) {
             console.log(userLogin)
             setUserInfo(userLogin.data.user)

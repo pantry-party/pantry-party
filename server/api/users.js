@@ -7,12 +7,12 @@ const { JWT_SECRET } = require("../secrets")
 const SALT_ROUNDS = 10
 
 const {
-    createUser, 
-    getAllUsers, 
-    getUserbyUsername, 
+    createUser,
+    getAllUsers,
+    getUserbyUsername,
     getUserbyId,
-    getUserbyHouseholdId, 
-    updateUser, 
+    getUserbyHouseholdId,
+    updateUser,
     deleteUser
 } = require("../helperFns/users")
 
@@ -31,13 +31,13 @@ router.get("/", async (req, res, next) => {
 router.get('/current', authRequired, async (req, res, next) => {
     try {
         const token = req.get('Authorization').split(' ')[1]
-        
+
         if (!token) {
             throw new Error('User is not logged in')
         }
 
         const user = jwt.verify(token, JWT_SECRET)
-        
+
         delete user.iat
         res.send(user)
     } catch (error) {
@@ -107,9 +107,14 @@ router.post("/register", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
     try {
         const { username, password } = req.body
+        if (!username) {
+            throw new Error("Invalid Username")
+        }
         const user = await getUserbyUsername(username)
         const validPassword = await bcrypt.compare(password, user.password)
-        if (validPassword) {
+        if (!validPassword) {
+            throw new Error("Invalid Password")
+        } else if (validPassword) {
             const token = jwt.sign(user, JWT_SECRET)
 
             res.cookie("token", token, {

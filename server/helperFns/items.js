@@ -93,7 +93,7 @@ const getItemsByHouseholdGroceryList = async (householdId) => {
         FROM items
         LEFT JOIN users ON items."ownerId" = users.id
         WHERE "householdId" = $1 AND "inPantry" = false
-        ORDER BY category;
+        ORDER BY category, "dateMoved";
         `, [householdId]
             )
         return rows
