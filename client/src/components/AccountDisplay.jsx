@@ -55,7 +55,6 @@ export default function AccountDisplay({userInfo, setUserInfo, household, setHou
 
     const householdInfo = () => {
         if (householdDetails.isSuccess) {
-            console.log(householdDetails.data)
             setHousehold(householdDetails.data)
         }
 
@@ -104,7 +103,7 @@ export default function AccountDisplay({userInfo, setUserInfo, household, setHou
                         {accountInfo()}
                         {householdInfo()}
                         {accountOptions()}
-                        <button onClick={() => { setUserInfo(null); setHousehold(null) ; setHouseholdMessage(""); setAccountMessage("") }}> Log out </button>
+                        <button onClick={() => { setUserInfo(null) ; setHouseholdMessage(""); setAccountMessage("") }}> Log out </button>
                     </div>}
         </div>
     )

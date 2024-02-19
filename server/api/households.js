@@ -19,7 +19,7 @@ router.get('/id/:id', async (req, res, next) => {
 router.get('/join/:joinCode', async (req, res, next) => {
     try {
         const household = await getHouseholdbyJoinCode(req.params.joinCode)
-
+        
         res.send(household)
     } catch (error) {
         next(error)
