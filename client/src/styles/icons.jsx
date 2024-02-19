@@ -1,4 +1,3 @@
-import { createContext } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // categories icons
@@ -40,15 +39,20 @@ export const nameIcon = <FontAwesomeIcon icon={faUserPen} />
 
 // navigation icons
 
-import { faBasketShopping, faKitchenSet, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faBasketShopping, faKitchenSet, faUser, faPlus, faMinus, faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 
 export const groceryListIcon = <FontAwesomeIcon icon={faBasketShopping} />
 export const pantryIcon = <FontAwesomeIcon icon={faKitchenSet} />
 export const accountIcon = <FontAwesomeIcon icon={faUser} />
+export const plusIcon = <FontAwesomeIcon icon={faPlus} />
+export const minusIcon = <FontAwesomeIcon icon={faMinus} />
+export const downIcon = <FontAwesomeIcon icon={faCaretDown} />
+export const upIcon = <FontAwesomeIcon icon={faCaretUp} />
 
 // action icons 
-import { faArrowRotateLeft, faXmark, faCircleXmark} from '@fortawesome/free-solid-svg-icons'
+import { faArrowRotateLeft, faXmark, faCircleXmark, faCircleH} from '@fortawesome/free-solid-svg-icons'
 
 export const goBackIcon = <FontAwesomeIcon icon={faArrowRotateLeft} />
 export const xIcon = <FontAwesomeIcon icon={faXmark} />
 export const xCircleIcon = <FontAwesomeIcon icon={faCircleXmark} />
+export const initialIcon = <FontAwesomeIcon icon={faCircleH} />
