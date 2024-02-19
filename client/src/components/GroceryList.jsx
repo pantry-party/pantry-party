@@ -7,6 +7,7 @@ import { editIcon, addIcon, goBackIcon, deleteIcon } from "../styles/icons"
 import AddItem from "./AddItem"
 import AddToCategory from "./GroceryListAdds"
 import EditItem from "./EditItem"
+import "../styles/grocery.css"
 
 export default function GroceryList() {
     const userInfo = useContext(userContext)
@@ -61,23 +62,25 @@ export default function GroceryList() {
         }
     }
 
-    return (<>
+    return (<div className="groceryListPage">
         {/* title, subtitle, and add to list and edit buttons*/}
         <div>
             <h1>Your Grocery List</h1>
-            <h3>Check things off to add them to your pantry!</h3>
-            {!editMode
-                ? <button title="Edit Items" onClick={() => { setEditMode(true) }}>{editIcon}</button>
-                : <button title="Close Editor" onClick={() => { setEditMode(false); setItemEdit(false) }}>{goBackIcon}</button>}
-            <button title="Add New Item" onClick={() => { setAddForm(!addForm) }}>{addIcon}</button>
+            <div className="groceryIntro">
+                <h3>Check things off to add them to your pantry!</h3>
+                {!editMode
+                    ? <button className="groceryButton" title="Edit Items" onClick={() => { setEditMode(true) }}>{editIcon}</button>
+                    : <button className="groceryButton" title="Close Editor" onClick={() => { setEditMode(false); setItemEdit(false) }}>{goBackIcon}</button>}
+                <button title="Add New Item" className="groceryButton" onClick={() => { setAddForm(!addForm) }}>{addIcon}</button>
+            </div>
         </div>
         {/* link to add form component */}
         {addForm && <AddItem householdId={householdId} location="groceryList" setAddForm={setAddForm} />}
         {/* alphabetically ordered categories -- add logic for populated cats first */}
-        <div>
+        <div className="groceryCategories">
             {orderedCategories.map((category) => {
                 return (
-                    <>
+                    <div className="groceryCategory">
                         <h3>
                             {categories.find((cat) => category === cat.name.toLowerCase()).icon} &ensp;
                             {categories.find((cat) => category === cat.name.toLowerCase()).name}
@@ -85,9 +88,9 @@ export default function GroceryList() {
                         {groceryList.map((item) => {
                             if (item.category == category) {
                                 return (
-                                    <>
-                                        <div key={item.id}>
-                                            {item.ownerId ? <span className={item.color}>{item.userInitial}</span> : <>&ensp;</>}
+                                    <ul className="groceryItems">
+                                        <li key={item.id} className="groceryDetails">
+                                            {item.ownerId ? <span className={item.color} > {item.userInitial} </span> : <span>&ensp;</span>}
                                             {!editMode && <input
                                                 type="checkbox"
                                                 defaultChecked={item.inPantry}
@@ -95,22 +98,22 @@ export default function GroceryList() {
                                                     editItem({ id: item.id, inPantry: true })
                                                 }}
                                             />}
-                                            {editMode && <button title="Edit Item Details" onClick={() => { itemEditor(item.id) }} >{editIcon}</button>}
-                                            {item.name}
-                                            {editMode && <button title="Delete from List" onClick={(e) => {
+                                            {editMode && <button title="Edit Item Details" className="groceryButton" onClick={() => { itemEditor(item.id) }} >{editIcon}</button>}
+                                            &nbsp; {item.name} &nbsp;
+                                            {editMode && <button title="Delete from List" className="groceryButton" onClick={(e) => {
                                                 deleteItem(item.id)
                                             }}>{deleteIcon}</button>}
-                                        </div >
+                                        </li >
                                         {itemEdit && item.id === editId && <EditItem item={item} user={userInfo} />}
-                                    </>
+                                    </ul>
                                 )
                             }
                         })}
                         {!editMode && <AddToCategory category={category} />}
-                    </>
+                    </div>
                 )
             })}
         </div >
-    </>
+    </div>
     )
 }

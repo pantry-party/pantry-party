@@ -129,7 +129,7 @@ export default function EditItem ({item, user}) {
             <h3>{item.name}</h3>
             {itemEdit.isError && <p>Error editing item: {itemEdit.error.error}</p>}
             {itemDeletion.isError && <p>Error removing item: {itemDeletion.error.error}</p>}
-            <label name="update">What would you like to update?
+            <label name="update">What would you like to update? &nbsp;
                 <select
                     name="update"
                     value={key}
