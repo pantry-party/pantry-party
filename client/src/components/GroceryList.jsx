@@ -90,7 +90,7 @@ export default function GroceryList() {
                                 return (
                                     <ul className="groceryItems">
                                         <li key={item.id} className="groceryDetails">
-                                            {item.ownerId ? <span className={item.color} > {item.userInitial} </span> : <span>&ensp;</span>}
+                                            {item.ownerId ? <span className={item.color} > {item.userInitial} </span> : <span>&ensp; &nbsp;</span>}
                                             {!editMode && <input
                                                 type="checkbox"
                                                 defaultChecked={item.inPantry}
