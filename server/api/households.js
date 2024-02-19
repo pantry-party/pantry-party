@@ -19,7 +19,7 @@ router.get('/id/:id', async (req, res, next) => {
 router.get('/join/:joinCode', async (req, res, next) => {
     try {
         const household = await getHouseholdbyJoinCode(req.params.joinCode)
-
+        
         res.send(household)
     } catch (error) {
         next(error)
@@ -53,7 +53,9 @@ router.post('/shared', async (req, res, next) => {
 router.put('/:id', async (req, res, next) => {
     try {
         const household = await updateHousehold(req.params.id, req.body)
-
+        if (household.joinCode){
+            household.users = await getUserbyHouseholdId(req.params.id)
+        }
         res.send(household)
     } catch (error) {
         next(error)
