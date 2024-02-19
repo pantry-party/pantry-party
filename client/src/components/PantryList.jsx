@@ -26,7 +26,7 @@ export default function PantryList() {
   }
 
   function createWeeks() {
-    // print out all mondays from 1 year ago to today
+    //print out all mondays from 1 year ago to today
     let dateSet = []
     let day
     let weekStart
@@ -97,14 +97,7 @@ export default function PantryList() {
       {/* title, add new item button */}
       <div>
         <h1>Your Pantry</h1>
-        <button
-          title="Add New Item"
-          onClick={() => {
-            setAddForm(!addForm)
-          }}
-        >
-          {addIcon}
-        </button>
+        <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} > {addIcon} </button>
       </div>
 
       {/* link to add form component */}
@@ -122,19 +115,13 @@ export default function PantryList() {
                 <div key={item.id} className={item.category}>
                   {/* edit item button */}
                   <span className={item.color}>
-                    <button
-                      title="Edit Item Details"
-                      onClick={() => {
-                        itemEditor(item.id)
-                      }}
-                    >
+                    <button title="Edit Item Details" onClick={() => { itemEditor(item.id) }} >
                       {categories.find((category) => item.category === category.name.toLowerCase()).icon}
                     </button>
                   </span>
-                  <h2>
-                    {item.name} {item.isLow && <span className="blue"> {alertIcon}</span>}{" "}
-                  </h2>
-                  <p>{parseDate(item.dateMoved)}</p>
+                  <h2>{item.name} {item.isLow && <span className="blue"> {alertIcon}</span>}</h2>
+                  {item.expiry && <div className="expiryDate"> <p>Exp. {parseDate(item.expiry)}</p> </div>}
+
                   {/* display alerts */}
                   {item.sharing && <div className="green"> {sharingIcon}</div>}
                   {item.sharing === false && <div className="red"> {notSharingIcon}</div>}
@@ -146,5 +133,5 @@ export default function PantryList() {
         })}
       </div>
     </>
-  );
+  )
 }
