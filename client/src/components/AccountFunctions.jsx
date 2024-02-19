@@ -1,7 +1,7 @@
 //choose/edit color, join household, create household,  add users to household, leave household, log out
 
 import { useEffect, useState } from "react"
-import { useEditUserMutation, useCreateSharedHouseholdMutation, useGetHouseholdbyJoinCodeQuery, useEditHouseholdMutation, useGetHouseholdbyIdQuery, useGetItemsbyHouseholdIdQuery } from "../storage/pantryPartyApi"
+import { useEditUserMutation, useCreateSharedHouseholdMutation, useGetHouseholdbyJoinCodeQuery, useEditHouseholdMutation } from "../storage/pantryPartyApi"
 
 export const ColorForm = ({ newColor, setNewColor, userInfo, setUserInfo, setDisplayForm }) => {
     const colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet", "pink", "gray", "teal", "brown"]
@@ -11,6 +11,7 @@ export const ColorForm = ({ newColor, setNewColor, userInfo, setUserInfo, setDis
         if (editedUser.isSuccess) {
             console.log(editedUser.data)
             setUserInfo(editedUser.data)
+            setDisplayForm("")
         }
     }, [editedUser.isSuccess])
 
@@ -21,7 +22,7 @@ export const ColorForm = ({ newColor, setNewColor, userInfo, setUserInfo, setDis
     }
 
     return (
-        <form id="colorForm" className="accountForm" onSubmit={(e) => { colorFormSubmit(e, newColor); setDisplayForm("") }}>
+        <form id="colorForm" className="accountForm" onSubmit={(e) => { colorFormSubmit(e, newColor)}}>
             <label> Colors:
                 <select required name="colors" onChange={(e) => { setNewColor(e.target.value) }}>
                     <option value={""}> Select </option>
@@ -44,6 +45,7 @@ export const NameForm = ({ newName, setNewName, userInfo, setUserInfo, setDispla
         if (editedUser.isSuccess) {
             console.log(editedUser.data)
             setUserInfo(editedUser.data)
+            setDisplayForm("")
         }
     }, [editedUser.isSuccess])
 
@@ -54,7 +56,7 @@ export const NameForm = ({ newName, setNewName, userInfo, setUserInfo, setDispla
     }
 
     return (
-        <form id="nameForm" className="accountForm" onSubmit={(e) => { nameFormSubmit(e, newName); setDisplayForm("") }}>
+        <form id="nameForm" className="accountForm" onSubmit={(e) => { nameFormSubmit(e, newName) }}>
             <label> New Name:
                 <input type="text" onChange={(e) => { setNewName(e.target.value) }} />
             </label>
@@ -63,7 +65,7 @@ export const NameForm = ({ newName, setNewName, userInfo, setUserInfo, setDispla
     )
 }
 
-export const PasswordForm = ({ newPassword, setNewPassword, userInfo, setUserInfo, setAccountMessage }) => {
+export const PasswordForm = ({ newPassword, setNewPassword, userInfo, setUserInfo, setAccountMessage, setDisplayForm }) => {
     const [editUser, editedUser] = useEditUserMutation()
 
     useEffect(() => {
@@ -71,6 +73,7 @@ export const PasswordForm = ({ newPassword, setNewPassword, userInfo, setUserInf
             console.log(editedUser.data)
             setUserInfo(editedUser.data)
             setAccountMessage("Your password has been changed!")
+            setDisplayForm("")
         }
     }, [editedUser.isSuccess])
 
@@ -81,7 +84,7 @@ export const PasswordForm = ({ newPassword, setNewPassword, userInfo, setUserInf
     }
 
     return (
-        <form id="passwordForm" className="accountForm" onSubmit={(e) => { passwordFormSubmit(e, newPassword); setDisplayForm("") }}>
+        <form id="passwordForm" className="accountForm" onSubmit={(e) => { passwordFormSubmit(e, newPassword) }}>
             <label> New Password:
                 <input type="text" onChange={(e) => { setNewPassword(e.target.value) }} />
             </label>
@@ -107,6 +110,7 @@ export const SharedHouseholdForm = ({ userInfo, setUserInfo, newHousehold, setNe
         if (editedUser.isSuccess) {
             console.log(editedUser.data)
             setUserInfo(editedUser.data)
+            setDisplayForm("")
         }
     }, [editedUser.isSuccess])
 
@@ -121,7 +125,7 @@ export const SharedHouseholdForm = ({ userInfo, setUserInfo, newHousehold, setNe
     }
 
     return (
-        <form id="sharedHouseholdForm" className="householdForms" onSubmit={(e) => { sharedHouseholdSubmit(e, newHousehold); setDisplayForm("") }}>
+        <form id="sharedHouseholdForm" className="householdForms" onSubmit={(e) => { sharedHouseholdSubmit(e, newHousehold) }}>
             <label> New Household Name:
                 <input type="text" onChange={(e) => { setNewHousehold(e.target.value) }} />
             </label>
@@ -130,14 +134,14 @@ export const SharedHouseholdForm = ({ userInfo, setUserInfo, newHousehold, setNe
     )
 }
 
-export const JoinHouseholdForm = ({ userInfo, setUserInfo, household, setHousehold, joinCode, setJoinCode, householdMessage, setHouseholdMessage, setDisplayForm }) => {
+export const JoinHouseholdForm = ({ userInfo, setUserInfo, setHousehold, joinCode, setJoinCode, setHouseholdMessage, setDisplayForm }) => {
     const householdDetails = useGetHouseholdbyJoinCodeQuery(joinCode)
     const [editUser, editedUser] = useEditUserMutation()
-    const [householdId, setHouseholdId] = useState(null)
     const [submitted, setSubmitted] = useState(false)
 
     useEffect(() => {
         if (householdDetails.isSuccess) {
+            setHouseholdMessage("")
             console.log(householdDetails)
             if (userInfo.sharedHouse === householdDetails.data.id) {
                 setHouseholdMessage("You're already a member of this house!")
@@ -167,31 +171,31 @@ export const JoinHouseholdForm = ({ userInfo, setUserInfo, household, setHouseho
     return (
         <form id="joinHouseholdForm" className="householdForm" onSubmit={(e) => { e.preventDefault(); setSubmitted(true) }}>
             <label> Join code:
-                <input type="text" onChange={(e) => { setJoinCode(e.target.value); setHouseholdMessage("") }} />
+                <input type="text" onChange={(e) => { setJoinCode(e.target.value) }} />
             </label>
             <button type="submit" className="submitButton"> Submit </button>
         </form>
     )
 }
 
-export const RenameHouseholdForm = ({ household, setHousehold, newHouseholdName, setNewHouseholdName }) => {
+export const RenameHouseholdForm = ({ household, setHousehold, newHouseholdName, setNewHouseholdName, setDisplayForm }) => {
     const [renameHousehold, renamedHousehold] = useEditHouseholdMutation()
 
     useEffect(() => {
         if (renamedHousehold.isSuccess) {
             console.log(renamedHousehold.data)
             setHousehold(renamedHousehold.data)
+            setDisplayForm("")
         }
     }, [renamedHousehold.isSuccess])
 
     const renameHouseholdSubmit = async (e, newHouseholdName) => {
         e.preventDefault()
-        console.log(184, name)
         await renameHousehold({ id: household.id, name: newHouseholdName })
     }
 
     return (
-        <form id="renameHouseholdForm" className="householdForms" onSubmit={(e) => { renameHouseholdSubmit(e, newHouseholdName); setDisplayForm("") }}>
+        <form id="renameHouseholdForm" className="householdForms" onSubmit={(e) => { renameHouseholdSubmit(e, newHouseholdName) }}>
             <label> New Household Name:
                 <input type="text" onChange={(e) => { setNewHouseholdName(e.target.value) }} />
             </label>
@@ -200,13 +204,14 @@ export const RenameHouseholdForm = ({ household, setHousehold, newHouseholdName,
     )
 }
 
-export const LeaveHouseholdForm = ({ checked, setChecked, userInfo, setUserInfo }) => {
+export const LeaveHouseholdForm = ({ checked, setChecked, userInfo, setUserInfo, setDisplayForm }) => {
     const [editUser, editedUser] = useEditUserMutation()
 
     useEffect(() => {
         if (editedUser.isSuccess) {
             console.log(editedUser.data)
             setUserInfo(editedUser.data)
+            setDisplayForm("")
         }
     }, [editedUser.isSuccess])
 
@@ -218,7 +223,7 @@ export const LeaveHouseholdForm = ({ checked, setChecked, userInfo, setUserInfo 
     }
 
     return (
-        <form id="leaveHouseholdForm" className="householdForms" onSubmit={(e) => { leaveHouseholdSubmit(e, checked); setDisplayForm("") }}>
+        <form id="leaveHouseholdForm" className="householdForms" onSubmit={(e) => { leaveHouseholdSubmit(e, checked) }}>
             <label> Are you sure?
                 <input type="checkbox" onChange={(e) => { setChecked(e.target.checked) }} />
             </label>
@@ -229,18 +234,9 @@ export const LeaveHouseholdForm = ({ checked, setChecked, userInfo, setUserInfo 
 
 export const RemoveMemberForm = ({ removal, setRemoval, household }) => {
     const [editUser, editedUser] = useEditUserMutation()
-    const [removedUserInfo, setRemovedUserInfo] = useState(null)
-
-    useEffect(() => {
-        if (editedUser.isSuccess) {
-            console.log(editedUser.data)
-            setRemovedUserInfo(editedUser.data)
-        }
-    }, [editedUser.isSuccess])
 
     const removeMemberSubmit = async (e, removal) => {
         e.preventDefault()
-        console.log(238, removal)
         await editUser({ id: removal, sharedHouse: null })
         console.log(userInfo)
     }

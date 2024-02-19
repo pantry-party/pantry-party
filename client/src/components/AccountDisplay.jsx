@@ -7,11 +7,12 @@ import Register from "./Register"
 import "../styles/colors.css"
 import Login from "./Login"
 import { ColorForm, NameForm, PasswordForm, SharedHouseholdForm, JoinHouseholdForm, RenameHouseholdForm, LeaveHouseholdForm, RemoveMemberForm } from "./AccountFunctions" 
+import { useSelector } from "react-redux"
 
 export default function AccountDisplay({userInfo, setUserInfo, household, setHousehold}) {
-    // const [token, setToken] = useState(null)
+    const user = useSelector((it) => it.state.user)
 
-    const householdId = userInfo?.sharedHouse || userInfo?.defaultHouse
+    const householdId = user?.sharedHouse || user?.defaultHouse
     const householdDetails = useGetHouseholdbyIdQuery(householdId)
     
     const [displayForm, setDisplayForm] = useState("")
