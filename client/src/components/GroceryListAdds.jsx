@@ -1,10 +1,13 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
 import { addIcon } from "../styles/icons"
 import { useCreateItemMutation } from "../storage/pantryPartyApi"
+import { userContext } from "../storage/context"
 
 export default function AddToCategory({ category }) {
     const [createItem, itemCreation] = useCreateItemMutation()
     const [name, setName] = useState("")
+    const userInfo = useContext(userContext)
+    const householdId = userInfo.sharedHouse || userInfo.defaultHouse
 
     if (itemCreation.isLoading) {
         return <div>Loading...</div>
@@ -15,14 +18,13 @@ export default function AddToCategory({ category }) {
     async function handleSubmit(e) {
         e.preventDefault()
         const dateMoved = new Date()
-        category = category.toLowerCase()
         if (name == "") {
         } else {
             await createItem({
                 name,
                 category,
                 dateMoved,
-                householdId: 5,
+                householdId: householdId,
                 inPantry: false
             })
         }

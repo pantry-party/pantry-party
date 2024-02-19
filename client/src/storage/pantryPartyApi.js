@@ -108,8 +108,8 @@ export const pantryPartyApi = createApi({
             invalidatesTags: ["Item"]
         }),
         deleteItem: builder.mutation({
-            query: (data) => ({
-                url: `/items/${data.id}`,
+            query: (id) => ({
+                url: `/items/${id}`,
                 method: "DELETE"
             }),
             invalidatesTags: ["Item"]
