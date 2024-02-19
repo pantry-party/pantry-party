@@ -9,7 +9,7 @@ import Login from "./Login"
 import { ColorForm, NameForm, PasswordForm, SharedHouseholdForm, JoinHouseholdForm, RenameHouseholdForm, LeaveHouseholdForm, RemoveMemberForm } from "./AccountFunctions" 
 
 export default function AccountDisplay({userInfo, setUserInfo, household, setHousehold}) {
-    const [token, setToken] = useState(null)
+    // const [token, setToken] = useState(null)
 
     const householdId = userInfo?.sharedHouse || userInfo?.defaultHouse
     const householdDetails = useGetHouseholdbyIdQuery(householdId)
@@ -49,17 +49,15 @@ export default function AccountDisplay({userInfo, setUserInfo, household, setHou
         )
     }
 
-    
-        
-
-
     const householdInfo = () => {
         if (householdDetails.isSuccess) {
             setHousehold(householdDetails.data)
         }
 
         if (householdDetails.isloading) { 
-                return <div> Loading... </div>}
+                return <div> Loading... </div>
+        }
+
         return (
             <div className="householdInfo">
                 <h3> {household.name}</h3>
@@ -70,7 +68,7 @@ export default function AccountDisplay({userInfo, setUserInfo, household, setHou
                 })}
             </div>
         )
-            }
+    }
     
 
     const accountOptions = () => {

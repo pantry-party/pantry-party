@@ -16,7 +16,7 @@ export const ColorForm = ({ newColor, setNewColor, userInfo, setUserInfo, setDis
 
     const colorFormSubmit = async (e, color) => {
         e.preventDefault()
-        console.log(18, color)
+        console.log(color)
         await editUser({ id: userInfo.id, color })
     }
 
@@ -25,9 +25,9 @@ export const ColorForm = ({ newColor, setNewColor, userInfo, setUserInfo, setDis
             <label> Colors:
                 <select required name="colors" onChange={(e) => { setNewColor(e.target.value) }}>
                     <option value={""}> Select </option>
-                    {colors.map((color) => {
+                    {colors.map((color, index) => {
                         return (
-                            <option value={color} className={color}> {color} </option>
+                            <option key={index} value={color} className={color}> {color} </option>
                         )
                     })}
                 </select>
@@ -37,7 +37,7 @@ export const ColorForm = ({ newColor, setNewColor, userInfo, setUserInfo, setDis
     )
 }
 
-export const NameForm = ({ newName, setNewName, userInfo, setUserInfo }) => {
+export const NameForm = ({ newName, setNewName, userInfo, setUserInfo, setDisplayForm }) => {
     const [editUser, editedUser] = useEditUserMutation()
 
     useEffect(() => {
@@ -63,7 +63,7 @@ export const NameForm = ({ newName, setNewName, userInfo, setUserInfo }) => {
     )
 }
 
-export const PasswordForm = ({ newPassword, setNewPassword, userInfo, setUserInfo, accountMessage, setAccountMessage }) => {
+export const PasswordForm = ({ newPassword, setNewPassword, userInfo, setUserInfo, setAccountMessage }) => {
     const [editUser, editedUser] = useEditUserMutation()
 
     useEffect(() => {
@@ -90,7 +90,7 @@ export const PasswordForm = ({ newPassword, setNewPassword, userInfo, setUserInf
     )
 }
 
-export const SharedHouseholdForm = ({ userInfo, setUserInfo, newHousehold, setNewHousehold, householdMessage, setHouseholdMessage, setDisplayForm }) => {
+export const SharedHouseholdForm = ({ userInfo, setUserInfo, newHousehold, setNewHousehold, setHouseholdMessage, setDisplayForm }) => {
     const [createHousehold, createdHousehold] = useCreateSharedHouseholdMutation()
     const [editUser, editedUser] = useEditUserMutation()
 
@@ -112,7 +112,7 @@ export const SharedHouseholdForm = ({ userInfo, setUserInfo, newHousehold, setNe
 
     const sharedHouseholdSubmit = async (e, newHousehold) => {
         e.preventDefault()
-        console.log(105, newHousehold)
+        console.log(newHousehold)
         await createHousehold({ name: newHousehold })
     }
 
@@ -139,39 +139,33 @@ export const JoinHouseholdForm = ({ userInfo, setUserInfo, household, setHouseho
     useEffect(() => {
         if (householdDetails.isSuccess) {
             console.log(householdDetails)
-            if (!householdDetails.data) {
-                console.log("Whoops!")
-                setHouseholdMessage("That code didn't work! Please try again.")
-            }
-            else if (userInfo.sharedHouse === householdDetails.data.id) {
+            if (userInfo.sharedHouse === householdDetails.data.id) {
                 setHouseholdMessage("You're already a member of this house!")
-            }
-            else {
+            } else if (submitted) {
                 console.log("house", householdDetails.data.id)
                 console.log("user", userInfo.id)
                 editUser({ id: userInfo.id, sharedHouse: householdDetails.data.id })
                 setHousehold(householdDetails.data)
                 console.log("check")
             }
-        } else if (joinCode) {
-            setHouseholdMessage("That didn't work! Please try again.")
         }
-    }, [householdDetails.isSuccess])
 
-    if (householdDetails.isLoading) {
-        console.log("isLoading")
-    }
+        if (householdDetails.isError) {
+            setHouseholdMessage("That code didn't work! Please try again.")
+        }
+    }, [householdDetails, submitted])
 
     useEffect(() => {
         console.log(editedUser)
         if (editedUser.isSuccess) {
             console.log(editedUser.data)
             setUserInfo(editedUser.data)
+            setDisplayForm("")
         }
     }, [editedUser.isSuccess])
 
     return (
-        <form id="joinHouseholdForm" className="householdForm" onSubmit={(e) => { joinHouseholdSubmit(e, joinCode); setDisplayForm("") }}>
+        <form id="joinHouseholdForm" className="householdForm" onSubmit={(e) => { e.preventDefault(); setSubmitted(true) }}>
             <label> Join code:
                 <input type="text" onChange={(e) => { setJoinCode(e.target.value); setHouseholdMessage("") }} />
             </label>
