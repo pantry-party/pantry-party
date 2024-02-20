@@ -63,18 +63,22 @@ export default function GroceryList() {
 
     return (<div className="groceryListPage">
         {/* title, subtitle, and add to list and edit buttons*/}
-        <div>
+        <div className="groceryTop">
             <h1>Your Grocery List</h1>
             <div className="groceryIntro">
-                <h3>Check things off to add them to your pantry!</h3>
+                <p className="instructions">Check things off to add them to your pantry!</p>
+                <span className="groceryButtonArea">
                 {!editMode
                     ? <button className="groceryButton" title="Edit Items" onClick={() => { setEditMode(true) }}>{editIcon}</button>
                     : <button className="groceryButton" title="Close Editor" onClick={() => { setEditMode(false); setItemEdit(false) }}>{goBackIcon}</button>}
+                &nbsp; 
                 <button title="Add New Item" className="groceryButton" onClick={() => { setAddForm(!addForm) }}>{addIcon}</button>
+                </span>
             </div>
         </div>
         {/* link to add form component */}
-        {addForm && <AddItem householdId={householdId} location="groceryList" setAddForm={setAddForm} />}
+        
+        {addForm && <div className="groceryAddForm"> <AddItem householdId={householdId} location="groceryList" setAddForm={setAddForm} /> </div> }
         {/* alphabetically ordered categories -- add logic for populated cats first */}
         <div className="groceryCategories">
             {orderedCategories.map((category, index) => {

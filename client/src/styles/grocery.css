@@ -2,13 +2,19 @@
     text-align: left; 
 }
 
-.groceryListPage > h3 {
-    text-align: center; 
+h1 {
+    text-align: center;
+    margin: auto; 
 }
 
 .groceryIntro {
     display: flex; 
-    align-items: center; 
+    justify-content: space-between; 
+    border-bottom: gray 1px solid; 
+}
+
+.groceryAddForm { 
+    border-bottom: gray 1px solid; 
 }
 
 ul {
@@ -17,7 +23,7 @@ ul {
 }
 
 .groceryCategory {
-    border-bottom: 2px black solid; 
+    border-bottom: 1px gray solid;
 }
 
 .groceryButton {
@@ -56,17 +62,52 @@ span.purple {
 }
 
 #addItemForm { 
-    border: 4px double black; 
-    padding-inline-start: 10px;
-    padding-bottom: 5px; 
+    border-radius: 5%; 
+    background-color: #F9F9F9;
+    padding: 10px; 
+    margin: 0 auto; 
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.addSubmitButton {
+    align-self: center; 
+}
+
+fieldset {
+    border-radius: 5%; 
+    border: gray 1px solid; 
+    width: fit-content; 
+    text-align: left; 
+}
+
+fieldset >  label {
+    justify-content: left; 
+}
+
+input#ownership {
+    justify-content: end;
+}
+
+label {
+    display: flex;
+    justify-content: space-between; 
 }
 
 @media screen and (max-width: 800px) {
     h1 { 
         font-size: 2em; 
+        margin: auto;
     }
     .groceryIntro {
         flex-wrap: wrap;
         justify-content: space-around; 
+    }
+    #addItemForm{
+        width: auto;
+    }
+    .groceryButton {
+        width: 45%; 
     }
 }

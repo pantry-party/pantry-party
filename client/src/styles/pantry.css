@@ -1,0 +1,86 @@
+.pantryIntro {
+    display: flex; 
+    justify-content: space-between;
+    border-bottom: 1px gray solid;
+}
+
+.pantryAddForm {
+    border-bottom: 1px gray solid;
+}
+
+.weekH3 {
+    color: gray; 
+    margin-top: 2px; 
+    text-align: left; 
+}
+
+.pantryWeek {
+    border-bottom: 1px gray solid; 
+}
+
+.pantryWeekItems {
+    list-style: none; 
+    display: flex; 
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+    overflow: scroll;
+}
+
+.pantryEditButton {
+    font-size: x-large;
+    padding: 5px; 
+    border: solid 2px; 
+    width:   42px;
+}
+
+.itemIcons {
+    display: flex;
+    justify-content: center;
+}
+
+.alert {
+    align-self: flex-start;
+    font-size: medium;
+    margin-inline: -5px; 
+}
+
+.isLow {
+    margin-inline: auto; 
+}
+
+.itemName {
+    border-radius: 0%;
+    display: flex; 
+}
+
+@media screen and (max-width: 800px) {
+    h1 {
+        font-size: 2em; 
+        margin: auto; 
+    }
+    .pantryIntro {
+        justify-content: center; 
+        padding-bottom: 5px;
+        flex-direction: column; 
+    }
+    .weekH3 {
+        font-size: 1.3em;
+        text-align: center; 
+    }
+    .pantryWeekitems {
+        overflow: auto; 
+        white-space: nowrap;
+    }
+}
+
+/* 
+DONE week names: h3, remove the second date, gray,  smaller top margin, left-align -> make sure grocery list h3s are black
+DONE week sections: border-bottom gray (add border bottom to pantry intro, space-evenly instead of space-around
+DONE item names: p, bold
+root: width needs to change, do the side nav first and see
+DONE icons: x-large, width: 42px
+DONE add <p> Click on the category icon to edit the item! </p> 
+DONE move add item button to correct placement
+DONE add forms  - no border, light gray background, border radius 2% (also for input), align inputs/labels
+DONE grocery list: set instructions to <p> w/ className instructions
+*/
