@@ -64,7 +64,7 @@ export default function PantryList() {
   }
 
   const weeksArr = createWeeks()
-  console.log(weeksArr[weeksArr.length - 1])
+  // console.log(weeksArr[weeksArr.length - 1])
 
   //edit items
   function itemEditor(itemId) {
