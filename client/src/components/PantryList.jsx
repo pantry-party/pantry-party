@@ -4,13 +4,13 @@ import { useContext, useState } from "react"
 import { addIcon, alertIcon, sharingIcon, notSharingIcon } from "../styles/icons"
 import AddItem from "./AddItem"
 import EditItem from "./EditItem"
-import { categoriesContext, userContext } from "../storage/context.jsx"
+import { categoriesContext } from "../storage/context.jsx"
 import { useSelector } from "react-redux"
 import "../styles/pantry.css"
 
 export default function PantryList() {
-  const userInfo = useContext(userContext)
-  const householdId = userInfo.sharedHouse || userInfo.defaultHouse
+  const user = useSelector((it) => it.state.user)
+  const householdId = user.sharedHouse || user.defaultHouse
   const { data = {}, error, isLoading } = useGetPantryItemsbyHouseholdIdQuery(householdId)
   const categories = useContext(categoriesContext)
   const [itemEdit, setItemEdit] = useState(false)
@@ -43,6 +43,10 @@ export default function PantryList() {
         weekEnd = day
       }
 
+      if (day.getDay() === 1 && i === 365) {
+        weekEnd = day
+      }
+
       if (weekStart && weekEnd) {
         let week = { weekStart, weekEnd, items: [] }
         dateSet.push(week)
@@ -65,7 +69,7 @@ export default function PantryList() {
   }
 
   const weeksArr = createWeeks()
-  console.log(weeksArr[weeksArr.length - 1])
+  // console.log(weeksArr[weeksArr.length - 1])
 
   //edit items
   function itemEditor(itemId) {
@@ -125,7 +129,8 @@ export default function PantryList() {
                       {item.sharing && <div className="alert sharing"> {sharingIcon}</div>}
                       {item.sharing === false && <div className="alert nosharing"> {notSharingIcon}</div>}
                     </span>
-                    <span className="itemName"><p><strong>{item.name} </strong></p> {item.isLow && <p className="alert isLow"> {alertIcon}</p>}</span>
+                    <span className="itemName"><p><strong>{item.name} </strong></p>
+                    {item.isLow && <p className="alert isLow"> {alertIcon}</p>}</span>
                     {item.expiry && <div className="expiryDate"> <p>Exp. {parseDate(item.expiry)}</p> </div>}
                     {itemEdit && item.id === editId && <EditItem item={item} user={userInfo} />}
                   </li>

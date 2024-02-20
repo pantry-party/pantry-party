@@ -1,12 +1,14 @@
 //drop down edit form available on pantry and grocery lists
 import { useContext, useState, useEffect } from "react"
+import { useSelector } from "react-redux"
 import { useEditItemMutation, useDeleteItemMutation, useCreateItemMutation } from "../storage/pantryPartyApi"
 import "../styles/colors.css"
 import { categoriesContext } from "../storage/context.jsx"
 import { sharingIcon, notSharingIcon, alertIcon, deleteIcon } from "../styles/icons.jsx"
 import { useLocation } from "react-router-dom"
 
-export default function EditItem ({item, user}) {
+export default function EditItem ({item}) {
+    const user = useSelector((it) => it.state.user)
     const [key, setKey] = useState('')
     const location = useLocation()
     let pantry = true
@@ -19,7 +21,8 @@ export default function EditItem ({item, user}) {
     const [sharing, setSharing] = useState(item.sharing && "sharing")
     const [inventory, setInventory] = useState(item.isLow && "low")
     const [move, setMove] = useState(false)
-    const [expiry, setExpiry] = useState(new Date())   
+    const [expiry, setExpiry] = useState(new Date(item.expiry))
+    const [name, setName] = useState(item.name)   
     
     const [changeForm, setChangeForm] = useState("base")
     const [groceryCopy, setGroceryCopy] = useState({})
@@ -36,9 +39,7 @@ export default function EditItem ({item, user}) {
             setGroceryCopy({})
             setMove(false)
         }
-
-
-    }, [itemEdit.isSuccess, itemDeletion.isSuccess])
+    }, [itemEdit.isSuccess, move])
 
     useEffect(() => {
         if (changeForm === "base") {
@@ -47,7 +48,8 @@ export default function EditItem ({item, user}) {
             setSharing(item.sharing && "sharing")
             setInventory(item.isLow && "low")
             setMove(false)
-            setExpiry(new Date())
+            setExpiry(new Date(item.expiry))
+            setName(item.name)
         }
     }, [changeForm])
 
@@ -55,6 +57,8 @@ export default function EditItem ({item, user}) {
         return <EditCategory />
     } else if (changeForm === "ownerId") {
         return <EditOwner />
+    } else if (changeForm === "name") {
+        return <EditName />
     } else if (changeForm === "sharing") {
         return <EditSharing />
     } else if (changeForm === "isLow") {
@@ -81,7 +85,7 @@ export default function EditItem ({item, user}) {
         e.preventDefault()
 
         console.log(item)
-        let editObj = {id: item.id, category, ownerId, sharing}
+        let editObj = {id: item.id, name, category, ownerId, sharing}
         
         if(ownerId == 0) {
             editObj.ownerId = null
@@ -98,12 +102,12 @@ export default function EditItem ({item, user}) {
         if (move) {
             let copy = {...item}
             copy.inPantry = false
+            copy.dateMoved = new Date()
             setGroceryCopy(copy)
         }
         
         if (inventory === "low") {
             editObj.isLow = true
-
         } else if (inventory === "delete" && !move) {
             console.log(item.id)
             deleteItem(item.id)
@@ -111,6 +115,8 @@ export default function EditItem ({item, user}) {
         } else if (inventory === "delete" && move) {
             editObj.isLow = false
             editObj.inPantry = false
+            setMove(!move)
+            setGroceryCopy({})
         } else if (inventory === "not low") {
             editObj.isLow = false
         }
@@ -118,8 +124,8 @@ export default function EditItem ({item, user}) {
         if (key === "expiry") {
             editObj.expiry = expiry
         }
-        
-        console.log(editObj)
+        setChangeForm("base")
+        //console.log(editObj)
         edit(editObj)
     }
     
@@ -136,14 +142,14 @@ export default function EditItem ({item, user}) {
                     onChange={(event) => {setKey(event.target.value)}}
                 >
                     <option>Select</option>
+                    <option value="name" >Name</option>
                     <option value="category" >Category</option>
                     <option value="ownerId" >Ownership</option>
                     {pantry && (<>
                         <option value="sharing" >Sharing</option>
                         <option value="isLow" >Inventory</option>
                         <option value="expiry" >Expiry</option>
-                    </>)}
-                    
+                    </>)}    
                 </select>
             </label>
             <br />
@@ -152,42 +158,35 @@ export default function EditItem ({item, user}) {
         </form>)
     }
 
+    function EditName () {
+
+        return (<form onSubmit={saveChange}>
+            <label>Name: 
+                <input value={name} onChange={(e) => {setName(e.target.value)}} />
+            </label>
+            <button onClick={() => {setChangeForm("base")}}>Back</button>
+            <button type="submit" >Save</button>
+        </form>)
+    }
+
     function EditCategory () {
         
         return (<form onSubmit={saveChange}>
-            <fieldset name={category} onChange={(e) => {setCategory(e.target.value)}}>
+            <fieldset name="category" onChange={(e) => {setCategory(e.target.value)}}>
                 <legend>Update the category of {item.name}: </legend>
-                <label>Cans & Bottles
-                    <input type="radio" name={key} value="cans & bottles" defaultChecked={category === "cans & bottles"} />
-                </label>
-                <br />
-                <label>Dairy
-                    <input type="radio" name={key} value="dairy" defaultChecked={category === "dairy"} />
-                </label>
-                <br />
-                <label>Dry Goods
-                    <input type="radio" name={key} value="dry goods" defaultChecked={category === "dry goods"} />
-                </label>
-                <br />
-                <label>Freezer
-                    <input type="radio" name={key} value="freezer" defaultChecked={category === "freezer"} />
-                </label>
-                <br />
-                <label>Meals
-                    <input type="radio" name={key} value="meals" defaultChecked={category === "meals"} />
-                </label>
-                <br />
-                <label>Produce
-                    <input type="radio" name={key} value="produce" defaultChecked={category === "produce"} />
-                </label>
-                <br />
-                <label>Proteins
-                    <input type="radio" name={key} value="proteins" defaultChecked={category === "proteins"} />
-                </label>
-                <br />
-                <label>Other
-                    <input type="radio" name={key} value="other" defaultChecked={category === "other"} />
-                </label>
+                {categories.map((categoryObj, index) => {
+                    return <div key={index}>
+                        <label>{categoryObj.name} {categoryObj.icon}
+                            <input 
+                                type="radio"
+                                name={key}
+                                value={categoryObj.name.toLowerCase()}
+                                defaultChecked={category === categoryObj.name.toLowerCase()}
+                            />
+                        </label>
+                        <br />
+                    </div> 
+                })}
             </fieldset>
             <button onClick={() => {setChangeForm("base")}}>Back</button>
             <button type="submit" >Save</button>
