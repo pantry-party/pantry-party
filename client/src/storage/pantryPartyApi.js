@@ -37,11 +37,11 @@ export const pantryPartyApi = createApi({
         }),
         getPantryItemsbyHouseholdId: builder.query({
             query: (id) => `/items/household/${id}/pantry`,
-            providesTags: ["Item"]
+            providesTags: ["Item", "User"]
         }),
         getGroceryItemsbyHouseholdId: builder.query({
             query: (id) => `/items/household/${id}/grocerylist`,
-            providesTags: ["Item"]
+            providesTags: ["Item", "User"]
         }),
         createUser: builder.mutation({
             query: (data) => ({

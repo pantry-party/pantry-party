@@ -3,11 +3,12 @@ import { useState, useContext } from "react"
 import { categoriesContext, userContext } from "../storage/context"
 import { useCreateItemMutation } from "../storage/pantryPartyApi"
 import { addIcon } from "../styles/icons"
+import { useSelector } from "react-redux"
 
 export default function AddItem({ householdId, location, setAddForm }) {
     const loc = location
     const categories = useContext(categoriesContext)
-    const userInfo = useContext(userContext)
+    const userInfo = useSelector((it) => it.state.user)
 
     const [createNewItem, newItem] = useCreateItemMutation()
 

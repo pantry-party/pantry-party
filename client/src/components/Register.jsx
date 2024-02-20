@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateToken, updateUser } from '../storage/slice'
 
-export default function Register ({userInfo, setUserInfo}) {
+export default function Register () {
     const [createUser, userCreation] = useCreateUserMutation()
     const [createHousehold, householdCreation] = useCreateUserHouseholdMutation()
     const dispatch = useDispatch()
@@ -21,9 +21,6 @@ export default function Register ({userInfo, setUserInfo}) {
         }
 
         if (userCreation.isSuccess) {
-            console.log(userCreation)
-            console.log(userCreation.data.user)
-            setUserInfo(userCreation.data.user)
             dispatch(updateUser(userCreation.data.user))
             dispatch(updateToken(userCreation.data.token))
         }

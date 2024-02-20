@@ -1,12 +1,14 @@
 //drop down edit form available on pantry and grocery lists
 import { useContext, useState, useEffect } from "react"
+import { useSelector } from "react-redux"
 import { useEditItemMutation, useDeleteItemMutation, useCreateItemMutation } from "../storage/pantryPartyApi"
 import "../styles/colors.css"
 import { categoriesContext } from "../storage/context.jsx"
 import { sharingIcon, notSharingIcon, alertIcon, deleteIcon } from "../styles/icons.jsx"
 import { useLocation } from "react-router-dom"
 
-export default function EditItem ({item, user}) {
+export default function EditItem ({item}) {
+    const user = useSelector((it) => it.state.user)
     const [key, setKey] = useState('')
     const location = useLocation()
     let pantry = true
@@ -37,9 +39,7 @@ export default function EditItem ({item, user}) {
             setGroceryCopy({})
             setMove(false)
         }
-
-
-    }, [itemEdit.isSuccess, itemDeletion.isSuccess])
+    }, [itemEdit.isSuccess, move])
 
     useEffect(() => {
         if (changeForm === "base") {
@@ -102,12 +102,12 @@ export default function EditItem ({item, user}) {
         if (move) {
             let copy = {...item}
             copy.inPantry = false
+            copy.dateMoved = new Date()
             setGroceryCopy(copy)
         }
         
         if (inventory === "low") {
             editObj.isLow = true
-
         } else if (inventory === "delete" && !move) {
             console.log(item.id)
             deleteItem(item.id)
@@ -115,6 +115,8 @@ export default function EditItem ({item, user}) {
         } else if (inventory === "delete" && move) {
             editObj.isLow = false
             editObj.inPantry = false
+            setMove(!move)
+            setGroceryCopy({})
         } else if (inventory === "not low") {
             editObj.isLow = false
         }
@@ -122,9 +124,8 @@ export default function EditItem ({item, user}) {
         if (key === "expiry") {
             editObj.expiry = expiry
         }
-
         setChangeForm("base")
-        console.log(editObj)
+        //console.log(editObj)
         edit(editObj)
     }
     
