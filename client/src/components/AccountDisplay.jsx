@@ -1,29 +1,23 @@
 //display of account information
 
-import React, { useEffect, useContext, createContext, useState } from "react"
+import { useState } from "react"
 import { userIcon, addUsersIcon, removeUserIcon, createHouseholdIcon, joinHouseholdIcon, leaveHouseholdIcon, renameHouseholdIcon, colorIcon, passwordIcon, nameIcon } from "../styles/icons"
-import { useGetHouseholdbyIdQuery } from "../storage/pantryPartyApi"
+import { useGetHouseholdbyIdQuery, pantryPartyApi } from "../storage/pantryPartyApi"
 import Register from "./Register"
 import "../styles/colors.css"
 import Login from "./Login"
-import { ColorForm, NameForm, PasswordForm, SharedHouseholdForm, JoinHouseholdForm, RenameHouseholdForm, LeaveHouseholdForm, RemoveMemberForm } from "./AccountFunctions" 
-import { useSelector } from "react-redux"
+import { ColorForm, NameForm, UsernameForm, PasswordForm, SharedHouseholdForm, JoinHouseholdForm, RenameHouseholdForm, LeaveHouseholdForm, RemoveMemberForm } from "./AccountFunctions" 
+import { useSelector, useDispatch } from "react-redux"
+import { updateToken, updateUser } from "../storage/slice"
 
-export default function AccountDisplay({userInfo, setUserInfo, household, setHousehold}) {
-    const user = useSelector((it) => it.state.user)
+export default function AccountDisplay({ household, setHousehold }) {
+    const userInfo = useSelector((it) => it.state.user)
+    const dispatch = useDispatch()
 
-    const householdId = user?.sharedHouse || user?.defaultHouse
+    const householdId = userInfo?.sharedHouse || userInfo?.defaultHouse
     const householdDetails = useGetHouseholdbyIdQuery(householdId)
     
     const [displayForm, setDisplayForm] = useState("")
-    const [newColor, setNewColor] = useState("")
-    const [newName, setNewName] = useState("")
-    const [newPassword, setNewPassword] = useState("")
-    const [newHousehold, setNewHousehold] = useState("")
-    const [joinCode, setJoinCode] = useState("")
-    const [newHouseholdName, setNewHouseholdName] = useState("")
-    const [checked, setChecked] = useState(false)
-    const [removal, setRemoval] = useState("") 
 
     const [accountMessage, setAccountMessage] = useState("")
     const [householdMessage, setHouseholdMessage] = useState("")
@@ -37,12 +31,15 @@ export default function AccountDisplay({userInfo, setUserInfo, household, setHou
                     <button onClick={() => { setDisplayForm("colorForm")}}> {colorIcon}  Choose your color </button>
                     {/* Change your name */}
                     <button onClick={() => { setDisplayForm("nameForm") }}> {nameIcon} Change your name </button>
+                    {/* Change your username */}
+                    <button onClick={() => { setDisplayForm("usernameForm") }}> {nameIcon} Change your username </button>
                     {/* Change your password */}
                     <button onClick={() => {  setDisplayForm("passwordForm") }}> {passwordIcon} Change your password </button>
                     <div className="accountUpdateForms">
-                        {displayForm === "colorForm" && <ColorForm newColor={newColor} setNewColor={setNewColor} userInfo={userInfo} setUserInfo={setUserInfo} setDisplayForm={setDisplayForm}/>}
-                        {displayForm === "nameForm" && <NameForm newName={newName} setNewName={setNewName} userInfo={userInfo} setUserInfo={setUserInfo} setDisplayForm={setDisplayForm}/>} 
-                        {displayForm === "passwordForm" && <PasswordForm newPassword={newPassword} setNewPassword={setNewPassword} userInfo={userInfo} setUserInfo={setUserInfo} accountMessage={accountMessage} setAccountMessage={setAccountMessage} setDisplayForm={setDisplayForm}/>}
+                        {displayForm === "colorForm" && <ColorForm setDisplayForm={setDisplayForm}/>}
+                        {displayForm === "nameForm" && <NameForm setDisplayForm={setDisplayForm}/>}
+                        {displayForm === "usernameForm" && <UsernameForm setDisplayForm={setDisplayForm}/>} 
+                        {displayForm === "passwordForm" && <PasswordForm accountMessage={accountMessage} setAccountMessage={setAccountMessage} setDisplayForm={setDisplayForm}/>}
                     </div>
                     {accountMessage && <p> {accountMessage} </p>}
                 </div>
@@ -64,7 +61,7 @@ export default function AccountDisplay({userInfo, setUserInfo, household, setHou
                 <h3> {household.name}</h3>
                 {household.users && household.users.map((user) => {
                     return (
-                        <p className={user.color} id={user.id}> {userIcon} {user.name} </p>
+                        <p className={user.color} key={user.id} id={user.id}> {userIcon} {user.name} </p>
                     )
                 })}
             </div>
@@ -82,27 +79,35 @@ export default function AccountDisplay({userInfo, setUserInfo, household, setHou
                 {userInfo.sharedHouse && <button onClick={() => { setDisplayForm("leaveHouseholdForm")  }}> {leaveHouseholdIcon} Leave this household </button>}
                 {userInfo.sharedHouse && <button onClick={() => {  setDisplayForm("removeMemberForm") }}> {removeUserIcon} Remove a household member </button>}
                 <div className="accountForms"> 
-                    {displayForm === "sharedHouseholdForm" && < SharedHouseholdForm userInfo={userInfo} setUserInfo={setUserInfo} newHousehold={newHousehold} setNewHousehold={setNewHousehold} householdMessage={householdMessage} setHouseholdMessage={setHouseholdMessage} setDisplayForm={setDisplayForm}/>} 
-                    {displayForm === "joinHouseholdForm" && < JoinHouseholdForm userInfo={userInfo} setUserInfo={setUserInfo} joinCode={joinCode} setJoinCode={setJoinCode} household={household} setHousehold={setHousehold} householdMessage={householdMessage} setHouseholdMessage={setHouseholdMessage} setDisplayForm={setDisplayForm}/>} 
-                    {displayForm === "renameHouseholdForm" && < RenameHouseholdForm household={household} setHousehold={setHousehold} newHouseholdName = {newHouseholdName} setNewHouseholdName={setNewHouseholdName} setDisplayForm={setDisplayForm} />}
-                    {displayForm === "leaveHouseholdForm" && < LeaveHouseholdForm checked={checked} setChecked={setChecked} userInfo={userInfo} setUserInfo={setUserInfo} setDisplayForm={setDisplayForm}/>  } 
-                    {displayForm === "removeMemberForm" && < RemoveMemberForm removal={removal} setRemoval={setRemoval} household={household} setDisplayForm={setDisplayForm}/> } 
+                    {displayForm === "sharedHouseholdForm" && < SharedHouseholdForm  setHouseholdMessage={setHouseholdMessage} setDisplayForm={setDisplayForm}/>} 
+                    {displayForm === "joinHouseholdForm" && < JoinHouseholdForm setHousehold={setHousehold} setHouseholdMessage={setHouseholdMessage} setDisplayForm={setDisplayForm}/>} 
+                    {displayForm === "renameHouseholdForm" && < RenameHouseholdForm household={household} setHousehold={setHousehold} setDisplayForm={setDisplayForm} />}
+                    {displayForm === "leaveHouseholdForm" && < LeaveHouseholdForm setDisplayForm={setDisplayForm}/>} 
+                    {displayForm === "removeMemberForm" && < RemoveMemberForm household={household} setDisplayForm={setDisplayForm}/> } 
                 </div> 
                 {householdMessage && <p> {householdMessage} </p>}
             </div>
         )
     }
 
+    const logout = () => {
+        dispatch(updateUser(null))
+        dispatch(updateToken(null))
+        pantryPartyApi.util.invalidateTags("User")
+        setHouseholdMessage("")
+        setAccountMessage("")
+    }
+
     return (
         <div>
-                {!userInfo?.username && <Register userInfo={userInfo} setUserInfo={setUserInfo} />}
-                {!userInfo?.username && <Login userInfo={userInfo} setUserInfo={setUserInfo} />}
+                {!userInfo?.username && <Register userInfo={userInfo} />}
+                {!userInfo?.username && <Login userInfo={userInfo}  />}
                 {userInfo?.username && 
                     <div className="accountPage">
                         {accountInfo()}
                         {householdInfo()}
                         {accountOptions()}
-                        <button onClick={() => { setUserInfo(null) ; setHouseholdMessage(""); setAccountMessage("") }}> Log out </button>
+                        <button onClick={() => {logout()}}> Log out </button>
                     </div>}
         </div>
     )

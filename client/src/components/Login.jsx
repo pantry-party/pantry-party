@@ -3,7 +3,7 @@ import { useState, useEffect } from "react"
 import { useDispatch } from 'react-redux'
 import { updateToken, updateUser } from '../storage/slice'
 
-export default function Login ({userInfo, setUserInfo}) {
+export default function Login () {
     const [login, userLogin] = useLoginUserMutation()
     const dispatch = useDispatch()
 
@@ -13,11 +13,8 @@ export default function Login ({userInfo, setUserInfo}) {
     useEffect(() => {
             
         if (userLogin.isSuccess) {
-            console.log(userLogin)
-            setUserInfo(userLogin.data.user)
             dispatch(updateUser(userLogin.data.user))
             dispatch(updateToken(userLogin.data.token))
-            console.log(userLogin.data.user)
         }
             
     }, [userLogin.isSuccess])

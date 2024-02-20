@@ -121,7 +121,6 @@ export default function EditItem ({item}) {
             editObj.expiry = expiry
         }
         
-        console.log(editObj)
         edit(editObj)
     }
     

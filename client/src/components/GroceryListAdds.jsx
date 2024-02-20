@@ -1,12 +1,12 @@
 import { useState, useContext } from "react"
 import { addIcon } from "../styles/icons"
 import { useCreateItemMutation } from "../storage/pantryPartyApi"
-import { userContext } from "../storage/context"
+import { useSelector } from "react-redux"
 
 export default function AddToCategory({ category }) {
     const [createItem, itemCreation] = useCreateItemMutation()
     const [name, setName] = useState("")
-    const userInfo = useContext(userContext)
+    const userInfo = useSelector((it) => it.state.user)
     const householdId = userInfo.sharedHouse || userInfo.defaultHouse
 
     if (itemCreation.isLoading) {
