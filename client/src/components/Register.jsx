@@ -8,6 +8,8 @@ export default function Register () {
     const [createHousehold, householdCreation] = useCreateUserHouseholdMutation()
     const dispatch = useDispatch()
 
+    const [error,setError] = useState("")
+
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     const [name, setName] = useState('')
@@ -31,14 +33,21 @@ export default function Register () {
     async function handleSubmit (e) {
         e.preventDefault()
         let defaultName = `${name}'s Household`
-
+        if(!name){
+            setError("Must include a NAME")
+        } else if(!username){
+            setError("Must include a USERNAME")
+        } else if(!password){
+            setError("Must include a PASSWORD")
+        }
         await createHousehold({ name: defaultName }) 
     }
 
     return (<div>
         <form title='Account Creation Form' onSubmit={handleSubmit}>
                 <h3>Create An Account</h3>
-                {userCreation.isError && <p>{userCreation.error.error}</p>}
+                {/* {userCreation.isError && <p>{userCreation.error.error}</p>} */}
+                {error && <p>{error}</p>}
                 {householdCreation.isError && <p>{householdCreation.error.error}</p>}
                 <label>Name: 
                         <input

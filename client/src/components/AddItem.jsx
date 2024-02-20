@@ -141,7 +141,7 @@ export default function AddItem({ householdId, location, setAddForm }) {
                             ownerId == false ? setOwnerId(userInfo.id) : setOwnerId(false)
                         }}
                     /> This is my Item! <br />
-                    <button type="submit">{addIcon} Add to List</button>
+                    <button className="addSubmitButton" type="submit">{addIcon} Add to List</button>
                 </form>
                 {error && <h5>{error}</h5>}
             </div>

@@ -10,8 +10,7 @@ export default function Login () {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
     
-    useEffect(() => {
-            
+    useEffect(() => {    
         if (userLogin.isSuccess) {
             dispatch(updateUser(userLogin.data.user))
             dispatch(updateToken(userLogin.data.token))

@@ -2,6 +2,7 @@ import { useState, useContext } from "react"
 import { addIcon } from "../styles/icons"
 import { useCreateItemMutation } from "../storage/pantryPartyApi"
 import { useSelector } from "react-redux"
+import "../styles/grocery.css"
 
 export default function AddToCategory({ category }) {
     const [createItem, itemCreation] = useCreateItemMutation()
@@ -32,12 +33,13 @@ export default function AddToCategory({ category }) {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <button title="Add Item" type="submit"> {addIcon} </button>
+        <form onSubmit={handleSubmit} id="groceryAddForm">
+            <button title="Add Item" type="submit" id="groceryAddButton"> {addIcon} </button>
             <input
                 type="text"
                 placeholder={category}
                 value={name}
+                className="groceryAddInput"
                 onChange={(e) => { setName(e.target.value) }}
             />
         </form>
