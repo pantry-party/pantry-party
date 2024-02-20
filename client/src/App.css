@@ -44,19 +44,14 @@ input {
   margin-left: 5px;
 }
 
-nav {
-  display: flex;
-  flex-direction: column; 
-  height: 100vw;
-  width: 20%;
-  float: left; 
-  background-color: lightgray; 
-  padding: 10px 5px 10px 5px;
-  text-align: left; 
-}
-
 .main {
   width: 75%;
   height: 100%;
   padding-top: 10px; 
+}
+
+@media screen and (max-width: 800px) {
+  #root {
+    flex-direction: column;
+  }
 }
