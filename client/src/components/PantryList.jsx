@@ -6,6 +6,7 @@ import AddItem from "./AddItem"
 import EditItem from "./EditItem"
 import { categoriesContext, userContext } from "../storage/context.jsx"
 import { useSelector } from "react-redux"
+import "../styles/pantry.css"
 
 export default function PantryList() {
   const userInfo = useContext(userContext)
@@ -93,45 +94,47 @@ export default function PantryList() {
   }
 
   return (
-    <>
+    <div className="pantryPage">
       {/* title, add new item button */}
-      <div>
+      <div className="pantryTop">
         <h1>Your Pantry</h1>
-        <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} > {addIcon} </button>
+        <div className="pantryIntro">
+          <p className="instructions"> Click on the category button to edit your item! </p>
+          <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton" > {addIcon} </button>
+        </div>
       </div>
 
       {/* link to add form component */}
-      <div>
-        {addForm && <AddItem householdId={householdId} location="pantry" />}
-      </div>
+        {addForm && <div className="pantryAddForm"><AddItem householdId={householdId} location="pantry" /></div>}
 
       {/* display items and icons */}
-      <div>
+      <div className="pantryItems">
         {weeksArr.map((week) => {
           if (week.items.length) {
-            return (<div key={week.weekStart}>
-              <h2>Week of {week.weekStart.toLocaleDateString()} - {week.weekEnd.toLocaleDateString()}</h2>
-              {week.items.map((item) => (
-                <div key={item.id} className={item.category}>
-                  {/* edit item button */}
-                  <span className={item.color}>
-                    <button title="Edit Item Details" onClick={() => { itemEditor(item.id) }} >
-                      {categories.find((category) => item.category === category.name.toLowerCase()).icon}
-                    </button>
-                  </span>
-                  <h2>{item.name} {item.isLow && <span className="blue"> {alertIcon}</span>}</h2>
-                  {item.expiry && <div className="expiryDate"> <p>Exp. {parseDate(item.expiry)}</p> </div>}
-
-                  {/* display alerts */}
-                  {item.sharing && <div className="green"> {sharingIcon}</div>}
-                  {item.sharing === false && <div className="red"> {notSharingIcon}</div>}
-                  {itemEdit && item.id === editId && <EditItem item={item} user={userInfo} />}
-                </div>
-              ))}
+            return (<div key={week.weekStart} className="pantryWeek">
+              <h3 className="weekH3">Week of {week.weekStart.toLocaleDateString()} </h3>
+              <ul className="pantryWeekItems">
+                {week.items.map((item) => (
+                  <li key={item.id} className={`${item.color} pantryItemDetail`}  >
+                    {/* edit item button */}
+                    <span className="itemIcons">
+                      <button title="Edit Item Details" onClick={() => { itemEditor(item.id) }} className={`${item.color} pantryEditButton`}>
+                        {categories.find((category) => item.category === category.name.toLowerCase()).icon}
+                      </button>
+                      {/* display alerts */}
+                      {item.sharing && <div className="alert sharing"> {sharingIcon}</div>}
+                      {item.sharing === false && <div className="alert nosharing"> {notSharingIcon}</div>}
+                    </span>
+                    <span className="itemName"><p><strong>{item.name} </strong></p> {item.isLow && <p className="alert isLow"> {alertIcon}</p>}</span>
+                    {item.expiry && <div className="expiryDate"> <p>Exp. {parseDate(item.expiry)}</p> </div>}
+                    {itemEdit && item.id === editId && <EditItem item={item} user={userInfo} />}
+                  </li>
+                ))}
+              </ul>
             </div>)
           }
         })}
       </div>
-    </>
+    </div>
   )
 }

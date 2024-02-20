@@ -116,30 +116,32 @@ export default function AddItem({ householdId, location, setAddForm }) {
             <div id="addItemForm">
                 <h2>Add a New Item</h2>
                 <form onSubmit={handleGrocerySubmit}>
-                    <label for="name">Item name: </label>
-                    <input
-                        id="name"
-                        type="text"
-                        placeholder="Potato"
-                        value={name}
-                        onChange={(e) => { setName(e.target.value) }}
-                    /><br />
-                    <label for="category">Category: </label>
-                    <select for="category" value={category} onChange={(e) => { setCategory(e.target.value) }}>
-                        <option selected="true" disabled="disabled" value="select">Select</option>
-                        {categories.map((cat) => {
-                            return (<option key={cat.name} value={cat.name.toLowerCase()}>{cat.name}</option>)
-                        })}
-                    </select><br />
-                    <label for="ownership">Ownership: </label>
-                    <input
-                        id="ownership"
-                        type="checkbox"
-                        checked={ownerId}
-                        onChange={(e) => {
-                            ownerId == false ? setOwnerId(userInfo.id) : setOwnerId(false)
-                        }}
-                    /> This is my Item! <br />
+                    <label for="name">Item name:
+                        <input
+                            id="name"
+                            type="text"
+                            placeholder="Potato"
+                            value={name}
+                            onChange={(e) => { setName(e.target.value) }}
+                        /></label>
+                    <label for="category">Category:
+                        <select for="category" value={category} onChange={(e) => { setCategory(e.target.value) }}>
+                            <option selected="true" disabled="disabled" value="select">Select</option>
+                            {categories.map((cat) => {
+                                return (<option key={cat.name} value={cat.name.toLowerCase()}>{cat.name}</option>)
+                            })}
+                        </select></label>
+                    <label for="ownership">Ownership:
+                        <span>
+                            <input
+                                id="ownership"
+                                type="checkbox"
+                                checked={ownerId}
+                                onChange={(e) => {
+                                    ownerId == false ? setOwnerId(userInfo.id) : setOwnerId(false)
+                                }}
+                            /> This is my Item! </span>
+                    </label>ß
                     <button className="addSubmitButton" type="submit">{addIcon} Add to List</button>
                 </form>
                 {error && <h5>{error}</h5>}
@@ -151,50 +153,56 @@ export default function AddItem({ householdId, location, setAddForm }) {
             <div id="addItemForm">
                 <h2>Add a New Item</h2>
                 <form onSubmit={handlePantrySubmit}>
-                    <label for="name">Item name: </label>
-                    <input
-                        id="name"
-                        type="text"
-                        placeholder="Potato"
-                        value={name}
-                        onChange={(e) => { setName(e.target.value) }}
-                    /><br />
-                    <label for="expiry">Expiration: </label>
-                    <input
-                        id="expiry"
-                        type="date"
-                        value={expiry}
-                        onChange={(e) => { setExpiry(e.target.value) }}
-                    /><br />
-                    <label for="category">Category: </label>
-                    <select for="category" value={category} onChange={(e) => { setCategory(e.target.value) }}>
-                        <option selected="true" disabled="disabled" value="select">Select</option>
-                        {categories.map((cat) => {
-                            return (<option key={cat.name} value={cat.name.toLowerCase()}>{cat.name}</option>)
-                        })}
-                    </select><br />
-                    <label for="ownership">Ownership: </label>
-                    <input
-                        id="ownership"
-                        type="checkbox"
-                        checked={ownerId}
-                        onChange={(e) => {
-                            ownerId == false ? setOwnerId(userInfo.id) : setOwnerId(false)
-                        }}
-                    /> This is my Item! <br />
-                    <label for="ownership">Sharing: </label>
-                    <fieldset onChange={(e) => { setSharing(e.target.value) }}>
-                        <input type="radio" name="sharing" id="share" value={true} />
-                        <label for="share">Please eat!</label><br />
-                        <input type="radio" name="sharing" id="dontshare" value={false} />
-                        <label for="dontshare">Please don't eat!</label><br />
-                        <input type="radio" name="sharing" id="nopref" value={null} defaultChecked />
-                        <label for="nopref">No preference</label><br />
-                    </fieldset><br />
+                    <label for="name">Item name:
+                        <input
+                            id="name"
+                            type="text"
+                            placeholder="Potato"
+                            value={name}
+                            onChange={(e) => { setName(e.target.value) }}
+                        /></label>
+                    <label for="expiry">Expiration:
+                        <input
+                            id="expiry"
+                            type="date"
+                            value={expiry}
+                            onChange={(e) => { setExpiry(e.target.value) }}
+                        /></label>
+                    <label for="category">Category:
+                        <select for="category" value={category} onChange={(e) => { setCategory(e.target.value) }}>
+                            <option selected="true" disabled="disabled" value="select">Select</option>
+                            {categories.map((cat) => {
+                                return (<option key={cat.name} value={cat.name.toLowerCase()}>{cat.name}</option>)
+                            })}
+                        </select></label>
+                    <label for="ownership">Ownership:
+                        <span>
+                            <input
+                                id="ownership"
+                                type="checkbox"
+                                checked={ownerId}
+                                onChange={(e) => {
+                                    ownerId == false ? setOwnerId(userInfo.id) : setOwnerId(false)
+                                }}
+                            /> This is my Item!
+                        </span>
+                    </label>
+                    <label for="ownership">Sharing:&nbsp;
+                        <fieldset onChange={(e) => { setSharing(e.target.value) }}>
+                            <label for="share">
+                                <input type="radio" name="sharing" id="share" value={true} />
+                                &nbsp; Please eat!</label>
+                            <label for="dontshare">
+                                <input type="radio" name="sharing" id="dontshare" value={false} />
+                                &nbsp; Please don't eat!</label>
+                            <label for="nopref">
+                                <input type="radio" name="sharing" id="nopref" value={null} defaultChecked />
+                                &nbsp; No preference</label>
+                        </fieldset></label>
                     <button type="submit">{addIcon} Add to List</button>
                 </form>
                 {error && <h5>{error}</h5>}
-            </div>
+            </div >
         )
     }
 }
