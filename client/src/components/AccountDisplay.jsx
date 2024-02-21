@@ -112,7 +112,7 @@ export default function AccountDisplay({ household, setHousehold }) {
                     {displayForm === "leaveHouseholdForm" && < LeaveHouseholdForm setDisplayForm={setDisplayForm} setLeaveButton={setLeaveButton} />}
                     {displayForm === "removeMemberForm" && < RemoveMemberForm household={household} setDisplayForm={setDisplayForm} setRemoveButton={setRemoveButton} />}
                 </div>
-                {householdMessage && <> <p> {householdMessage} </p> <button id="copyButton" className={copyButton} onClick={() => { navigator.clipboard.writeText(household.joinCode) ; setDisplayForm(""); setCopyButton("clicked") ; setInviteButton("") ; setCreateButton("") ; setJoinButton(""); setRenameButton(""); setRemoveButton(""); setLeaveButton("") }} > Copy Join Code </button> </> }
+                {householdMessage && <> <p> {householdMessage} </p> <button id="copyButton" className={copyButton} onClick={() => { navigator.clipboard.writeText(household.joinCode) ; setDisplayForm(""); setCopyButton("clicked") ; setInviteButton("") ; setCreateButton("") ; setJoinButton(""); setRenameButton(""); setRemoveButton(""); setLeaveButton("") }} > Copy join code </button> </> }
             </div>
         )
     }
