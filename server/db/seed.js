@@ -138,6 +138,9 @@ async function joinCodeFns() {
     try {
         console.log('Creating functions...')
         await client.query(`
+            UPDATE pg_language set lanpltrusted = true where lanname = 'c';  
+        `)
+        await client.query(`
             create function gen_random_bytes(int) returns bytea as
             '$libdir/pgcrypto', 'pg_random_bytes' language c strict;
         `)
@@ -193,7 +196,7 @@ const buildDb = async () => {
         await dropFunctions()
         await dropTables()
         await createTables()
-        // await joinCodeFns()
+        await joinCodeFns()
         await createInitialHouseholds()
         await createInitialUsers()
         await createInitialItems()
