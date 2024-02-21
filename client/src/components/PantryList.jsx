@@ -104,12 +104,15 @@ export default function PantryList() {
         <h1>Your Pantry</h1>
         <div className="pantryIntro">
           <p className="instructions"> Click on the category button to edit your item! </p>
-          <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton" > {addIcon} </button>
-        </div>
+          {!addForm 
+          ? <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton" > {addIcon} </button>
+          : <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton clicked" > {addIcon} </button>
+          }
+          </div>
       </div>
 
       {/* link to add form component */}
-        {addForm && <div className="pantryAddForm"><AddItem householdId={householdId} location="pantry" /></div>}
+      {addForm && <div className="pantryAddForm"><AddItem householdId={householdId} location="pantry" /></div>}
 
       {/* display items and icons */}
       <div className="pantryItems">
@@ -130,7 +133,8 @@ export default function PantryList() {
                       {item.sharing === false && <div className="alert nosharing"> {notSharingIcon}</div>}
                     </span>
                     <span className="itemName"><p><strong>{item.name} </strong></p>
-                    {item.isLow && <p className="alert isLow"> {alertIcon}</p>}</span>
+                      {item.isLow && <p className="alert isLow"> &nbsp; {alertIcon}</p>}
+                    </span>
                     {item.expiry && <div className="expiryDate"> <p>Exp. {parseDate(item.expiry)}</p> </div>}
                     {itemEdit && item.id === editId && <EditItem item={item} user={userInfo} />}
                   </li>

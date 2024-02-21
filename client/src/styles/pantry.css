@@ -1,11 +1,7 @@
+
 .pantryIntro {
     display: flex; 
     justify-content: space-between;
-    border-bottom: 1px gray solid;
-}
-
-.pantryAddForm {
-    border-bottom: 1px gray solid;
 }
 
 .weekH3 {
@@ -14,8 +10,12 @@
     text-align: left; 
 }
 
+.pantryAddForm {
+    margin-bottom: 5px;
+}
+
 .pantryWeek {
-    border-bottom: 1px gray solid; 
+    border-top: 1px gray solid; 
 }
 
 .pantryWeekItems {
@@ -31,6 +31,7 @@
     padding: 5px; 
     border: solid 2px; 
     width:   42px;
+    background-color: white; 
 }
 
 .itemIcons {
@@ -54,14 +55,14 @@
 }
 
 @media screen and (max-width: 800px) {
-    h1 {
-        font-size: 2em; 
+    .pantryTop > h1 {
+        font-size: 2.2em; 
         margin: auto; 
     }
     .pantryIntro {
         justify-content: center; 
         padding-bottom: 5px;
-        flex-direction: column; 
+        flex-direction: column-reverse; 
     }
     .weekH3 {
         font-size: 1.3em;

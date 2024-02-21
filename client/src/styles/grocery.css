@@ -10,11 +10,6 @@ h1 {
 .groceryIntro {
     display: flex; 
     justify-content: space-between; 
-    border-bottom: gray 1px solid; 
-}
-
-.groceryAddForm { 
-    border-bottom: gray 1px solid; 
 }
 
 ul {
@@ -23,28 +18,26 @@ ul {
 }
 
 .groceryCategory {
-    border-bottom: 1px gray solid;
+    border-top: 1px gray solid;
 }
 
 .groceryButton {
     padding: 10px;
     height: fit-content; 
+    margin: 5px;
 }
 
-span {
-    border-radius: 50%; 
-    padding: 2px 3px 2px 4px;
+.groceryButtonArea {
+    display: flex;
+    flex-direction: row; 
+}
+
+.initial {
+    border-radius: 100%; 
+    padding: 2px 5px 2px 5px;
     margin-right: 2px;
-}
-
-span.red {
-    background-color: red; 
-    color: white; 
-}
-
-span.purple {
-    background-color: purple;
-    color: white; 
+    display: inline-block; 
+    width: 15px; 
 }
 
 #groceryAddButton { 
@@ -57,13 +50,14 @@ span.purple {
 
 #groceryAddForm {
     display: flex;
-    align-items: center; 
+    flex-direction: row; 
     margin-bottom: 5px; 
+    margin-left: 5px; 
 }
 
 #addItemForm { 
     border-radius: 5%; 
-    background-color: #F9F9F9;
+    background-color: #d0d0e1;
     padding: 10px; 
     margin: 0 auto; 
     width: 50%;
@@ -71,8 +65,15 @@ span.purple {
     flex-direction: column;
 }
 
+.groceryAddForm {
+    padding-bottom: 5px; 
+}
+
 .addSubmitButton {
     align-self: center; 
+    background-color: #3d3d5c;
+    color: #b3b3cc;
+    margin-top: 2px;
 }
 
 fieldset {
@@ -96,18 +97,40 @@ label {
 }
 
 @media screen and (max-width: 800px) {
-    h1 { 
-        font-size: 2em; 
+    .groceryListPage {
+        padding-left: 5px; 
+    }
+
+    .groceryTop > h1 { 
+        font-size: 2.2em; 
         margin: auto;
     }
     .groceryIntro {
+        flex-direction: column-reverse; 
         flex-wrap: wrap;
-        justify-content: space-around; 
     }
+    .instructions {
+        text-align: center; 
+    }
+
+    .groceryButtonArea{
+        display: flex;
+        flex-direction: column;
+    }
+    .spacer{
+        display: none; 
+    }
+
     #addItemForm{
         width: auto;
     }
-    .groceryButton {
-        width: 45%; 
+
+    .addSubmitButton {
+        align-items: center; 
     }
+
+    .delete {
+        text-align: right; 
+    }
+    
 }

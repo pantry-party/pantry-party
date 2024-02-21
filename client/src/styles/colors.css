@@ -1,19 +1,118 @@
-.pink {
-    color: pink;
-}
 
-.yellow {
-    color: yellow;
-}
-
-.blue {
-    color: blue;
-}
-
-.purple {
-    color: purple; 
+.test {
+    color: white; 
 }
 
 .red {
-    color: red; 
+    color: #ff6666; 
+}
+
+.orange {
+    color: #ff9966;
+}
+
+.yellow {
+    color: #ffff5c; 
+}
+
+.green { 
+    color: #99ff99;  
+}
+
+.teal {
+    color: #70dbdb;
+}
+
+.blue {
+    color: #4da6ff;
+}
+
+.purple {
+    color: #bb99ff; 
+}
+
+.pink {
+    color: #ffcce6;
+}
+
+.gray {
+    color: lightgray;
+}
+
+.nosharing {
+    color: #e60000; 
+}
+
+.sharing {
+    color: green; 
+}
+
+.isLow {
+    color: blue; 
+}
+
+.navcolors {
+    background-color:  #b3b3cc;
+    color: #3d3d5c;
+}
+
+.initial.red {
+    background-color: #ff6666;
+    color: white;
+    font-weight: bold; 
+    text-align: center;  
+}
+
+.initial.orange {
+    background-color: #ff9966;
+    color: white; 
+    font-weight: bold;
+    text-align: center;  
+}
+
+.initial.yellow {
+    background-color: #ffff5c; 
+    color: white; 
+    font-weight: bold;
+    text-align: center;  
+}
+
+.initial.green {
+    background-color: #99ff99;
+    color: white; 
+    font-weight: bold;
+    text-align: center;  
+}
+
+.initial.teal {
+    background-color: #70dbdb;
+    color: white; 
+    font-weight: bold;
+    text-align: center;  
+}
+
+.initial.blue {
+    background-color: #4da6ff;
+    color: white; 
+    font-weight: bold;
+    text-align: center;  
+}
+
+.initial.purple {
+    background-color: #bb99ff;
+    color: white; 
+    font-weight: bold;
+    text-align: center;   
+}
+
+.initial.pink {
+    background-color: #ffcce6;
+    color: white; 
+    font-weight: bold;
+    text-align: center;  
+}
+
+.clicked {
+    color:  #b3b3cc;
+    background-color: #3d3d5c;
 }
