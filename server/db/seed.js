@@ -138,11 +138,8 @@ async function joinCodeFns() {
     try {
         console.log('Creating functions...')
         await client.query(`
-            UPDATE language set lanpltrusted = true where lanname = 'c';  
-        `)
-        await client.query(`
             create function gen_random_bytes(int) returns bytea as
-            '$libdir/pgcrypto', 'pg_random_bytes' language c strict;
+            '$libdir/pgcrypto', 'pg_random_bytes' language 'c' strict;
         `)
         await client.query(`
             create function random_string(len int) returns text as $$
