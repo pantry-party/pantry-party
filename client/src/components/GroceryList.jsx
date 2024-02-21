@@ -9,6 +9,7 @@ import AddToCategory from "./GroceryListAdds"
 import EditItem from "./EditItem"
 import "../styles/grocery.css"
 import "../styles/colors.css"
+import  "../styles/drag-drop.css"
 
 export default function GroceryList({setDrag, setDragIt, dragIt}) {
     const user = useSelector((it) => it.state.user)
@@ -91,9 +92,9 @@ export default function GroceryList({setDrag, setDragIt, dragIt}) {
                     <div
                         className="groceryCategory"
                         key={index} 
-                        onDragOver={e => {e.preventDefault(); setDragCat(category)}}
-                        onDragLeave={() => setDragCat("")}
-                        onDrop={() => {editItem({id: dragIt, category: dragCat}); setDrag(false);}}
+                        onDragOver={e => {e.preventDefault(); setDragCat(category); e.target.classList.add("dragover")}}
+                        onDragLeave={(e) => {setDragCat(""); e.target.classList.remove("dragover")}}
+                        onDrop={(e) => {editItem({id: dragIt, category: dragCat}); setDrag(false); e.target.classList.remove("dragover")}}
                     >
                         <h3>
                             {categories.find((cat) => category === cat.name.toLowerCase()).icon} &ensp;

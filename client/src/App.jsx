@@ -22,7 +22,7 @@ function App() {
             <Routes>
               <Route path="/" element={<AccountDisplay household={household} setHousehold={setHousehold} />} />
               <Route path="/pantry" element={<PantryList setDrag={setDrag} setDragIt={setDragIt} />} />
-              <Route path="/groceryList" element={<GroceryList setDrag={setDrag} setDragIt={setDragIt} />} />
+              <Route path="/groceryList" element={<GroceryList setDrag={setDrag} setDragIt={setDragIt} dragIt={dragIt} />} />
               <Route path="/groceryList/edit" element={<EditItem />} />
             </Routes>
           </householdContext.Provider>

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import KeyAccordion from './KeyAccordion'
 import { groceryListIcon, deleteIcon, pantryIcon, downIcon, upIcon } from "../styles/icons"
 import  "../styles/nav.css"
+import  "../styles/drag-drop.css"
 import { useEditItemMutation, useDeleteItemMutation } from "../storage/pantryPartyApi"
 
 export default function Navigation({ drag, dragIt, setDrag }) {
@@ -17,7 +18,11 @@ export default function Navigation({ drag, dragIt, setDrag }) {
         if (location.pathname === "/pantry") {
             setPantry(true)
         }
-    }, [location])
+
+        if (location.pathname === "/groceryList") {
+            setPantry(false)
+        }
+    }, [location.pathname])
 
     return (<nav>
         <div className="party">
@@ -34,14 +39,18 @@ export default function Navigation({ drag, dragIt, setDrag }) {
         </div>
         {drag && <div className='dropzones'>
             {pantry && <div
-                onDragOver={e => e.preventDefault()}
+                className='dropzone'
+                onDragOver={e => {e.preventDefault(); e.target.classList.add("dragover");}}
+                onDragLeave={(e) => {e.target.classList.remove("dragover")}}
                 onDrop={() => {
                     editItem({id: dragIt, inPantry: false, expiry: null, isLow: false})
                     setDrag(false)
                 }}
             >{groceryListIcon}</div>}
             <div
-                onDragOver={e => e.preventDefault()}
+                className='dropzone'
+                onDragOver={e => {e.preventDefault(); e.target.classList.add("dragover");}}
+                onDragLeave={(e) => {e.target.classList.remove("dragover")}}
                 onDrop={() => {deleteItem(dragIt); setDrag(false);}}
             >{deleteIcon}</div>
         </div>}
