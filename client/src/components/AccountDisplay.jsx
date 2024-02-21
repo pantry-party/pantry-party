@@ -35,7 +35,7 @@ export default function AccountDisplay({ household, setHousehold }) {
     const [renameButton, setRenameButton] = useState("")
     const [removeButton, setRemoveButton] = useState("")
     const [inviteButton, setInviteButton] = useState("")
-
+    const [copyButton, setCopyButton] = useState("")
 
     const accountInfo = () => {
         return (
@@ -93,7 +93,6 @@ export default function AccountDisplay({ household, setHousehold }) {
         )
     }
 
-
     const accountOptions = () => {
         return (
             <div className="accountOptions">
@@ -101,7 +100,8 @@ export default function AccountDisplay({ household, setHousehold }) {
                     {showHouseholdEdits && <button id="joinButton" className={joinButton} onClick={() => { setDisplayForm("joinHouseholdForm") ; setHouseholdMessage("") ; setJoinButton("clicked") ; setRenameButton("") ; setCreateButton(""); setInviteButton("") ; setRemoveButton("") ; setLeaveButton("") }}> {joinHouseholdIcon} Join a household </button>}
                     {showHouseholdEdits && <button id="renameButton" className={renameButton} onClick={() => { setDisplayForm("renameHouseholdForm") ; setHouseholdMessage("") ; setRenameButton("clicked"); setJoinButton(""); setCreateButton("") ; setInviteButton("") ; setRemoveButton(""); setLeaveButton("") }}> {renameHouseholdIcon} Rename your household </button>}
                     {showHouseholdEdits && !userInfo.sharedHouse && <button id="createButton" className={createButton} onClick={() => { setDisplayForm("sharedHouseholdForm") ; setHouseholdMessage("") ; setCreateButton("clicked"); setJoinButton("") ; setRenameButton(""); setInviteButton(""); setRemoveButton(""); setLeaveButton("") }}> {addUsersIcon} Create a household to share </button>}
-                    {showHouseholdEdits && userInfo.sharedHouse && <button id="inviteButton" className={inviteButton} onClick={() => { setHouseholdMessage(`Your household code is ${household.joinCode}`) ; setDisplayForm(""); setInviteButton("clicked") ; setCreateButton("") ; setJoinButton(""); setRenameButton(""); setRemoveButton(""); setLeaveButton("")}} > {addUsersIcon} Invite household members </button>}
+                    {showHouseholdEdits && userInfo.sharedHouse && 
+                    <button id="inviteButton" className={inviteButton} onClick={() => { setHouseholdMessage(`Your household code is ${household.joinCode}`) ; setDisplayForm(""); setInviteButton("clicked") ; setCreateButton("") ; setJoinButton(""); setRenameButton(""); setRemoveButton(""); setLeaveButton("")}} > {addUsersIcon} Invite household members </button>}
                     {showHouseholdEdits && userInfo.sharedHouse && <button id="leaveButton" className={leaveButton} onClick={() => { setDisplayForm("leaveHouseholdForm") ; setHouseholdMessage("") ; setLeaveButton("clicked"); setJoinButton(""); setCreateButton(""); setRenameButton(""); setRemoveButton(""); setInviteButton("")}}> {leaveHouseholdIcon} Leave this household </button>}
                     {showHouseholdEdits && userInfo.sharedHouse && <button id="removeButton" className={removeButton} onClick={() => { setDisplayForm("removeMemberForm") ; setHouseholdMessage("") ; setRemoveButton("clicked") ; setLeaveButton(""); setJoinButton(""); setCreateButton(""); setRenameButton(""); setInviteButton("")}}> {removeUserIcon} Remove a household member </button>}
                 </div>
@@ -112,7 +112,7 @@ export default function AccountDisplay({ household, setHousehold }) {
                     {displayForm === "leaveHouseholdForm" && < LeaveHouseholdForm setDisplayForm={setDisplayForm} setLeaveButton={setLeaveButton} />}
                     {displayForm === "removeMemberForm" && < RemoveMemberForm household={household} setDisplayForm={setDisplayForm} setRemoveButton={setRemoveButton} />}
                 </div>
-                {householdMessage && <p> {householdMessage} </p>}
+                {householdMessage && <> <p> {householdMessage} </p> <button id="copyButton" className={copyButton} onClick={() => { navigator.clipboard.writeText(household.joinCode) ; setDisplayForm(""); setCopyButton("clicked") ; setInviteButton("") ; setCreateButton("") ; setJoinButton(""); setRenameButton(""); setRemoveButton(""); setLeaveButton("") }} > Copy Join Code </button> </> }
             </div>
         )
     }
