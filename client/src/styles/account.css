@@ -1,0 +1,61 @@
+.welcome {
+    display: flex; 
+    justify-content: center; 
+}
+
+.userInfo {
+    display: flex; 
+    justify-content: center; 
+    font-size: large;
+    line-height: 2; 
+}
+
+.logOutButton {
+    color:  #b3b3cc;
+    background-color: #3d3d5c;
+    font-weight: bold;
+    border-color: #3d3d5c;
+    margin: 10px; 
+}
+
+.logOutButton:hover {
+    color: #3d3d5c; 
+    background-color: #b3b3cc; 
+}
+
+.accountButtons {
+    display: grid; 
+    grid-template: 1fr 1fr/1fr 1fr; 
+    row-gap: 5px; 
+    column-gap: 5px; 
+    width: 80%; 
+    margin: 0 auto; 
+}
+
+.accountForm {
+    width: 50%; 
+    margin: 0 auto; 
+}
+
+.accountForm > label {
+    padding: 5px;
+}
+
+.householdForm {
+    width: 50%;
+    margin: 0 auto; 
+}
+
+.householdForm > label {
+    padding: 5px; 
+}
+
+@media screen and (max-width: 800px) {
+    .householdForm {
+        width: 80%;
+    }
+
+    .accountForm {
+        width: 80%; 
+    }
+}
