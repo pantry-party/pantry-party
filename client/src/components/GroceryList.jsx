@@ -21,6 +21,8 @@ export default function GroceryList() {
     const [itemEdit, setItemEdit] = useState(false)
     const [editId, setEditId] = useState("")
     const [addForm, setAddForm] = useState(false)
+    const [dragIt, setDragIt] = useState(-1)
+    const [dragCat, setDragCat] = useState("")
     let orderedCategories = []
 
     // Redux states for token and user passing
@@ -83,7 +85,13 @@ export default function GroceryList() {
         <div className="groceryCategories">
             {orderedCategories.map((category, index) => {
                 return (
-                    <div className="groceryCategory" key={index}>
+                    <div
+                        className="groceryCategory"
+                        key={index} 
+                        onDragOver={e => {e.preventDefault(); setDragCat(category)}}
+                        onDragLeave={() => setDragCat("")}
+                        onDrop={() => editItem({id: dragIt, category: dragCat})}
+                    >
                         <h3>
                             {categories.find((cat) => category === cat.name.toLowerCase()).icon} &ensp;
                             {categories.find((cat) => category === cat.name.toLowerCase()).name}
@@ -91,13 +99,17 @@ export default function GroceryList() {
                         {groceryList.map((item) => {
                             if (item.category == category) {
                                 return (
-                                    <ul className="groceryItems">
-                                        <li key={item.id} className="groceryDetails">
+                                    <ul key={item.id} className="groceryItems">
+                                        <li
+                                            className="groceryDetails"
+                                            draggable={true}
+                                            onDragStart={() => {setDragIt(item.id)}}
+                                        >
                                             {item.ownerId ? <span className={item.color} > {item.userInitial} </span> : <span>&ensp; &nbsp;</span>}
                                             {!editMode && <input
                                                 type="checkbox"
                                                 defaultChecked={item.inPantry}
-                                                onChange={(e) => {
+                                                onChange={() => {
                                                     editItem({ id: item.id, inPantry: true, dateMoved: new Date() })
                                                 }}
                                             />}
