@@ -49,3 +49,13 @@
 .householdForm > label {
     padding: 5px; 
 }
+
+@media screen and (max-width: 800px) {
+    .householdForm {
+        width: 80%;
+    }
+
+    .accountForm {
+        width: 80%; 
+    }
+}
