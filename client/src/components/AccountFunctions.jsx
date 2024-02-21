@@ -5,7 +5,7 @@ import { useEditUserMutation, useCreateSharedHouseholdMutation, useGetHouseholdb
 import { useSelector, useDispatch } from "react-redux"
 import { updateUser } from "../storage/slice"
 
-export const ColorForm = ({ setDisplayForm }) => {
+export const ColorForm = ({ setDisplayForm, setColorButton }) => {
     const userInfo = useSelector((it) => it.state.user)
     const dispatch = useDispatch()
 
@@ -23,6 +23,7 @@ export const ColorForm = ({ setDisplayForm }) => {
     const colorFormSubmit = async (e, color) => {
         e.preventDefault()
         await editUser({ id: userInfo.id, color })
+        setColorButton("")
     }
 
     return (
@@ -42,7 +43,7 @@ export const ColorForm = ({ setDisplayForm }) => {
     )
 }
 
-export const NameForm = ({ setDisplayForm }) => {
+export const NameForm = ({ setDisplayForm, setNameButton }) => {
     const userInfo = useSelector((it) => it.state.user)
     const dispatch = useDispatch()
 
@@ -59,6 +60,7 @@ export const NameForm = ({ setDisplayForm }) => {
     const nameFormSubmit = async (e, name) => {
         e.preventDefault()
         await editUser({ id: userInfo.id, name })
+        setNameButton("")
     }
 
     return (
@@ -71,7 +73,7 @@ export const NameForm = ({ setDisplayForm }) => {
     )
 }
 
-export const UsernameForm = ({ setDisplayForm }) => {
+export const UsernameForm = ({ setDisplayForm, setUserNameButton }) => {
     const userInfo = useSelector((it) => it.state.user)
     const dispatch = useDispatch()
 
@@ -88,6 +90,7 @@ export const UsernameForm = ({ setDisplayForm }) => {
     const nameFormSubmit = async (e) => {
         e.preventDefault()
         await editUser({ id: userInfo.id, username })
+        setUserNameButton("")
     }
 
     return (
@@ -100,7 +103,7 @@ export const UsernameForm = ({ setDisplayForm }) => {
     )
 }
 
-export const PasswordForm = ({ setAccountMessage, setDisplayForm }) => {
+export const PasswordForm = ({ setAccountMessage, setDisplayForm, setPasswordButton }) => {
     const userInfo = useSelector((it) => it.state.user)
     
     const [editUser, editedUser] = useEditUserMutation()
@@ -116,6 +119,7 @@ export const PasswordForm = ({ setAccountMessage, setDisplayForm }) => {
     const passwordFormSubmit = async (e, password) => {
         e.preventDefault()
         await editUser({ id: userInfo.id, password })
+        setPasswordButton("")
     }
 
     return (
@@ -128,7 +132,7 @@ export const PasswordForm = ({ setAccountMessage, setDisplayForm }) => {
     )
 }
 
-export const SharedHouseholdForm = ({ setHouseholdMessage, setDisplayForm }) => {
+export const SharedHouseholdForm = ({ setHouseholdMessage, setDisplayForm, setCreateButton }) => {
     const userInfo = useSelector((it) => it.state.user)
     const dispatch = useDispatch()
 
@@ -154,6 +158,7 @@ export const SharedHouseholdForm = ({ setHouseholdMessage, setDisplayForm }) => 
     const sharedHouseholdSubmit = async (e, newHousehold) => {
         e.preventDefault()
         await createHousehold({ name: newHousehold })
+        setCreateButton("")
     }
 
     const updateUserHousehold = async (userInfo, householdId) => {
@@ -161,7 +166,7 @@ export const SharedHouseholdForm = ({ setHouseholdMessage, setDisplayForm }) => 
     }
 
     return (
-        <form id="sharedHouseholdForm" className="householdForms" onSubmit={(e) => { sharedHouseholdSubmit(e, newHousehold) }}>
+        <form id="sharedHouseholdForm" className="householdForm" onSubmit={(e) => { sharedHouseholdSubmit(e, newHousehold) }}>
             <label> New Household Name:
                 <input type="text" onChange={(e) => { setNewHousehold(e.target.value) }} />
             </label>
@@ -170,7 +175,7 @@ export const SharedHouseholdForm = ({ setHouseholdMessage, setDisplayForm }) => 
     )
 }
 
-export const JoinHouseholdForm = ({ setHousehold, setHouseholdMessage, setDisplayForm }) => {
+export const JoinHouseholdForm = ({ setHousehold, setHouseholdMessage, setDisplayForm, setJoinButton }) => {
     const userInfo = useSelector((it) => it.state.user)
     const dispatch = useDispatch()
 
@@ -199,6 +204,7 @@ export const JoinHouseholdForm = ({ setHousehold, setHouseholdMessage, setDispla
         if (editedUser.isSuccess) {
             dispatch(updateUser(editedUser.data))
             setDisplayForm("")
+            setJoinButton("")
         }
     }, [editedUser.isSuccess])
 
@@ -212,7 +218,7 @@ export const JoinHouseholdForm = ({ setHousehold, setHouseholdMessage, setDispla
     )
 }
 
-export const RenameHouseholdForm = ({ household, setHousehold, setDisplayForm }) => {
+export const RenameHouseholdForm = ({ household, setHousehold, setDisplayForm, setRenameButton }) => {
     const [newHouseholdName, setNewHouseholdName] = useState(household.name)
     const [renameHousehold, renamedHousehold] = useEditHouseholdMutation()
 
@@ -220,6 +226,7 @@ export const RenameHouseholdForm = ({ household, setHousehold, setDisplayForm })
         if (renamedHousehold.isSuccess) {
             setHousehold(renamedHousehold.data)
             setDisplayForm("")
+            setRenameButton("")
         }
     }, [renamedHousehold.isSuccess])
 
@@ -229,7 +236,7 @@ export const RenameHouseholdForm = ({ household, setHousehold, setDisplayForm })
     }
 
     return (
-        <form id="renameHouseholdForm" className="householdForms" onSubmit={(e) => { renameHouseholdSubmit(e, newHouseholdName) }}>
+        <form id="renameHouseholdForm" className="householdForm" onSubmit={(e) => { renameHouseholdSubmit(e, newHouseholdName) }}>
             <label> New Household Name:
                 <input type="text" value={newHouseholdName} onChange={(e) => { setNewHouseholdName(e.target.value) }} />
             </label>
@@ -238,7 +245,7 @@ export const RenameHouseholdForm = ({ household, setHousehold, setDisplayForm })
     )
 }
 
-export const LeaveHouseholdForm = ({ setDisplayForm }) => {
+export const LeaveHouseholdForm = ({ setDisplayForm , setLeaveButton}) => {
     const userInfo = useSelector((it) => it.state.user)
     const dispatch = useDispatch()
 
@@ -249,6 +256,7 @@ export const LeaveHouseholdForm = ({ setDisplayForm }) => {
         if (editedUser.isSuccess) {
             dispatch(updateUser(editedUser.data))
             setDisplayForm("")
+            setLeaveButton("")
         }
     }, [editedUser.isSuccess])
 
@@ -260,7 +268,7 @@ export const LeaveHouseholdForm = ({ setDisplayForm }) => {
     }
 
     return (
-        <form id="leaveHouseholdForm" className="householdForms" onSubmit={(e) => { leaveHouseholdSubmit(e, checked) }}>
+        <form id="leaveHouseholdForm" className="householdForm" onSubmit={(e) => { leaveHouseholdSubmit(e, checked) }}>
             <label> Are you sure?
                 <input type="checkbox" onChange={(e) => { setChecked(e.target.checked) }} />
             </label>
@@ -269,7 +277,7 @@ export const LeaveHouseholdForm = ({ setDisplayForm }) => {
     )
 }
 
-export const RemoveMemberForm = ({ household, setDisplayForm }) => {
+export const RemoveMemberForm = ({ household, setDisplayForm, setRemoveButton }) => {
     const userInfo = useSelector((it) => it.state.user)
     const [removal, setRemoval] = useState("")
     const [editUser, editedUser] = useEditUserMutation()
@@ -277,10 +285,11 @@ export const RemoveMemberForm = ({ household, setDisplayForm }) => {
     const removeMemberSubmit = async (e, removal) => {
         e.preventDefault()
         await editUser({ id: removal, sharedHouse: null })
+        setRemoveButton("")
     }
 
     return (
-        <form id="removeMemberForm" className="householdForms" onSubmit={(e) => { removeMemberSubmit(e, removal); setDisplayForm("") }}>
+        <form id="removeMemberForm" className="householdForm" onSubmit={(e) => { removeMemberSubmit(e, removal); setDisplayForm("") }}>
             <label> Which member would you like to remove?
                 <select name="members" onChange={(e) => { setRemoval(e.target.value) }}>
                     <option value={""}> Select </option>
