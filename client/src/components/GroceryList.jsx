@@ -8,6 +8,7 @@ import AddItem from "./AddItem"
 import AddToCategory from "./GroceryListAdds"
 import EditItem from "./EditItem"
 import "../styles/grocery.css"
+import "../styles/colors.css"
 
 export default function GroceryList() {
     const user = useSelector((it) => it.state.user)
@@ -72,10 +73,13 @@ export default function GroceryList() {
                 <span className="groceryButtonArea">
                 {!editMode
                     ? <button className="groceryButton" title="Edit Items" onClick={() => { setEditMode(true) }}>{editIcon}</button>
-                    : <button className="groceryButton" title="Close Editor" onClick={() => { setEditMode(false); setItemEdit(false) }}>{goBackIcon}</button>}
-                &nbsp; 
-                <button title="Add New Item" className="groceryButton" onClick={() => { setAddForm(!addForm) }}>{addIcon}</button>
-                </span>
+                    : <button className="groceryButton clicked" title="Close Editor" onClick={() => { setEditMode(false); setItemEdit(false) }}>{goBackIcon}</button>}
+                <div className="spacer"> &nbsp; </div>
+                {!addForm 
+                    ? <button title="Add New Item" className="groceryButton" onClick={() => { setAddForm(!addForm) }}>{addIcon}</button>
+                    : <button title="Add New Item" className="groceryButton clicked" onClick={() => { setAddForm(!addForm) }}>{addIcon}</button>
+                }       
+                    </span>
             </div>
         </div>
         {/* link to add form component */}
@@ -105,7 +109,7 @@ export default function GroceryList() {
                                             draggable={true}
                                             onDragStart={() => {setDragIt(item.id)}}
                                         >
-                                            {item.ownerId ? <span className={item.color} > {item.userInitial} </span> : <span>&ensp; &nbsp;</span>}
+                                            {item.ownerId ? <span className={`${item.color} initial`} > {item.userInitial} </span> : <span>&ensp; &nbsp;</span>}
                                             {!editMode && <input
                                                 type="checkbox"
                                                 defaultChecked={item.inPantry}
@@ -113,9 +117,9 @@ export default function GroceryList() {
                                                     editItem({ id: item.id, inPantry: true, dateMoved: new Date() })
                                                 }}
                                             />}
-                                            {editMode && <button title="Edit Item Details" className="groceryButton" onClick={() => { itemEditor(item.id) }} >{editIcon}</button>}
+                                            {editMode && <button title="Edit Item Details" className="groceryButton edit" onClick={() => { itemEditor(item.id) }} >{editIcon}</button>}
                                             &nbsp; {item.name} &nbsp;
-                                            {editMode && <button title="Delete from List" className="groceryButton" onClick={(e) => {
+                                            {editMode && <button title="Delete from List" className="groceryButton delete" onClick={(e) => {
                                                 deleteItem(item.id)
                                             }}>{deleteIcon}</button>}
                                         </li >

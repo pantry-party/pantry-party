@@ -4,23 +4,38 @@ nav {
     height: 100vw;
     width: 15%;
     float: left; 
-    background-color: lightgray; 
+    background-color: #b3b3cc;
+    color: #3d3d5c;
     text-align: left; 
+    position: fixed; 
   }
 
 .navLink {
-    border-bottom:rgb(170, 170, 170) 2px solid; 
+    border-bottom:#a3a3c2 2px solid; 
     padding: 5px;
+    color: #3d3d5c;
+}
+
+.navLink::selection {
+    background-color: #3d3d5c; 
+    color: #b3b3cc;
 }
 
 .key {
-    border-bottom:rgb(170, 170, 170) 2px solid; 
+    border-bottom:#a3a3c2 2px solid; 
+    padding-left: 5px;
+    color: #3d3d5c;
+}
+
+.key > a {
+    color: #3d3d5c;
 }
 
 .navIcon {
     font-size: xxx-large; 
     margin: 15px;
     text-align: center; 
+    color: #1e1e2f;
 }
 
 .navItems {
@@ -43,11 +58,11 @@ nav {
 
 @media screen and (max-width: 800px) {
     nav {
-        float: top; 
         height: fit-content; 
-        width: 100vw; 
+        width: 100%; 
         text-align: center;
-        padding-left: -5px;
+        position: sticky; 
+        float: none;
     }
 
     .navItems {
@@ -60,6 +75,7 @@ nav {
 
     .navIcon {
         margin: 5px;
+        font-size: xx-large;
     }
     
     .accordion {
