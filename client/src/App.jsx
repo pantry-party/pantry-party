@@ -15,7 +15,7 @@ function App() {
   return (
     <>
       <Navigation />
-      <div>
+      <div className="main">
           <householdContext.Provider value={household}>
             <Routes>
               <Route path="/" element={<AccountDisplay household={household} setHousehold={setHousehold} />} />
