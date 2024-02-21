@@ -1,12 +1,23 @@
 //navigation pane
-import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import KeyAccordion from './KeyAccordion'
-import { plusIcon, pantryIcon, downIcon, upIcon } from "../styles/icons"
+import { groceryListIcon, deleteIcon, pantryIcon, downIcon, upIcon } from "../styles/icons"
 import  "../styles/nav.css"
+import { useEditItemMutation, useDeleteItemMutation } from "../storage/pantryPartyApi"
 
-export default function Navigation() {
+export default function Navigation({ drag, dragIt, setDrag }) {
     const [showKey, setShowKey] = useState(false)
+    const location = useLocation()
+    const [deleteItem, deletedItem] = useDeleteItemMutation()
+    const [editItem, editedItem] = useEditItemMutation()
+    const [pantry, setPantry] = useState(false)
+
+    useEffect(() => {
+        if (location.pathname === "/pantry") {
+            setPantry(true)
+        }
+    }, [location])
 
     return (<nav>
         <div className="party">
@@ -21,5 +32,18 @@ export default function Navigation() {
         <Link onClick={() => { setShowKey(!showKey) }}>Key {!showKey ? downIcon : upIcon}</Link>
         {showKey && <KeyAccordion />}
         </div>
+        {drag && <div className='dropzones'>
+            {pantry && <div
+                onDragOver={e => e.preventDefault()}
+                onDrop={() => {
+                    editItem({id: dragIt, inPantry: false, expiry: null, isLow: false})
+                    setDrag(false)
+                }}
+            >{groceryListIcon}</div>}
+            <div
+                onDragOver={e => e.preventDefault()}
+                onDrop={() => {deleteItem(dragIt); setDrag(false);}}
+            >{deleteIcon}</div>
+        </div>}
     </nav>)
 }

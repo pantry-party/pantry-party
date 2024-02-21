@@ -9,7 +9,7 @@ import AddToCategory from "./GroceryListAdds"
 import EditItem from "./EditItem"
 import "../styles/grocery.css"
 
-export default function GroceryList() {
+export default function GroceryList({setDrag, setDragIt, dragIt}) {
     const user = useSelector((it) => it.state.user)
     const householdId = user.sharedHouse || user.defaultHouse
     const groceryPull = useGetGroceryItemsbyHouseholdIdQuery(householdId)
@@ -21,7 +21,6 @@ export default function GroceryList() {
     const [itemEdit, setItemEdit] = useState(false)
     const [editId, setEditId] = useState("")
     const [addForm, setAddForm] = useState(false)
-    const [dragIt, setDragIt] = useState(-1)
     const [dragCat, setDragCat] = useState("")
     let orderedCategories = []
 
@@ -90,7 +89,7 @@ export default function GroceryList() {
                         key={index} 
                         onDragOver={e => {e.preventDefault(); setDragCat(category)}}
                         onDragLeave={() => setDragCat("")}
-                        onDrop={() => editItem({id: dragIt, category: dragCat})}
+                        onDrop={() => {editItem({id: dragIt, category: dragCat}); setDrag(false);}}
                     >
                         <h3>
                             {categories.find((cat) => category === cat.name.toLowerCase()).icon} &ensp;
@@ -103,7 +102,8 @@ export default function GroceryList() {
                                         <li
                                             className="groceryDetails"
                                             draggable={true}
-                                            onDragStart={() => {setDragIt(item.id)}}
+                                            onDragStart={() => {setDragIt(item.id); setDrag(true);}}
+                                            onDragEnd={() => {setDrag(false)}}
                                         >
                                             {item.ownerId ? <span className={item.color} > {item.userInitial} </span> : <span>&ensp; &nbsp;</span>}
                                             {!editMode && <input

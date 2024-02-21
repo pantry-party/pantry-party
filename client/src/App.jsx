@@ -11,16 +11,18 @@ import { householdContext } from "./storage/context.jsx"
 
 function App() {
   const [household, setHousehold] = useState({})
-  
+  const [drag, setDrag] = useState(false)
+  const [dragIt, setDragIt] = useState(-1)
+   
   return (
     <>
-      <Navigation />
+      <Navigation drag={drag} dragIt={dragIt} setDrag={setDrag} />
       <div className="main">
           <householdContext.Provider value={household}>
             <Routes>
               <Route path="/" element={<AccountDisplay household={household} setHousehold={setHousehold} />} />
-              <Route path="/pantry" element={<PantryList />} />
-              <Route path="/groceryList" element={<GroceryList />} />
+              <Route path="/pantry" element={<PantryList setDrag={setDrag} setDragIt={setDragIt} />} />
+              <Route path="/groceryList" element={<GroceryList setDrag={setDrag} setDragIt={setDragIt} />} />
               <Route path="/groceryList/edit" element={<EditItem />} />
             </Routes>
           </householdContext.Provider>
