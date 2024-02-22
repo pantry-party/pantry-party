@@ -9,8 +9,9 @@ import AddToCategory from "./GroceryListAdds"
 import EditItem from "./EditItem"
 import "../styles/grocery.css"
 import "../styles/colors.css"
+import  "../styles/drag-drop.css"
 
-export default function GroceryList() {
+export default function GroceryList({setDrag, setDragIt, dragIt}) {
     const user = useSelector((it) => it.state.user)
     const householdId = user.sharedHouse || user.defaultHouse
     const groceryPull = useGetGroceryItemsbyHouseholdIdQuery(householdId)
@@ -22,7 +23,6 @@ export default function GroceryList() {
     const [itemEdit, setItemEdit] = useState(false)
     const [editId, setEditId] = useState("")
     const [addForm, setAddForm] = useState(false)
-    const [dragIt, setDragIt] = useState(-1)
     const [dragCat, setDragCat] = useState("")
     let orderedCategories = []
 
@@ -92,9 +92,9 @@ export default function GroceryList() {
                     <div
                         className="groceryCategory"
                         key={index} 
-                        onDragOver={e => {e.preventDefault(); setDragCat(category)}}
-                        onDragLeave={() => setDragCat("")}
-                        onDrop={() => editItem({id: dragIt, category: dragCat})}
+                        onDragOver={e => {e.preventDefault(); setDragCat(category); e.target.classList.add("dragover")}}
+                        onDragLeave={(e) => {setDragCat(""); e.target.classList.remove("dragover")}}
+                        onDrop={(e) => {editItem({id: dragIt, category: dragCat}); setDrag(false); e.target.classList.remove("dragover")}}
                     >
                         <h3>
                             {categories.find((cat) => category === cat.name.toLowerCase()).icon} &ensp;
@@ -107,9 +107,10 @@ export default function GroceryList() {
                                         <li
                                             className="groceryDetails"
                                             draggable={true}
-                                            onDragStart={() => {setDragIt(item.id)}}
+                                            onDragStart={() => {setDragIt(item.id); setDrag(true);}}
+                                            onDragEnd={() => {setDrag(false)}}
                                         >
-                                            {item.ownerId ? <span className={`${item.color} initial`} > {item.userInitial} </span> : <span>&ensp; &nbsp;</span>}
+                                            {item.ownerId ? <span className={`${item.color} initial`} title={`Belongs to ${item.ownerName}`} > {item.userInitial} </span> : <span>&ensp; &nbsp;</span>}
                                             {!editMode && <input
                                                 type="checkbox"
                                                 defaultChecked={item.inPantry}

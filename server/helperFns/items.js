@@ -89,7 +89,7 @@ const getItemsByHouseholdGroceryList = async (householdId) => {
     try {
         const { rows }
             = await client.query(`
-        SELECT items.*, users.color, SUBSTRING(users.name, 1, 1) AS "userInitial"
+        SELECT items.*, users.color, SUBSTRING(users.name, 1, 1) AS "userInitial", users.name as "ownerName"
         FROM items
         LEFT JOIN users ON items."ownerId" = users.id
         WHERE "householdId" = $1 AND "inPantry" = false
