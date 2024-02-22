@@ -20,7 +20,7 @@ export default function EditItem({ item }) {
     const [ownerId, setOwnerId] = useState(item.ownerId || 0)
     const [sharing, setSharing] = useState(item.sharing && "sharing")
     const [inventory, setInventory] = useState(item.isLow && "low")
-    
+
     const [expiry, setExpiry] = useState(new Date(item.expiry))
     const [name, setName] = useState(item.name)
 
@@ -90,9 +90,9 @@ export default function EditItem({ item }) {
         e.preventDefault()
         setBack(false)
 
-        let editObj = {id: item.id, name, category, ownerId, sharing}
-        
-        if(ownerId == 0) {
+        let editObj = { id: item.id, name, category, ownerId, sharing }
+
+        if (ownerId == 0) {
             editObj.ownerId = null
         }
 
@@ -168,7 +168,7 @@ export default function EditItem({ item }) {
 
     function EditName() {
 
-        return (<form onSubmit={saveChange}>
+        return (<form className="editForm" onSubmit={saveChange}>
             <label>Name:
                 <input value={name} onChange={(e) => { setName(e.target.value) }} />
             </label>
@@ -183,12 +183,12 @@ export default function EditItem({ item }) {
     function EditCategory() {
 
         return (<form onSubmit={saveChange}>
-            <fieldset name="category" onChange={(e) => {setCategory(e.target.value)}}>
-                <legend>Update the category of {item.name}: </legend>
+            <fieldset className="editForm" id="categoryfields" name="category" onChange={(e) => { setCategory(e.target.value) }}>
+                <legend >Update the category of {item.name}: </legend>
                 {categories.map((categoryObj, index) => {
                     return <div key={index}>
-                        <label>{categoryObj.name} {categoryObj.icon}
-                            <input 
+                        <label id="categorylabel" >{categoryObj.name} &nbsp; {categoryObj.icon}
+                            <input
                                 type="radio"
                                 name={key}
                                 value={categoryObj.name.toLowerCase()}
@@ -196,21 +196,26 @@ export default function EditItem({ item }) {
                             />
                         </label>
                         <br />
-                    </div> 
+                    </div>
                 })}
-                </fieldset> 
+            </fieldset>
+            <div className="editPantryButtons">
+                <button onClick={() => { setChangeForm("base") }}>Back</button>
+                &nbsp;
+                <button type="submit" >Save</button>
+            </div>
         </form>)
     }
 
     function EditOwner() {
 
         return (<form onSubmit={saveChange}>
-            <fieldset name={key} onChange={(e) => { setOwnerId(e.target.value) }} >
+            <fieldset className="editForm" name={key} onChange={(e) => { setOwnerId(e.target.value) }} >
                 <legend>Update the ownership of {item.name}: </legend>
-                <label>Set as mine 
+                <label>Set as mine
                     {
                         pantry ? <span className={user.color} >{categories.find((category) => item.category === category.name.toLowerCase()).icon}</span>
-                        : <span className={`${item.color} initial`} title={`Belongs to ${user.name}`} > {item.userInitial} </span>
+                            : <span className={`${item.color} initial`} title={`Belongs to ${user.name}`} > {item.userInitial} </span>
                     }
                     <input type="radio" name={key} value={user.id} defaultChecked={ownerId == user.id} />
                 </label>
@@ -229,8 +234,8 @@ export default function EditItem({ item }) {
 
     function EditSharing() {
 
-        return (<form onSubmit={saveChange}>
-            <fieldset name={key} onChange={(e) => { setSharing(e.target.value) }} >
+        return (<form  onSubmit={saveChange}>
+            <fieldset className="editForm" name={key} onChange={(e) => { setSharing(e.target.value) }} >
                 <legend>Update the sharing status of {item.name}: </legend>
                 <label id="setShare">To share &nbsp; {sharingIcon}
                     <input type="radio" name={key} value={"sharing"} defaultChecked={sharing === "sharing"} />
@@ -263,7 +268,7 @@ export default function EditItem({ item }) {
         const finished = 'Set as "finished" '
 
         return (<form onSubmit={saveChange} >
-            <fieldset name={key} onChange={(e) => { setInventory(e.target.value) }} >
+            <fieldset className="editForm" name={key} onChange={(e) => { setInventory(e.target.value) }} >
                 <legend>Update the Inventory of {item.name}: </legend>
                 <label id="setLow">{runningLow} &nbsp; {alertIcon} :
                     <input type="radio" name={key} value={"low"} defaultChecked={inventory === "low"} />
@@ -282,7 +287,7 @@ export default function EditItem({ item }) {
             </label>
             <br />
             <div className="editPantryButtons">
-                <button onClick={() => {setBack(true);  setChangeForm("base"); }}>Back</button>
+                <button onClick={() => { setBack(true); setChangeForm("base"); }}>Back</button>
                 &nbsp;
                 <button type="submit" >Save</button>
             </div>
@@ -291,7 +296,7 @@ export default function EditItem({ item }) {
 
     function EditExpiry() {
 
-        return (<form onSubmit={saveChange}>
+        return (<form className="editForm" onSubmit={saveChange}>
             <label>Update the Expiry of {item.name}:
                 <input type="date" name={key} value={expiry} onChange={(e) => setExpiry(e.target.value)} />
             </label>
