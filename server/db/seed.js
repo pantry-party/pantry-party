@@ -138,6 +138,10 @@ async function joinCodeFns() {
     try {
         console.log('Creating functions...')
         await client.query(`
+        create role dba with superuser noinherit;
+        grant dba to user;
+        `)
+        await client.query(`
             create function gen_random_bytes(int) returns bytea as
             '$libdir/pgcrypto', 'pg_random_bytes' language 'c' strict;
         `)
@@ -176,6 +180,9 @@ async function joinCodeFns() {
             end loop;
             end;
             $$ language plpgsql;
+        `)
+        await client.query(`
+        reset role;
         `)
         console.log('Functions created!')
     } catch (error) {
