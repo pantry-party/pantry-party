@@ -109,7 +109,7 @@ export default function GroceryList() {
                                             draggable={true}
                                             onDragStart={() => {setDragIt(item.id)}}
                                         >
-                                            {item.ownerId ? <span className={`${item.color} initial`} > {item.userInitial} </span> : <span>&ensp; &nbsp;</span>}
+                                            {item.ownerId ? <span className={`${item.color} initial`} title={`Belongs to ${item.ownerName}`} > {item.userInitial} </span> : <span className="initial">&nbsp; &nbsp;</span>}
                                             {!editMode && <input
                                                 type="checkbox"
                                                 defaultChecked={item.inPantry}

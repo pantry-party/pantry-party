@@ -50,11 +50,6 @@ button:hover {
   background-color: #3d3d5c;
 }
 
-button:selection {
-  color:  #b3b3cc;
-  background-color: #3d3d5c;
-}
-
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;

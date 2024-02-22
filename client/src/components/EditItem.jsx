@@ -1,29 +1,26 @@
 //drop down edit form available on pantry and grocery lists
 import { useContext, useState, useEffect } from "react"
-import { useSelector } from "react-redux"
 import { useEditItemMutation, useDeleteItemMutation, useCreateItemMutation } from "../storage/pantryPartyApi"
 import "../styles/colors.css"
 import { categoriesContext } from "../storage/context.jsx"
 import { sharingIcon, notSharingIcon, alertIcon, deleteIcon } from "../styles/icons.jsx"
 import { useLocation } from "react-router-dom"
 
-export default function EditItem ({item}) {
-    const user = useSelector((it) => it.state.user)
+export default function EditItem({ item, user }) {
     const [key, setKey] = useState('')
     const location = useLocation()
     let pantry = true
     if (location.pathname === "/groceryList") {
         pantry = false
     }
-    
+
     const [category, setCategory] = useState(item.category)
     const [ownerId, setOwnerId] = useState(item.ownerId || 0)
     const [sharing, setSharing] = useState(item.sharing && "sharing")
     const [inventory, setInventory] = useState(item.isLow && "low")
     const [move, setMove] = useState(false)
-    const [expiry, setExpiry] = useState(new Date(item.expiry))
-    const [name, setName] = useState(item.name)   
-    
+    const [expiry, setExpiry] = useState(new Date())
+
     const [changeForm, setChangeForm] = useState("base")
     const [groceryCopy, setGroceryCopy] = useState({})
 
@@ -39,7 +36,9 @@ export default function EditItem ({item}) {
             setGroceryCopy({})
             setMove(false)
         }
-    }, [itemEdit.isSuccess, move])
+
+
+    }, [itemEdit.isSuccess, itemDeletion.isSuccess])
 
     useEffect(() => {
         if (changeForm === "base") {
@@ -48,8 +47,7 @@ export default function EditItem ({item}) {
             setSharing(item.sharing && "sharing")
             setInventory(item.isLow && "low")
             setMove(false)
-            setExpiry(new Date(item.expiry))
-            setName(item.name)
+            setExpiry(new Date())
         }
     }, [changeForm])
 
@@ -57,8 +55,6 @@ export default function EditItem ({item}) {
         return <EditCategory />
     } else if (changeForm === "ownerId") {
         return <EditOwner />
-    } else if (changeForm === "name") {
-        return <EditName />
     } else if (changeForm === "sharing") {
         return <EditSharing />
     } else if (changeForm === "isLow") {
@@ -69,12 +65,12 @@ export default function EditItem ({item}) {
         return <BaseForm />
     } else if (changeForm === "empty") {
         return (<>
-        {itemDeletion.isError && <p>Error removing item: {itemDeletion.error.error}</p>}
-        {itemDeletion.isSuccess && <p>item removed</p>}
-        {itemCreation.isSuccess && <p>item duplicated to groceryList</p>}
+            {itemDeletion.isError && <p>Error removing item: {itemDeletion.error.error}</p>}
+            {itemDeletion.isSuccess && <p>item removed</p>}
+            {itemCreation.isSuccess && <p>item duplicated to groceryList</p>}
         </>)
     }
-    
+
     function handleSubmit(e) {
         e.preventDefault()
 
@@ -85,9 +81,9 @@ export default function EditItem ({item}) {
         e.preventDefault()
 
         console.log(item)
-        let editObj = {id: item.id, name, category, ownerId, sharing}
-        
-        if(ownerId == 0) {
+        let editObj = { id: item.id, category, ownerId, sharing }
+
+        if (ownerId == 0) {
             editObj.ownerId = null
         }
 
@@ -100,14 +96,14 @@ export default function EditItem ({item}) {
         }
 
         if (move) {
-            let copy = {...item}
+            let copy = { ...item }
             copy.inPantry = false
-            copy.dateMoved = new Date()
             setGroceryCopy(copy)
         }
-        
+
         if (inventory === "low") {
             editObj.isLow = true
+
         } else if (inventory === "delete" && !move) {
             console.log(item.id)
             deleteItem(item.id)
@@ -115,8 +111,6 @@ export default function EditItem ({item}) {
         } else if (inventory === "delete" && move) {
             editObj.isLow = false
             editObj.inPantry = false
-            setMove(!move)
-            setGroceryCopy({})
         } else if (inventory === "not low") {
             editObj.isLow = false
         }
@@ -124,14 +118,16 @@ export default function EditItem ({item}) {
         if (key === "expiry") {
             editObj.expiry = expiry
         }
-        setChangeForm("base")
-        //console.log(editObj)
-        edit(editObj)
-    }
-    
-    function BaseForm () {
 
-        return (<form onSubmit={handleSubmit}>
+        console.log(editObj)
+        edit(editObj)
+        setChangeForm("")
+        
+    }
+
+    function BaseForm() {
+
+        return (<form className="editForm" onSubmit={handleSubmit}>
             <h3>{item.name}</h3>
             {itemEdit.isError && <p>Error editing item: {itemEdit.error.error}</p>}
             {itemDeletion.isError && <p>Error removing item: {itemDeletion.error.error}</p>}
@@ -139,64 +135,77 @@ export default function EditItem ({item}) {
                 <select
                     name="update"
                     value={key}
-                    onChange={(event) => {setKey(event.target.value)}}
+                    onChange={(event) => { setKey(event.target.value) }}
                 >
                     <option>Select</option>
-                    <option value="name" >Name</option>
                     <option value="category" >Category</option>
                     <option value="ownerId" >Ownership</option>
                     {pantry && (<>
                         <option value="sharing" >Sharing</option>
                         <option value="isLow" >Inventory</option>
                         <option value="expiry" >Expiry</option>
-                    </>)}    
+                    </>)}
+
                 </select>
             </label>
             <br />
-            <button onClick={() => {setChangeForm("empty")}}>Back</button>
-            <button type="Submit" >Continue</button>
+            <div className="editPantryButtons">
+                <button onClick={() => { setChangeForm("empty") }}>Back</button>
+                &nbsp;
+                <button type="Submit"> Continue</button>
+            </div>
         </form>)
     }
 
-    function EditName () {
+    function EditCategory() {
 
         return (<form onSubmit={saveChange}>
-            <label>Name: 
-                <input value={name} onChange={(e) => {setName(e.target.value)}} />
-            </label>
-            <button onClick={() => {setChangeForm("base")}}>Back</button>
-            <button type="submit" >Save</button>
-        </form>)
-    }
-
-    function EditCategory () {
-        
-        return (<form onSubmit={saveChange}>
-            <fieldset name="category" onChange={(e) => {setCategory(e.target.value)}}>
+            <fieldset name={category} onChange={(e) => { setCategory(e.target.value) }}>
                 <legend>Update the category of {item.name}: </legend>
-                {categories.map((categoryObj, index) => {
-                    return <div key={index}>
-                        <label>{categoryObj.name} {categoryObj.icon}
-                            <input 
-                                type="radio"
-                                name={key}
-                                value={categoryObj.name.toLowerCase()}
-                                defaultChecked={category === categoryObj.name.toLowerCase()}
-                            />
-                        </label>
-                        <br />
-                    </div> 
-                })}
+                <label>Cans & Bottles
+                    <input type="radio" name={key} value="cans & bottles" defaultChecked={category === "cans & bottles"} />
+                </label>
+                <br />
+                <label>Dairy
+                    <input type="radio" name={key} value="dairy" defaultChecked={category === "dairy"} />
+                </label>
+                <br />
+                <label>Dry Goods
+                    <input type="radio" name={key} value="dry goods" defaultChecked={category === "dry goods"} />
+                </label>
+                <br />
+                <label>Freezer
+                    <input type="radio" name={key} value="freezer" defaultChecked={category === "freezer"} />
+                </label>
+                <br />
+                <label>Meals
+                    <input type="radio" name={key} value="meals" defaultChecked={category === "meals"} />
+                </label>
+                <br />
+                <label>Produce
+                    <input type="radio" name={key} value="produce" defaultChecked={category === "produce"} />
+                </label>
+                <br />
+                <label>Proteins
+                    <input type="radio" name={key} value="proteins" defaultChecked={category === "proteins"} />
+                </label>
+                <br />
+                <label>Other
+                    <input type="radio" name={key} value="other" defaultChecked={category === "other"} />
+                </label>
             </fieldset>
-            <button onClick={() => {setChangeForm("base")}}>Back</button>
-            <button type="submit" >Save</button>
+            <div className="editPantryButtons">
+                <button onClick={() => { setChangeForm("base") }}>Back</button>
+                &nbsp;
+                <button type="submit" >Save</button>
+            </div>
         </form>)
     }
 
-    function EditOwner () {
+    function EditOwner() {
 
         return (<form onSubmit={saveChange}>
-            <fieldset name={key} onChange={(e) => {setOwnerId(e.target.value)}} >
+            <fieldset name={key} onChange={(e) => { setOwnerId(e.target.value) }} >
                 <legend>Update the ownership of {item.name}: </legend>
                 <label>Set as mine <span className={user.color} >{categories.find((category) => item.category === category.name.toLowerCase()).icon}</span>
                     <input type="radio" name={key} value={user.id} defaultChecked={ownerId == user.id} />
@@ -206,21 +215,24 @@ export default function EditItem ({item}) {
                     <input type="radio" name={key} value={0} defaultChecked={ownerId == 0} />
                 </label>
             </fieldset>
-            <button onClick={() => {setChangeForm("base")}}>Back</button>
-            <button type="submit" >Save</button>
+            <div className="editPantryButtons">
+                <button onClick={() => { setChangeForm("base") }}>Back</button>
+                &nbsp;
+                <button type="submit" >Save</button>
+            </div>
         </form>)
     }
 
-    function EditSharing () {
+    function EditSharing() {
 
         return (<form onSubmit={saveChange}>
-            <fieldset name={key} onChange={(e) => {setSharing(e.target.value)}} >
+            <fieldset name={key} onChange={(e) => { setSharing(e.target.value) }} >
                 <legend>Update the sharing status of {item.name}: </legend>
-                <label>To share <span className="green" >{sharingIcon}</span>
+                <label id="setShare">To share &nbsp; {sharingIcon}
                     <input type="radio" name={key} value={"sharing"} defaultChecked={sharing === "sharing"} />
                 </label>
                 <br />
-                <label>Not sharing <span className="red" >{notSharingIcon}</span>
+                <label id="setNoShare">Not sharing &nbsp; {notSharingIcon}
                     <input type="radio" name={key} value={"not sharing"} defaultChecked={sharing === "not sharing"} />
                 </label>
                 <br />
@@ -228,13 +240,16 @@ export default function EditItem ({item}) {
                     <input type="radio" name={key} value={"ambivalent"} defaultChecked={sharing === "ambivalent"} />
                 </label>
             </fieldset>
-            <button onClick={() => {setChangeForm("base")}}>Back</button>
-            <button type="submit" >Save</button>
+            <div className="editPantryButtons">
+                <button onClick={() => { setChangeForm("base") }}>Back</button>
+                &nbsp;
+                <button type="submit" >Save</button>
+            </div>
         </form>)
     }
 
-    function EditInventory () {
-        function checkboxHandle (e) {
+    function EditInventory() {
+        function checkboxHandle(e) {
             e.preventDefault()
 
             setMove(!move)
@@ -244,13 +259,13 @@ export default function EditItem ({item}) {
         const finished = 'Set as "finished" '
 
         return (<form onSubmit={saveChange} >
-            <fieldset name={key} onChange={(e) => {setInventory(e.target.value)}} >
+            <fieldset name={key} onChange={(e) => { setInventory(e.target.value) }} >
                 <legend>Update the Inventory of {item.name}: </legend>
-                <label>{runningLow}<span className="green" >{alertIcon}</span> : 
+                <label id="setLow">{runningLow} &nbsp; {alertIcon} :
                     <input type="radio" name={key} value={"low"} defaultChecked={inventory === "low"} />
                 </label>
                 <br />
-                <label>{finished} {deleteIcon} :
+                <label>{finished}:
                     <input type="radio" name={key} value={"delete"} defaultChecked={inventory === "delete"} />
                 </label>
                 <br />
@@ -258,24 +273,30 @@ export default function EditItem ({item}) {
                     <input type="radio" name={key} value={"not low"} defaultChecked={inventory === "not low"} />
                 </label>
             </fieldset>
-            <label>Add to grocery list
+            <label id="groceryCheck" >Add to grocery list
                 <input type="checkbox" id='inPantry' checked={move} onChange={(e) => checkboxHandle(e)} />
             </label>
             <br />
-            <button onClick={() => {setChangeForm("base")}}>Back</button>
-            <button type="submit" >Save</button>
-        </form>)
+            <div className="editPantryButtons">
+                <button onClick={() => { setChangeForm("base") }}>Back</button>
+                &nbsp;
+                <button type="submit" >Save</button>
+            </div>
+        </form >)
     }
 
-    function EditExpiry () {
+    function EditExpiry() {
 
         return (<form onSubmit={saveChange}>
-            <label>Update the Expiry of {item.name}: 
+            <label>Update the Expiry of {item.name}:
                 <input type="date" name={key} value={expiry} onChange={(e) => setExpiry(e.target.value)} />
             </label>
             <br />
-            <button onClick={() => {setChangeForm("base")}}>Back</button>
-            <button type="submit" >Save</button>
+            <div className="editPantryButtons">
+                <button onClick={() => { setChangeForm("base") }}>Back</button>
+                &nbsp;
+                <button type="submit" >Save</button>
+            </div>
         </form>)
     }
 }

@@ -17,6 +17,7 @@ export default function AccountDisplay({ household, setHousehold }) {
 
     const householdId = userInfo?.sharedHouse || userInfo?.defaultHouse
     const householdDetails = useGetHouseholdbyIdQuery(householdId)
+    const [register, setRegister] = useState(false)
 
     const [displayForm, setDisplayForm] = useState("")
     const [showUserEdits, setShowUserEdits] = useState(false)
@@ -45,20 +46,20 @@ export default function AccountDisplay({ household, setHousehold }) {
                         <h2 className={userInfo.color}> {userIcon} &nbsp; </h2>
                         <h2> Welcome &nbsp; </h2>
                         <h2 className={userInfo.color} id={userInfo.id}>{userInfo.name}! &nbsp; </h2>
-                        <h2> {<span onClick={() => { setShowUserEdits(!showUserEdits); setDisplayForm(""); setColorButton("") ; setNameButton("") ; setUserNameButton("") ; setPasswordButton("") ; setShowHouseholdEdits(false)}}>{editIcon}</span>} </h2>
+                        <h2> {<span onClick={() => { setShowUserEdits(!showUserEdits); setDisplayForm(""); setColorButton(""); setNameButton(""); setUserNameButton(""); setPasswordButton(""); setShowHouseholdEdits(false) }}>{editIcon}</span>} </h2>
                     </div>
                     <div className="accountButtons">
                         {/* Choose your color */}
-                        {showUserEdits && <button id="colorFormButton" className={colorButton} onClick={() => { setDisplayForm("colorForm"); setColorButton("clicked") ; setNameButton("") ; setUserNameButton(""); setPasswordButton("") }}> {colorIcon}  Choose your color </button>}
+                        {showUserEdits && <button id="colorFormButton" className={colorButton} onClick={() => { setDisplayForm("colorForm"); setColorButton("clicked"); setNameButton(""); setUserNameButton(""); setPasswordButton("") }}> {colorIcon}  Choose your color </button>}
                         {/* Change your name */}
-                        {showUserEdits && <button id="nameFormButton" className={nameButton} onClick={() => { setDisplayForm("nameForm") ; setNameButton("clicked") ; setColorButton("") ; setUserNameButton(""); setPasswordButton("")}}> {nameIcon} Change your name </button>}
+                        {showUserEdits && <button id="nameFormButton" className={nameButton} onClick={() => { setDisplayForm("nameForm"); setNameButton("clicked"); setColorButton(""); setUserNameButton(""); setPasswordButton("") }}> {nameIcon} Change your name </button>}
                         {/* Change your username */}
-                        {showUserEdits && <button id="usernameFormButton" className={userNameButton} onClick={() => { setDisplayForm("usernameForm") ; setUserNameButton("clicked") ; setColorButton("") ; setPasswordButton("") ; setNameButton("") }}> {nameIcon} Change your username </button>}
+                        {showUserEdits && <button id="usernameFormButton" className={userNameButton} onClick={() => { setDisplayForm("usernameForm"); setUserNameButton("clicked"); setColorButton(""); setPasswordButton(""); setNameButton("") }}> {nameIcon} Change your username </button>}
                         {/* Change your password */}
-                        {showUserEdits && <button id="passwordFormButton" className={passwordButton} onClick={() => { setDisplayForm("passwordForm") ; setPasswordButton("clicked") ; setColorButton(""); setNameButton(""), setUserNameButton("")}}> {passwordIcon} Change your password </button>}
+                        {showUserEdits && <button id="passwordFormButton" className={passwordButton} onClick={() => { setDisplayForm("passwordForm"); setPasswordButton("clicked"); setColorButton(""); setNameButton(""), setUserNameButton("") }}> {passwordIcon} Change your password </button>}
                     </div>
                     <div className="accountForms">
-                        {displayForm === "colorForm" && <ColorForm setDisplayForm={setDisplayForm} setColorButton={setColorButton}/>}
+                        {displayForm === "colorForm" && <ColorForm setDisplayForm={setDisplayForm} setColorButton={setColorButton} />}
                         {displayForm === "nameForm" && <NameForm setDisplayForm={setDisplayForm} setNameButton={setNameButton} />}
                         {displayForm === "usernameForm" && <UsernameForm setDisplayForm={setDisplayForm} setUserNameButton={setUserNameButton} />}
                         {displayForm === "passwordForm" && <PasswordForm accountMessage={accountMessage} setAccountMessage={setAccountMessage} setDisplayForm={setDisplayForm} setPasswordButton={setPasswordButton} />}
@@ -80,7 +81,7 @@ export default function AccountDisplay({ household, setHousehold }) {
 
         return (
             <div className="householdInfo">
-                <h3> {household.name} &nbsp; {!userInfo.sharedHouse ? <span onClick={() => { setShowHouseholdEdits(!showHouseholdEdits) ; setShowUserEdits(false) }}>{plusIcon}</span> : <span onClick={() => { setShowHouseholdEdits(!showHouseholdEdits) ; setShowUserEdits(false) ; setDisplayForm("")  }}>{editIcon}</span>}  </h3>
+                <h3> {household.name} &nbsp; {!userInfo.sharedHouse ? <span onClick={() => { setShowHouseholdEdits(!showHouseholdEdits); setShowUserEdits(false) }}>{plusIcon}</span> : <span onClick={() => { setShowHouseholdEdits(!showHouseholdEdits); setShowUserEdits(false); setDisplayForm("") }}>{editIcon}</span>}  </h3>
                 {household.users && household.users.map((user) => {
                     return (
                         <div className="userInfo">
@@ -98,12 +99,13 @@ export default function AccountDisplay({ household, setHousehold }) {
         return (
             <div className="accountOptions">
                 <div className="accountButtons">
-                    {showHouseholdEdits && <button id="joinButton" className={joinButton} onClick={() => { setDisplayForm("joinHouseholdForm") ; setHouseholdMessage("") ; setJoinButton("clicked") ; setRenameButton("") ; setCreateButton(""); setInviteButton("") ; setRemoveButton("") ; setLeaveButton("") }}> {joinHouseholdIcon} Join a household </button>}
-                    {showHouseholdEdits && <button id="renameButton" className={renameButton} onClick={() => { setDisplayForm("renameHouseholdForm") ; setHouseholdMessage("") ; setRenameButton("clicked"); setJoinButton(""); setCreateButton("") ; setInviteButton("") ; setRemoveButton(""); setLeaveButton("") }}> {renameHouseholdIcon} Rename your household </button>}
-                    {showHouseholdEdits && !userInfo.sharedHouse && <button id="createButton" className={createButton} onClick={() => { setDisplayForm("sharedHouseholdForm") ; setHouseholdMessage("") ; setCreateButton("clicked"); setJoinButton("") ; setRenameButton(""); setInviteButton(""); setRemoveButton(""); setLeaveButton("") }}> {addUsersIcon} Create a household to share </button>}
-                    {showHouseholdEdits && userInfo.sharedHouse && <button id="inviteButton" className={inviteButton} onClick={() => { setHouseholdMessage(`Your household code is ${household.joinCode}`) ; setDisplayForm(""); setInviteButton("clicked") ; setCreateButton("") ; setJoinButton(""); setRenameButton(""); setRemoveButton(""); setLeaveButton("")}} > {addUsersIcon} Invite household members </button>}
-                    {showHouseholdEdits && userInfo.sharedHouse && <button id="leaveButton" className={leaveButton} onClick={() => { setDisplayForm("leaveHouseholdForm") ; setHouseholdMessage("") ; setLeaveButton("clicked"); setJoinButton(""); setCreateButton(""); setRenameButton(""); setRemoveButton(""); setInviteButton("")}}> {leaveHouseholdIcon} Leave this household </button>}
-                    {showHouseholdEdits && userInfo.sharedHouse && <button id="removeButton" className={removeButton} onClick={() => { setDisplayForm("removeMemberForm") ; setHouseholdMessage("") ; setRemoveButton("clicked") ; setLeaveButton(""); setJoinButton(""); setCreateButton(""); setRenameButton(""); setInviteButton("")}}> {removeUserIcon} Remove a household member </button>}
+                    {showHouseholdEdits && <button id="joinButton" className={joinButton} onClick={() => { setDisplayForm("joinHouseholdForm"); setHouseholdMessage(""); setJoinButton("clicked"); setRenameButton(""); setCreateButton(""); setInviteButton(""); setRemoveButton(""); setLeaveButton("") }}> {joinHouseholdIcon} Join a household </button>}
+                    {showHouseholdEdits && <button id="renameButton" className={renameButton} onClick={() => { setDisplayForm("renameHouseholdForm"); setHouseholdMessage(""); setRenameButton("clicked"); setJoinButton(""); setCreateButton(""); setInviteButton(""); setRemoveButton(""); setLeaveButton("") }}> {renameHouseholdIcon} Rename your household </button>}
+                    {showHouseholdEdits && !userInfo.sharedHouse && <button id="createButton" className={createButton} onClick={() => { setDisplayForm("sharedHouseholdForm"); setHouseholdMessage(""); setCreateButton("clicked"); setJoinButton(""); setRenameButton(""); setInviteButton(""); setRemoveButton(""); setLeaveButton("") }}> {addUsersIcon} Create a household to share </button>}
+                    {showHouseholdEdits && userInfo.sharedHouse &&
+                        <button id="inviteButton" className={inviteButton} onClick={() => { setHouseholdMessage(`Your household code is ${household.joinCode}`); setDisplayForm(""); setInviteButton("clicked"); setCreateButton(""); setJoinButton(""); setRenameButton(""); setRemoveButton(""); setLeaveButton("") }} > {addUsersIcon} Invite household members </button>}
+                    {showHouseholdEdits && userInfo.sharedHouse && <button id="leaveButton" className={leaveButton} onClick={() => { setDisplayForm("leaveHouseholdForm"); setHouseholdMessage(""); setLeaveButton("clicked"); setJoinButton(""); setCreateButton(""); setRenameButton(""); setRemoveButton(""); setInviteButton("") }}> {leaveHouseholdIcon} Leave this household </button>}
+                    {showHouseholdEdits && userInfo.sharedHouse && <button id="removeButton" className={removeButton} onClick={() => { setDisplayForm("removeMemberForm"); setHouseholdMessage(""); setRemoveButton("clicked"); setLeaveButton(""); setJoinButton(""); setCreateButton(""); setRenameButton(""); setInviteButton("") }}> {removeUserIcon} Remove a household member </button>}
                 </div>
                 <div className="accountForms">
                     {displayForm === "sharedHouseholdForm" && < SharedHouseholdForm setHouseholdMessage={setHouseholdMessage} setDisplayForm={setDisplayForm} setCreateButton={setCreateButton} />}
@@ -112,7 +114,7 @@ export default function AccountDisplay({ household, setHousehold }) {
                     {displayForm === "leaveHouseholdForm" && < LeaveHouseholdForm setDisplayForm={setDisplayForm} setLeaveButton={setLeaveButton} />}
                     {displayForm === "removeMemberForm" && < RemoveMemberForm household={household} setDisplayForm={setDisplayForm} setRemoveButton={setRemoveButton} />}
                 </div>
-                {householdMessage && <p> {householdMessage} </p>}
+                {householdMessage && <> <p> {householdMessage} </p> <button id="copyButton" className={copyButton} onClick={() => { navigator.clipboard.writeText(household.joinCode); setDisplayForm(""); setCopyButton("clicked"); setInviteButton(""); setCreateButton(""); setJoinButton(""); setRenameButton(""); setRemoveButton(""); setLeaveButton("") }} > Copy join code </button> </>}
             </div>
         )
     }
@@ -127,17 +129,24 @@ export default function AccountDisplay({ household, setHousehold }) {
 
     return (
         <div>
-            {!userInfo?.username && <Register userInfo={userInfo} />}
-            {!userInfo?.username && <Login userInfo={userInfo} />}
+            {!userInfo?.username && !register &&
+                <div className="login">
+                    <Login userInfo={userInfo} />
+                    <p> Don't have an account? </p>
+                    <button className="setRegisterButton" onClick={() => { setRegister(true) }}> Sign up! </button>
+                </div>}
+            {!userInfo?.username && register &&
+                <div className="register">
+                    <Register userInfo={userInfo} />
+                    <p> Already have an account? </p>
+                    <button className="setRegisterButton" onClick={() => { setRegister(false) }}> Log in! </button>
+                </div>
+            }
             {userInfo?.username &&
                 <div className="accountPage">
                     {accountInfo()}
                     {householdInfo()}
                     {accountOptions()}
-
-                </div>}
-            {userInfo?.username &&
-                <div className="logOut">
                     <button className="logOutButton" onClick={() => { logout() }}> Log out </button>
                 </div>}
         </div>

@@ -16,6 +16,7 @@ export default function PantryList() {
   const [itemEdit, setItemEdit] = useState(false)
   const [editId, setEditId] = useState("")
   const [addForm, setAddForm] = useState(false)
+  const [edit, setEdit] = useState("")
 
   const token = useSelector((it) => it.state.token)
 
@@ -85,7 +86,6 @@ export default function PantryList() {
 
   //format dateMoved
   const dateType = {
-    weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -93,7 +93,6 @@ export default function PantryList() {
 
   function parseDate(timestamp) {
     const date = new Date(timestamp)
-
     return date.toLocaleDateString(undefined, dateType)
   }
 
@@ -122,7 +121,13 @@ export default function PantryList() {
               <h3 className="weekH3">Week of {week.weekStart.toLocaleDateString()} </h3>
               <ul className="pantryWeekItems">
                 {week.items.map((item) => (
-                  <li key={item.id} className={`${item.color} pantryItemDetail`}  >
+                  <li
+                    key={item.id}
+                    className={`${item.color} pantryItemDetail edit${itemEdit}`}  
+                    draggable={true}
+                    onDragStart={() => {setDragIt(item.id); setDrag(true);}}
+                    onDragEnd={() => {setDrag(false)}}
+                  >
                     {/* edit item button */}
                     <span className="itemIcons">
                       <button title="Edit Item Details" onClick={() => { itemEditor(item.id) }} className={`${item.color} pantryEditButton`}>
