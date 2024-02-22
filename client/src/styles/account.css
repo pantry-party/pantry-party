@@ -7,7 +7,12 @@
 .registerForm {
     width: 40%; 
     margin: 0 auto; 
-    padding-bottom: 5px;
+    padding-bottom: 10px;
+}
+
+.registerForm > label {
+    display: flex; 
+    justify-content: space-between; 
 }
 
 .setRegisterButton {
