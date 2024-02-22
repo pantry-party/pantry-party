@@ -1,3 +1,31 @@
+.loginForm {
+    width: 40%;
+    margin: 0 auto; 
+    padding-bottom: 5px;
+}
+
+.registerForm {
+    width: 40%; 
+    margin: 0 auto; 
+    padding-bottom: 5px;
+}
+
+.setRegisterButton {
+    background-color: white; 
+    color: blue; 
+    border: none; 
+}
+
+.setRegisterButton:hover {
+    background-color: white; 
+    color: #747bff; 
+}
+
+.setRegisterButton:focus,
+.setRegisterButton:focus-visible {
+  outline: none;
+}
+
 .welcome {
     display: flex; 
     justify-content: center; 

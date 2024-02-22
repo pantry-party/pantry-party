@@ -3,12 +3,12 @@ import { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { updateToken, updateUser } from '../storage/slice'
 
-export default function Register () {
+export default function Register() {
     const [createUser, userCreation] = useCreateUserMutation()
     const [createHousehold, householdCreation] = useCreateUserHouseholdMutation()
     const dispatch = useDispatch()
 
-    const [error,setError] = useState("")
+    const [error, setError] = useState("")
 
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
@@ -30,54 +30,54 @@ export default function Register () {
         return <div>Loading...</div>
     }
 
-    async function handleSubmit (e) {
+    async function handleSubmit(e) {
         e.preventDefault()
         let defaultName = `${name}'s Household`
-        if(!name){
+        if (!name) {
             setError("Must include a NAME")
-        } else if(!username){
+        } else if (!username) {
             setError("Must include a USERNAME")
-        } else if(!password){
+        } else if (!password) {
             setError("Must include a PASSWORD")
         }
-        await createHousehold({ name: defaultName }) 
+        await createHousehold({ name: defaultName })
     }
 
     return (<div>
-        <form title='Account Creation Form' onSubmit={handleSubmit}>
-                <h3>Create An Account</h3>
-                {/* {userCreation.isError && <p>{userCreation.error.error}</p>} */}
-                {error && <p>{error}</p>}
-                {householdCreation.isError && <p>{householdCreation.error.error}</p>}
-                <label>Name: 
-                        <input
-                        value={name} 
-                        onChange={(event) => {setName(event.target.value)}}
-                        />
-                    </label>
-                    <br/>
-                <label>Username: 
-                        <input
-                        value={username} 
-                        onChange={(event) => {setUsername(event.target.value)}}
-                        />
-                    </label>
-                    <br/>
-                <label>Password: 
-                    <input
-                        value={password}
-                        type='password'
-                        onChange={(event) => {setPassword(event.target.value)}}
-                    />
-                </label>
-                <br/>
-                <label>
-                    Choose your user color:
-                    <select 
-                        value={color}
-                        onChange={(event) => {setColor(event.target.value)}}
-                    >
-                        <option value="red">Red</option>
+        <form title='Account Creation Form' className="registerForm" onSubmit={handleSubmit}>
+            <h3>Create An Account</h3>
+            {/* {userCreation.isError && <p>{userCreation.error.error}</p>} */}
+            {error && <p>{error}</p>}
+            {householdCreation.isError && <p>{householdCreation.error.error}</p>}
+            <label>Name:
+                <input
+                    value={name}
+                    onChange={(event) => { setName(event.target.value) }}
+                />
+            </label>
+            <br />
+            <label>Username:
+                <input
+                    value={username}
+                    onChange={(event) => { setUsername(event.target.value) }}
+                />
+            </label>
+            <br />
+            <label>Password:
+                <input
+                    value={password}
+                    type='password'
+                    onChange={(event) => { setPassword(event.target.value) }}
+                />
+            </label>
+            <br />
+            <label>
+                Choose your user color:
+                <select
+                    value={color}
+                    onChange={(event) => { setColor(event.target.value) }}
+                >
+                    <option value="red">Red</option>
                         <option value="orange">Orange</option>
                         <option value="yellow">Yellow</option>
                         <option value="green">Green</option>
@@ -85,9 +85,9 @@ export default function Register () {
                         <option value="blue">Blue</option>
                         <option value="purple"> Purple </option>
                         <option value="pink"> Pink </option> 
-                    </select>
-                </label>
-                <button type="submit">Create Account</button>
-            </form>
+                </select>
+            </label>
+            <button type="submit">Create Account</button>
+        </form>
     </div>)
 }
