@@ -9,6 +9,7 @@ import { useLocation } from "react-router-dom"
 
 export default function EditItem({ item }) {
     const user = useSelector((it) => it.state.user)
+    const [key, setKey] = useState('')
     const location = useLocation()
     let pantry = true
     if (location.pathname === "/groceryList") {
