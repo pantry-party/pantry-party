@@ -7,20 +7,22 @@ export default function Login() {
     const [login, userLogin] = useLoginUserMutation()
     const dispatch = useDispatch()
 
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+    const [error, setError] = useState("")
+
+    useEffect(() => {
+        if (userLogin.isError) {
+            setError("Invalid Username and Password combination")
+        }
+    }, [userLogin.isError])
 
     useEffect(() => {
         if (userLogin.isSuccess) {
             dispatch(updateUser(userLogin.data.user))
             dispatch(updateToken(userLogin.data.token))
         }
-
     }, [userLogin.isSuccess])
-
-    if (userLogin.isLoading) {
-        return <div>Loading...</div>
-    }
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -31,6 +33,7 @@ export default function Login() {
         <form title='Login Form' className="loginForm" onSubmit={handleSubmit}>
             <h3>Sign In</h3>
             {userLogin.isError && <p>{userLogin.error.error}</p>}
+
             <label>Username:
                 <input
                     value={username}

@@ -8,7 +8,7 @@ import { categoriesContext } from "../storage/context.jsx"
 import { useSelector } from "react-redux"
 import "../styles/pantry.css"
 
-export default function PantryList() {
+export default function PantryList({ setDragIt, setDrag}) {
   const user = useSelector((it) => it.state.user)
   const householdId = user.sharedHouse || user.defaultHouse
   const { data = {}, error, isLoading } = useGetPantryItemsbyHouseholdIdQuery(householdId)
@@ -134,14 +134,14 @@ export default function PantryList() {
                         {categories.find((category) => item.category === category.name.toLowerCase()).icon}
                       </button>
                       {/* display alerts */}
-                      {item.sharing && <div className="alert sharing"> {sharingIcon}</div>}
-                      {item.sharing === false && <div className="alert nosharing"> {notSharingIcon}</div>}
+                      {item.sharing && <div className="alert sharing" title="EAT"> {sharingIcon}</div>}
+                      {item.sharing === false && <div className="alert nosharing" title="DO NOT eat"> {notSharingIcon}</div>}
                     </span>
                     <span className="itemName"><p><strong>{item.name} </strong></p>
-                      {item.isLow && <p className="alert isLow"> &nbsp; {alertIcon}</p>}
+                      {item.isLow && <p className="alert isLow" title="Running Low!"> &nbsp; {alertIcon}</p>}
                     </span>
                     {item.expiry && <div className="expiryDate"> <p>Exp. {parseDate(item.expiry)}</p> </div>}
-                    {itemEdit && item.id === editId && <EditItem item={item} user={userInfo} />}
+                    {itemEdit && item.id === editId && <EditItem item={item} />}
                   </li>
                 ))}
               </ul>

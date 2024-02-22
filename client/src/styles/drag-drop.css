@@ -1,0 +1,12 @@
+.dragover {
+    background-color: #3d3d5c;
+    color: white;
+}
+
+.dropzones {
+    font-size: xx-large;
+    margin: 5px;
+    padding: 10px;
+    text-align: center; 
+    color: #1e1e2f;
+}

@@ -36,7 +36,7 @@ export default function AccountDisplay({ household, setHousehold }) {
     const [renameButton, setRenameButton] = useState("")
     const [removeButton, setRemoveButton] = useState("")
     const [inviteButton, setInviteButton] = useState("")
-
+    const [copyButton, setCopyButton] = useState("")
 
     const accountInfo = () => {
         return (
@@ -93,7 +93,6 @@ export default function AccountDisplay({ household, setHousehold }) {
             </div>
         )
     }
-
 
     const accountOptions = () => {
         return (

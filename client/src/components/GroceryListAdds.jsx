@@ -37,7 +37,7 @@ export default function AddToCategory({ category }) {
             <button title="Add Item" type="submit" id="groceryAddButton"> {addIcon} </button>
             <input
                 type="text"
-                placeholder={category}
+                placeholder={`Add to ${category}`}
                 value={name}
                 className="groceryAddInput"
                 onChange={(e) => { setName(e.target.value) }}

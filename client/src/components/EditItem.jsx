@@ -35,6 +35,7 @@ export default function EditItem({ item }) {
 
     useEffect(() => {
         if (itemEdit.isSuccess && move) {
+            console.log(groceryCopy)
             createItem(groceryCopy)
             setGroceryCopy({})
             setMove(false)
@@ -84,10 +85,9 @@ export default function EditItem({ item }) {
     function saveChange(e) {
         e.preventDefault()
 
-        console.log(item)
-        let editObj = { id: item.id, name, category, ownerId, sharing }
-
-        if (ownerId == 0) {
+        let editObj = {id: item.id, name, category, ownerId, sharing}
+        
+        if(ownerId == 0) {
             editObj.ownerId = null
         }
 
@@ -103,6 +103,7 @@ export default function EditItem({ item }) {
             let copy = { ...item }
             copy.inPantry = false
             copy.dateMoved = new Date()
+            copy.expiry = null
             setGroceryCopy(copy)
         }
 
@@ -110,7 +111,6 @@ export default function EditItem({ item }) {
             editObj.isLow = true
 
         } else if (inventory === "delete" && !move) {
-            console.log(item.id)
             deleteItem(item.id)
             return
         } else if (inventory === "delete" && move) {
@@ -124,9 +124,8 @@ export default function EditItem({ item }) {
             editObj.expiry = expiry
         }
 
+        setChangeForm("base")
         edit(editObj)
-        setChangeForm("")
-
     }
 
     function BaseForm() {
@@ -296,12 +295,3 @@ export default function EditItem({ item }) {
         </form>)
     }
 }
-
-
-
-
-
-
-
-
-
