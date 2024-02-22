@@ -20,11 +20,13 @@ export default function EditItem ({item}) {
     const [ownerId, setOwnerId] = useState(item.ownerId || 0)
     const [sharing, setSharing] = useState(item.sharing && "sharing")
     const [inventory, setInventory] = useState(item.isLow && "low")
-    const [move, setMove] = useState(false)
+    
     const [expiry, setExpiry] = useState(new Date(item.expiry))
     const [name, setName] = useState(item.name)   
     
     const [changeForm, setChangeForm] = useState("base")
+    const [back, setBack] = useState(false)
+    const [move, setMove] = useState(false)
     const [groceryCopy, setGroceryCopy] = useState({})
 
     const [edit, itemEdit] = useEditItemMutation()
@@ -48,7 +50,9 @@ export default function EditItem ({item}) {
             setOwnerId(item.ownerId || 0)
             setSharing(item.sharing && "sharing")
             setInventory(item.isLow && "low")
-            setMove(false)
+            if (back) {
+                setMove(false)
+            }
             setExpiry(new Date(item.expiry))
             setName(item.name)
         }
@@ -84,6 +88,7 @@ export default function EditItem ({item}) {
 
     function saveChange(e) {
         e.preventDefault()
+        setBack(false)
 
         let editObj = {id: item.id, name, category, ownerId, sharing}
         
@@ -198,11 +203,15 @@ export default function EditItem ({item}) {
         return (<form onSubmit={saveChange}>
             <fieldset name={key} onChange={(e) => {setOwnerId(e.target.value)}} >
                 <legend>Update the ownership of {item.name}: </legend>
-                <label>Set as mine <span className={user.color} >{categories.find((category) => item.category === category.name.toLowerCase()).icon}</span>
+                <label>Set as mine 
+                    {
+                        pantry ? <span className={user.color} >{categories.find((category) => item.category === category.name.toLowerCase()).icon}</span>
+                        : <span className={`${item.color} initial`} title={`Belongs to ${user.name}`} > {item.userInitial} </span>
+                    }
                     <input type="radio" name={key} value={user.id} defaultChecked={ownerId == user.id} />
                 </label>
                 <br />
-                <label>Set as household {categories.find((category) => item.category === category.name.toLowerCase()).icon}
+                <label>Set as household {pantry && categories.find((category) => item.category === category.name.toLowerCase()).icon}
                     <input type="radio" name={key} value={0} defaultChecked={ownerId == 0} />
                 </label>
             </fieldset>
@@ -262,7 +271,7 @@ export default function EditItem ({item}) {
                 <input type="checkbox" id='inPantry' checked={move} onChange={(e) => checkboxHandle(e)} />
             </label>
             <br />
-            <button onClick={() => {setChangeForm("base")}}>Back</button>
+            <button onClick={() => {setBack(true); setChangeForm("base");}}>Back</button>
             <button type="submit" >Save</button>
         </form>)
     }
