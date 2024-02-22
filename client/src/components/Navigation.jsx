@@ -43,7 +43,7 @@ export default function Navigation({ drag, dragIt, setDrag }) {
                 onDragOver={e => {e.preventDefault(); e.target.classList.add("dragover");}}
                 onDragLeave={(e) => {e.target.classList.remove("dragover")}}
                 onDrop={() => {
-                    editItem({id: dragIt, inPantry: false, expiry: null, isLow: false})
+                    editItem({id: dragIt, inPantry: false, expiry: null, isLow: false, dateMoved: new Date()})
                     setDrag(false)
                 }}
             >{groceryListIcon}</div>}
