@@ -10,7 +10,7 @@ export const ColorForm = ({ setDisplayForm, setColorButton }) => {
     const dispatch = useDispatch()
 
     const [newColor, setNewColor] = useState(userInfo.color)
-    const colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet", "pink", "gray", "teal", "brown"]
+    const colors = ["red", "orange", "yellow", "green", "blue", "teal", "purple", "pink"]
     const [editUser, editedUser] = useEditUserMutation()
 
     useEffect(() => {
