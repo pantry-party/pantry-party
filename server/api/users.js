@@ -107,10 +107,10 @@ router.post("/register", async (req, res, next) => {
 router.post("/login", async (req, res, next) => {
     try {
         const { username, password } = req.body
-        if (!username) {
+        const user = await getUserbyUsername(username)
+        if (!username || !user) {
             throw new Error("Invalid Username")
         }
-        const user = await getUserbyUsername(username)
         const validPassword = await bcrypt.compare(password, user.password)
         if (!validPassword) {
             throw new Error("Invalid Password")

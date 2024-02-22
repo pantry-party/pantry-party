@@ -7,7 +7,7 @@ import { categoriesContext } from "../storage/context.jsx"
 import { sharingIcon, notSharingIcon, alertIcon, deleteIcon } from "../styles/icons.jsx"
 import { useLocation } from "react-router-dom"
 
-export default function EditItem ({item}) {
+export default function EditItem({ item }) {
     const user = useSelector((it) => it.state.user)
     const [key, setKey] = useState('')
     const location = useLocation()
@@ -15,15 +15,15 @@ export default function EditItem ({item}) {
     if (location.pathname === "/groceryList") {
         pantry = false
     }
-    
+
     const [category, setCategory] = useState(item.category)
     const [ownerId, setOwnerId] = useState(item.ownerId || 0)
     const [sharing, setSharing] = useState(item.sharing && "sharing")
     const [inventory, setInventory] = useState(item.isLow && "low")
     
     const [expiry, setExpiry] = useState(new Date(item.expiry))
-    const [name, setName] = useState(item.name)   
-    
+    const [name, setName] = useState(item.name)
+
     const [changeForm, setChangeForm] = useState("base")
     const [back, setBack] = useState(false)
     const [move, setMove] = useState(false)
@@ -60,10 +60,10 @@ export default function EditItem ({item}) {
 
     if (changeForm === "category") {
         return <EditCategory />
-    } else if (changeForm === "ownerId") {
-        return <EditOwner />
     } else if (changeForm === "name") {
         return <EditName />
+    } else if (changeForm === "ownerId") {
+        return <EditOwner />
     } else if (changeForm === "sharing") {
         return <EditSharing />
     } else if (changeForm === "isLow") {
@@ -74,12 +74,12 @@ export default function EditItem ({item}) {
         return <BaseForm />
     } else if (changeForm === "empty") {
         return (<>
-        {itemDeletion.isError && <p>Error removing item: {itemDeletion.error.error}</p>}
-        {itemDeletion.isSuccess && <p>item removed</p>}
-        {itemCreation.isSuccess && <p>item duplicated to groceryList</p>}
+            {itemDeletion.isError && <p>Error removing item: {itemDeletion.error.error}</p>}
+            {itemDeletion.isSuccess && <p>item removed</p>}
+            {itemCreation.isSuccess && <p>item duplicated to groceryList</p>}
         </>)
     }
-    
+
     function handleSubmit(e) {
         e.preventDefault()
 
@@ -105,24 +105,22 @@ export default function EditItem ({item}) {
         }
 
         if (move) {
-            let copy = {...item}
+            let copy = { ...item }
             copy.inPantry = false
             copy.dateMoved = new Date()
             copy.expiry = null
             setGroceryCopy(copy)
         }
-        console.log(groceryCopy)
-        
+
         if (inventory === "low") {
             editObj.isLow = true
+
         } else if (inventory === "delete" && !move) {
             deleteItem(item.id)
             return
         } else if (inventory === "delete" && move) {
             editObj.isLow = false
             editObj.inPantry = false
-            setMove(!move)
-            setGroceryCopy({})
         } else if (inventory === "not low") {
             editObj.isLow = false
         }
@@ -130,13 +128,14 @@ export default function EditItem ({item}) {
         if (key === "expiry") {
             editObj.expiry = expiry
         }
+
         setChangeForm("base")
         edit(editObj)
     }
-    
-    function BaseForm () {
 
-        return (<form onSubmit={handleSubmit}>
+    function BaseForm() {
+
+        return (<form className="editForm" onSubmit={handleSubmit}>
             <h3>{item.name}</h3>
             {itemEdit.isError && <p>Error editing item: {itemEdit.error.error}</p>}
             {itemDeletion.isError && <p>Error removing item: {itemDeletion.error.error}</p>}
@@ -144,38 +143,45 @@ export default function EditItem ({item}) {
                 <select
                     name="update"
                     value={key}
-                    onChange={(event) => {setKey(event.target.value)}}
+                    onChange={(event) => { setKey(event.target.value) }}
                 >
                     <option>Select</option>
-                    <option value="name" >Name</option>
                     <option value="category" >Category</option>
+                    <option value="name" >Name</option>
                     <option value="ownerId" >Ownership</option>
                     {pantry && (<>
                         <option value="sharing" >Sharing</option>
                         <option value="isLow" >Inventory</option>
                         <option value="expiry" >Expiry</option>
-                    </>)}    
+                    </>)}
+
                 </select>
             </label>
             <br />
-            <button onClick={() => {setChangeForm("empty")}}>Back</button>
-            <button type="Submit" >Continue</button>
+            <div className="editPantryButtons">
+                <button onClick={() => { setChangeForm("empty") }}>Back</button>
+                &nbsp;
+                <button type="Submit"> Continue</button>
+            </div>
         </form>)
     }
 
-    function EditName () {
+    function EditName() {
 
         return (<form onSubmit={saveChange}>
-            <label>Name: 
-                <input value={name} onChange={(e) => {setName(e.target.value)}} />
+            <label>Name:
+                <input value={name} onChange={(e) => { setName(e.target.value) }} />
             </label>
-            <button onClick={() => {setChangeForm("base")}}>Back</button>
-            <button type="submit" >Save</button>
+            <div className="editPantryButtons">
+                <button onClick={() => { setChangeForm("base") }}>Back</button>
+                &nbsp;
+                <button type="submit" >Save</button>
+            </div>
         </form>)
     }
 
-    function EditCategory () {
-        
+    function EditCategory() {
+
         return (<form onSubmit={saveChange}>
             <fieldset name="category" onChange={(e) => {setCategory(e.target.value)}}>
                 <legend>Update the category of {item.name}: </legend>
@@ -192,16 +198,14 @@ export default function EditItem ({item}) {
                         <br />
                     </div> 
                 })}
-            </fieldset>
-            <button onClick={() => {setChangeForm("base")}}>Back</button>
-            <button type="submit" >Save</button>
+                </fieldset> 
         </form>)
     }
 
-    function EditOwner () {
+    function EditOwner() {
 
         return (<form onSubmit={saveChange}>
-            <fieldset name={key} onChange={(e) => {setOwnerId(e.target.value)}} >
+            <fieldset name={key} onChange={(e) => { setOwnerId(e.target.value) }} >
                 <legend>Update the ownership of {item.name}: </legend>
                 <label>Set as mine 
                     {
@@ -215,21 +219,24 @@ export default function EditItem ({item}) {
                     <input type="radio" name={key} value={0} defaultChecked={ownerId == 0} />
                 </label>
             </fieldset>
-            <button onClick={() => {setChangeForm("base")}}>Back</button>
-            <button type="submit" >Save</button>
+            <div className="editPantryButtons">
+                <button onClick={() => { setChangeForm("base") }}>Back</button>
+                &nbsp;
+                <button type="submit" >Save</button>
+            </div>
         </form>)
     }
 
-    function EditSharing () {
+    function EditSharing() {
 
         return (<form onSubmit={saveChange}>
-            <fieldset name={key} onChange={(e) => {setSharing(e.target.value)}} >
+            <fieldset name={key} onChange={(e) => { setSharing(e.target.value) }} >
                 <legend>Update the sharing status of {item.name}: </legend>
-                <label>To share <span className="green" >{sharingIcon}</span>
+                <label id="setShare">To share &nbsp; {sharingIcon}
                     <input type="radio" name={key} value={"sharing"} defaultChecked={sharing === "sharing"} />
                 </label>
                 <br />
-                <label>Not sharing <span className="red" >{notSharingIcon}</span>
+                <label id="setNoShare">Not sharing &nbsp; {notSharingIcon}
                     <input type="radio" name={key} value={"not sharing"} defaultChecked={sharing === "not sharing"} />
                 </label>
                 <br />
@@ -237,13 +244,16 @@ export default function EditItem ({item}) {
                     <input type="radio" name={key} value={"ambivalent"} defaultChecked={sharing === "ambivalent"} />
                 </label>
             </fieldset>
-            <button onClick={() => {setChangeForm("base")}}>Back</button>
-            <button type="submit" >Save</button>
+            <div className="editPantryButtons">
+                <button onClick={() => { setChangeForm("base") }}>Back</button>
+                &nbsp;
+                <button type="submit" >Save</button>
+            </div>
         </form>)
     }
 
-    function EditInventory () {
-        function checkboxHandle (e) {
+    function EditInventory() {
+        function checkboxHandle(e) {
             e.preventDefault()
 
             setMove(!move)
@@ -253,13 +263,13 @@ export default function EditItem ({item}) {
         const finished = 'Set as "finished" '
 
         return (<form onSubmit={saveChange} >
-            <fieldset name={key} onChange={(e) => {setInventory(e.target.value)}} >
+            <fieldset name={key} onChange={(e) => { setInventory(e.target.value) }} >
                 <legend>Update the Inventory of {item.name}: </legend>
-                <label>{runningLow}<span className="green" >{alertIcon}</span> : 
+                <label id="setLow">{runningLow} &nbsp; {alertIcon} :
                     <input type="radio" name={key} value={"low"} defaultChecked={inventory === "low"} />
                 </label>
                 <br />
-                <label>{finished} {deleteIcon} :
+                <label>{finished}:
                     <input type="radio" name={key} value={"delete"} defaultChecked={inventory === "delete"} />
                 </label>
                 <br />
@@ -267,24 +277,30 @@ export default function EditItem ({item}) {
                     <input type="radio" name={key} value={"not low"} defaultChecked={inventory === "not low"} />
                 </label>
             </fieldset>
-            <label>Add to grocery list
+            <label id="groceryCheck" >Add to grocery list
                 <input type="checkbox" id='inPantry' checked={move} onChange={(e) => checkboxHandle(e)} />
             </label>
             <br />
-            <button onClick={() => {setBack(true); setChangeForm("base");}}>Back</button>
-            <button type="submit" >Save</button>
-        </form>)
+            <div className="editPantryButtons">
+                <button onClick={() => {setBack(true);  setChangeForm("base"); }}>Back</button>
+                &nbsp;
+                <button type="submit" >Save</button>
+            </div>
+        </form >)
     }
 
-    function EditExpiry () {
+    function EditExpiry() {
 
         return (<form onSubmit={saveChange}>
-            <label>Update the Expiry of {item.name}: 
+            <label>Update the Expiry of {item.name}:
                 <input type="date" name={key} value={expiry} onChange={(e) => setExpiry(e.target.value)} />
             </label>
             <br />
-            <button onClick={() => {setChangeForm("base")}}>Back</button>
-            <button type="submit" >Save</button>
+            <div className="editPantryButtons">
+                <button onClick={() => { setChangeForm("base") }}>Back</button>
+                &nbsp;
+                <button type="submit" >Save</button>
+            </div>
         </form>)
     }
 }

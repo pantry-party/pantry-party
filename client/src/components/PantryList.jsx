@@ -16,6 +16,7 @@ export default function PantryList({ setDragIt, setDrag}) {
   const [itemEdit, setItemEdit] = useState(false)
   const [editId, setEditId] = useState("")
   const [addForm, setAddForm] = useState(false)
+  const [edit, setEdit] = useState("")
 
   const token = useSelector((it) => it.state.token)
 
@@ -85,7 +86,6 @@ export default function PantryList({ setDragIt, setDrag}) {
 
   //format dateMoved
   const dateType = {
-    weekday: "long",
     year: "numeric",
     month: "long",
     day: "numeric",
@@ -93,7 +93,6 @@ export default function PantryList({ setDragIt, setDrag}) {
 
   function parseDate(timestamp) {
     const date = new Date(timestamp)
-
     return date.toLocaleDateString(undefined, dateType)
   }
 
@@ -124,7 +123,7 @@ export default function PantryList({ setDragIt, setDrag}) {
                 {week.items.map((item) => (
                   <li
                     key={item.id}
-                    className={`${item.color} pantryItemDetail`}  
+                    className={`${item.color} pantryItemDetail edit${itemEdit}`}  
                     draggable={true}
                     onDragStart={() => {setDragIt(item.id); setDrag(true);}}
                     onDragEnd={() => {setDrag(false)}}
