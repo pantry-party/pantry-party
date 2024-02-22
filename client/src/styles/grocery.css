@@ -81,9 +81,10 @@ fieldset {
     border: gray 1px solid; 
     width: fit-content; 
     text-align: left; 
+    margin-bottom: 5px;
 }
 
-fieldset >  label {
+#categorylabel {
     justify-content: left; 
 }
 
@@ -93,7 +94,19 @@ input#ownership {
 
 label {
     display: flex;
-    justify-content: space-between; 
+    justify-content: max-content; 
+}
+
+.editForm {
+    background-color: #d0d0e1; 
+    padding: 5px 10px 10px 10px;
+    border-radius: 5%; 
+    width: auto;
+}
+
+.groceryEdit {
+    display: inline-block; 
+    width: fit-content; 
 }
 
 @media screen and (max-width: 800px) {
