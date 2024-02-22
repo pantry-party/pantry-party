@@ -25,6 +25,10 @@
     flex-wrap: wrap;
 }
 
+.editPantryButtons {
+    text-align: center; 
+}
+
 .pantryEditButton {
     font-size: x-large;
     padding: 5px; 
@@ -77,6 +81,10 @@
 
 #setNoShare > svg > path {
     fill: red; 
+}
+
+#categoryFields > div > label {
+    justify-content: left; 
 }
 
 #groceryCheck {

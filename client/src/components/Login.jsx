@@ -32,8 +32,7 @@ export default function Login() {
     return (<div>
         <form title='Login Form' className="loginForm" onSubmit={handleSubmit}>
             <h3>Sign In</h3>
-            {userLogin.isError && <p>{userLogin.error.error}</p>}
-
+            {error && <p>{error}</p>}
             <label>Username:
                 <input
                     value={username}
