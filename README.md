@@ -2,6 +2,9 @@
 
 Welcome to the Pantry Party! 
 
+Link to deployed site: 
+- https://pantry-party-app.onrender.com/
+
 Description: 
 - An app for individual users and households to track what they have in the fridge/pantry and what they need to pick up at the grocery store! 
 
