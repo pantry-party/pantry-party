@@ -112,6 +112,7 @@ export default function GroceryList({setDrag, setDragIt, dragIt}) {
                                         >
                                             {item.ownerId ? <span className={`${item.color} initial`} title={`Belongs to ${item.ownerName}`} > {item.userInitial} </span> : <span className="initial">&nbsp; &nbsp;</span>}
                                             {!editMode && <input
+                                                className="groceryCheck"
                                                 type="checkbox"
                                                 defaultChecked={item.inPantry}
                                                 onChange={() => {
