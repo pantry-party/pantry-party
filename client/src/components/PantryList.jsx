@@ -9,7 +9,7 @@ import { categoriesContext } from "../storage/context.jsx"
 import { useSelector } from "react-redux"
 import "../styles/pantry.css"
 
-export default function PantryList({ setDragIt, setDrag}) {
+export default function PantryList({ setDragIt, setDrag }) {
   const user = useSelector((it) => it.state.user)
   const householdId = user.sharedHouse || user.defaultHouse
   const { data = {}, error, isLoading } = useGetPantryItemsbyHouseholdIdQuery(householdId)
@@ -97,16 +97,16 @@ export default function PantryList({ setDragIt, setDrag}) {
         <h1>Your Pantry</h1>
         <div className="pantryIntro">
           <p className="instructions"> Click on the category button to edit your item! </p>
-          {!addForm 
-          ? <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton" > {addIcon} </button>
-          : <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton clicked" > {addIcon} </button>
+          {!addForm
+            ? <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton" > {addIcon} </button>
+            : <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton clicked" > {addIcon} </button>
           }
-          </div>
+        </div>
+
+
+        {/* link to add form component */}
+        {addForm && <div className="pantryAddForm"><AddItem householdId={householdId} location="pantry" /></div>}
       </div>
-
-      {/* link to add form component */}
-      {addForm && <div className="pantryAddForm"><AddItem householdId={householdId} location="pantry" /></div>}
-
       {/* display items and icons */}
       <div className="pantryItems">
         {weeksArr.map((week) => {
@@ -117,10 +117,10 @@ export default function PantryList({ setDragIt, setDrag}) {
                 {week.items.map((item) => (
                   <li
                     key={item.id}
-                    className={` pantryItemDetail edit${itemEdit}`}  
+                    className={` pantryItemDetail edit${itemEdit}`}
                     draggable={true}
-                    onDragStart={() => {setDragIt(item.id); setDrag(true);}}
-                    onDragEnd={() => {setDrag(false)}}
+                    onDragStart={() => { setDragIt(item.id); setDrag(true); }}
+                    onDragEnd={() => { setDrag(false) }}
                   >
                     {/* edit item button */}
                     <span className="itemIcons">

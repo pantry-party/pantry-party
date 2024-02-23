@@ -4,6 +4,14 @@
     padding-bottom: 5px;
 }
 
+.loginForm > label {
+    display: grid; 
+    grid-template: 1fr/30% 50%; 
+    text-align: left; 
+    margin-bottom: 5px;
+    margin-left: 20%;
+}
+
 .registerForm {
     width: 40%; 
     margin: 0 auto; 
@@ -11,12 +19,15 @@
 }
 
 .registerForm > label {
-    display: flex; 
-    justify-content: space-between; 
+    display: grid; 
+    grid-template: 1fr/50% 50%; 
+    text-align: left; 
+    margin-bottom: 5px;
+    margin-left: 20%;
 }
 
 .setRegisterButton {
-    background-color: white; 
+    background-color: inherit; 
     color: blue; 
     border: none; 
 }
