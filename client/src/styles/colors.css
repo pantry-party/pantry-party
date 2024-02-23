@@ -116,3 +116,12 @@
     color:  #b3b3cc;
     background-color: #3d3d5c;
 }
+
+.polkadot {
+    background-color: #e5e5f7;
+    opacity: 0.8;
+    background-image:  radial-gradient(#9292b9 0.75px, transparent 0.75px), radial-gradient(#9292b9 0.75px, #e5e5f7 0.75px);
+    background-size: 32px 32px;
+    background-position: 0 0,15px 15px;
+    color: #3D3D5C;
+}
