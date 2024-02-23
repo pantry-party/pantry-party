@@ -2,7 +2,7 @@
 import { useState, useContext } from "react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import { categoriesContext } from "../storage/context"
+import { categoriesContext, userContext } from "../storage/context"
 import { useGetGroceryItemsbyHouseholdIdQuery, useEditItemMutation, useDeleteItemMutation } from "../storage/pantryPartyApi"
 import { editIcon, addIcon, goBackIcon, deleteIcon } from "../styles/icons"
 import AddItem from "./AddItem"
@@ -14,7 +14,8 @@ import "../styles/drag-drop.css"
 
 export default function GroceryList({ setDrag, setDragIt, dragIt }) {
     const user = useSelector((it) => it.state.user)
-    const householdId = user.sharedHouse || user.defaultHouse
+    const userInfo = useContext(userContext)
+    const householdId = userInfo?.sharedHouse || userInfo?.defaultHouse
     const groceryPull = useGetGroceryItemsbyHouseholdIdQuery(householdId)
     const categories = useContext(categoriesContext)
     const groceryList = groceryPull.data
@@ -67,7 +68,7 @@ export default function GroceryList({ setDrag, setDragIt, dragIt }) {
 
     return (<div className="groceryListPage">
         {/* title, subtitle, and add to list and edit buttons*/}
-        <div className="groceryTop">
+        <div className="groceryTop polkadot">
             <h1>Your Grocery List</h1>
             <div className="groceryIntro">
                 <p className="instructions">Check things off to add them to your pantry! Drag an item to change its category. </p>
