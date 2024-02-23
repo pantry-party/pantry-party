@@ -47,7 +47,6 @@ export default function Login() {
                     onChange={(event) => { setPassword(event.target.value) }}
                 />
             </label>
-            <br />
             <button type="submit">Sign in</button>
         </form>
     </div>)

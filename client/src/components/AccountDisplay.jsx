@@ -127,7 +127,7 @@ export default function AccountDisplay({ household, setHousehold }) {
     }
 
     return (
-        <div>
+        <div className="homepage polkadot">
             {!userInfo?.username && !register &&
                 <div className="login">
                     <Login userInfo={userInfo} />

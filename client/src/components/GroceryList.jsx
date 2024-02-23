@@ -1,6 +1,7 @@
 //content/display of grocery list
 import { useState, useContext } from "react"
 import { useSelector } from "react-redux"
+import { Link } from "react-router-dom"
 import { categoriesContext } from "../storage/context"
 import { useGetGroceryItemsbyHouseholdIdQuery, useEditItemMutation, useDeleteItemMutation } from "../storage/pantryPartyApi"
 import { editIcon, addIcon, goBackIcon, deleteIcon } from "../styles/icons"
@@ -9,11 +10,11 @@ import AddToCategory from "./GroceryListAdds"
 import EditItem from "./EditItem"
 import "../styles/grocery.css"
 import "../styles/colors.css"
-import  "../styles/drag-drop.css"
+import "../styles/drag-drop.css"
 
-export default function GroceryList({setDrag, setDragIt, dragIt}) {
+export default function GroceryList({ setDrag, setDragIt, dragIt }) {
     const user = useSelector((it) => it.state.user)
-    const householdId = user.sharedHouse || user.defaultHouse
+    const householdId = user?.sharedHouse || user?.defaultHouse
     const groceryPull = useGetGroceryItemsbyHouseholdIdQuery(householdId)
     const categories = useContext(categoriesContext)
     const groceryList = groceryPull.data
@@ -32,7 +33,7 @@ export default function GroceryList({setDrag, setDragIt, dragIt}) {
     if (groceryPull.isLoading) {
         return <div>Pulling out grocery list...</div>
     } if (groceryPull.error) {
-        return <div>Your grocery list blew away...</div>
+        return <div>Your grocery list blew away...<Link to={"/"}> log in</Link> to catch it!</div>
     }
 
     function categoryOrder() {
@@ -66,35 +67,36 @@ export default function GroceryList({setDrag, setDragIt, dragIt}) {
 
     return (<div className="groceryListPage">
         {/* title, subtitle, and add to list and edit buttons*/}
-        <div className="groceryTop">
+        <div className="groceryTop polkadot">
             <h1>Your Grocery List</h1>
             <div className="groceryIntro">
-                <p className="instructions">Check things off to add them to your pantry!</p>
+                <p className="instructions">Check things off to add them to your pantry! Drag an item to change its category. </p>
                 <span className="groceryButtonArea">
-                {!editMode
-                    ? <button className="groceryButton" title="Edit Items" onClick={() => { setEditMode(true) }}>{editIcon}</button>
-                    : <button className="groceryButton clicked" title="Close Editor" onClick={() => { setEditMode(false); setItemEdit(false) }}>{goBackIcon}</button>}
-                <div className="spacer"> &nbsp; </div>
-                {!addForm 
-                    ? <button title="Add New Item" className="groceryButton" onClick={() => { setAddForm(!addForm) }}>{addIcon}</button>
-                    : <button title="Add New Item" className="groceryButton clicked" onClick={() => { setAddForm(!addForm) }}>{addIcon}</button>
-                }       
-                    </span>
+                    {!editMode
+                        ? <button className="groceryButton" title="Edit Items" onClick={() => { setEditMode(true) }}>{editIcon}</button>
+                        : <button className="groceryButton clicked" title="Close Editor" onClick={() => { setEditMode(false); setItemEdit(false) }}>{goBackIcon}</button>}
+                    <div className="spacer"> &nbsp; </div>
+                    {!addForm
+                        ? <button title="Add New Item" className="groceryButton" onClick={() => { setAddForm(!addForm) }}>{addIcon}</button>
+                        : <button title="Add New Item" className="groceryButton clicked" onClick={() => { setAddForm(!addForm) }}>{addIcon}</button>
+                    }
+                </span>
             </div>
+
+            {/* link to add form component */}
+
+            {addForm && <div className="groceryAddForm"> <AddItem householdId={householdId} location="groceryList" setAddForm={setAddForm} /> </div>}
         </div>
-        {/* link to add form component */}
-        
-        {addForm && <div className="groceryAddForm"> <AddItem householdId={householdId} location="groceryList" setAddForm={setAddForm} /> </div> }
         {/* alphabetically ordered categories -- add logic for populated cats first */}
         <div className="groceryCategories">
             {orderedCategories.map((category, index) => {
                 return (
                     <div
                         className="groceryCategory"
-                        key={index} 
-                        onDragOver={e => {e.preventDefault(); setDragCat(category); e.target.classList.add("dragover")}}
-                        onDragLeave={(e) => {setDragCat(""); e.target.classList.remove("dragover")}}
-                        onDrop={(e) => {editItem({id: dragIt, category: dragCat}); setDrag(false); e.target.classList.remove("dragover")}}
+                        key={index}
+                        onDragOver={e => { e.preventDefault(); setDragCat(category); e.target.classList.add("dragover") }}
+                        onDragLeave={(e) => { setDragCat(""); e.target.classList.remove("dragover") }}
+                        onDrop={(e) => { editItem({ id: dragIt, category: dragCat }); setDrag(false); e.target.classList.remove("dragover") }}
                     >
                         <h3>
                             {categories.find((cat) => category === cat.name.toLowerCase()).icon} &ensp;
@@ -107,8 +109,8 @@ export default function GroceryList({setDrag, setDragIt, dragIt}) {
                                         <li
                                             className="groceryDetails"
                                             draggable={true}
-                                            onDragStart={() => {setDragIt(item.id); setDrag(true);}}
-                                            onDragEnd={() => {setDrag(false)}}
+                                            onDragStart={() => { setDragIt(item.id); setDrag(true); }}
+                                            onDragEnd={() => { setDrag(false) }}
                                         >
                                             {item.ownerId ? <span className={`${item.color} initial`} title={`Belongs to ${item.ownerName}`} > {item.userInitial} </span> : <span className="initial">&nbsp; &nbsp;</span>}
                                             {!editMode && <input

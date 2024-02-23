@@ -4,6 +4,11 @@
     justify-content: space-between;
 }
 
+.pantryTop {
+    margin: 0 -5px;
+    padding-top: 10px;
+}
+
 .weekH3 {
     color: gray; 
     margin-top: 2px; 
@@ -11,7 +16,7 @@
 }
 
 .pantryAddForm {
-    margin-bottom: 5px;
+    padding-bottom: 5px;
 }
 
 .pantryWeek {
@@ -121,15 +126,3 @@
         width: 100%; 
     }
 }
-
-/* 
-DONE week names: h3, remove the second date, gray,  smaller top margin, left-align -> make sure grocery list h3s are black
-DONE week sections: border-bottom gray (add border bottom to pantry intro, space-evenly instead of space-around
-DONE item names: p, bold
-root: width needs to change, do the side nav first and see
-DONE icons: x-large, width: 42px
-DONE add <p> Click on the category icon to edit the item! </p> 
-DONE move add item button to correct placement
-DONE add forms  - no border, light gray background, border radius 2% (also for input), align inputs/labels
-DONE grocery list: set instructions to <p> w/ className instructions
-*/

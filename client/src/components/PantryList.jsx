@@ -1,6 +1,7 @@
 //content/display of the pantry
 import { useGetPantryItemsbyHouseholdIdQuery } from "../storage/pantryPartyApi"
 import { useContext, useState } from "react"
+import { Link } from "react-router-dom"
 import { addIcon, alertIcon, sharingIcon, notSharingIcon } from "../styles/icons"
 import AddItem from "./AddItem"
 import EditItem from "./EditItem"
@@ -9,9 +10,9 @@ import { useSelector } from "react-redux"
 import "../styles/pantry.css"
 import { useNavigate } from "react-router-dom"
 
-export default function PantryList({ setDragIt, setDrag}) {
+export default function PantryList({ setDragIt, setDrag }) {
   const user = useSelector((it) => it.state.user)
-  const householdId = user.sharedHouse || user.defaultHouse
+  const householdId = user?.sharedHouse || user?.defaultHouse
   const { data = {}, error, isLoading } = useGetPantryItemsbyHouseholdIdQuery(householdId)
   const categories = useContext(categoriesContext)
   const [itemEdit, setItemEdit] = useState(false)
@@ -30,7 +31,7 @@ export default function PantryList({ setDragIt, setDrag}) {
     return <div>Loading...</div>
   }
   if (error) {
-    return <div>Log in to open your pantry...{error.message}</div>
+    return <div><Link to={"/"}>Log in</Link> to open your pantry...</div>
   }
 
   function createWeeks() {
@@ -98,21 +99,21 @@ export default function PantryList({ setDragIt, setDrag}) {
   return (
     <div className="pantryPage">
       {/* title, add new item button */}
-      <div className="pantryTop">
+      <div className="pantryTop polkadot">
         <h1>Your Pantry</h1>
         <div className="pantryIntro">
           <p className="instructions"> Click on the category button to edit your item! </p>
-          {!addForm 
-          ? <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton" > {addIcon} </button>
-          : <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton clicked" > {addIcon} </button>
+          {!addForm
+            ? <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton" > {addIcon} </button>
+            : <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton clicked" > {addIcon} </button>
           }
           <button title="Change Sorting" onClick={() => {setSort(true)}}>Sort by category</button>
         </div>
       </div>
 
-      {/* link to add form component */}
-      {addForm && <div className="pantryAddForm"><AddItem householdId={householdId} location="pantry" /></div>}
-
+        {/* link to add form component */}
+        {addForm && <div className="pantryAddForm"><AddItem householdId={householdId} location="pantry" /></div>}
+      </div>
       {/* display items and icons */}
       <div className="pantryItems">
         {weeksArr.map((week) => {
@@ -123,10 +124,10 @@ export default function PantryList({ setDragIt, setDrag}) {
                 {week.items.map((item) => (
                   <li
                     key={item.id}
-                    className={` pantryItemDetail edit${itemEdit}`}  
+                    className={` pantryItemDetail edit${itemEdit}`}
                     draggable={true}
-                    onDragStart={() => {setDragIt(item.id); setDrag(true);}}
-                    onDragEnd={() => {setDrag(false)}}
+                    onDragStart={() => { setDragIt(item.id); setDrag(true); }}
+                    onDragEnd={() => { setDrag(false) }}
                   >
                     {/* edit item button */}
                     <span className="itemIcons">

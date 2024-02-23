@@ -2,9 +2,19 @@
     text-align: left; 
 }
 
+.groceryTop {
+    margin: 0 -5px;
+    padding-top: 10px;
+}
+
 h1 {
     text-align: center;
     margin: auto; 
+}
+
+.instructions {
+    font-weight: bold; 
+    padding-left: 10px;
 }
 
 .groceryIntro {
@@ -57,16 +67,31 @@ ul {
 
 #addItemForm { 
     border-radius: 5%; 
-    background-color: #d0d0e1;
+    background-color: #b3b3cc;
     padding: 10px; 
     margin: 0 auto; 
     width: 50%;
     display: flex;
     flex-direction: column;
+    text-align: center; 
 }
 
 .groceryAddForm {
     padding-bottom: 5px; 
+    color: #3D3D5C;
+}
+
+.addForm > label {
+    display: grid; 
+    grid-template: 1fr/30% 50%; 
+    text-align: left; 
+    margin-bottom: 5px;
+    margin-left: 20%;
+}
+
+.addForm {
+    width: 65%;
+    margin: 0 auto; 
 }
 
 .addSubmitButton {
