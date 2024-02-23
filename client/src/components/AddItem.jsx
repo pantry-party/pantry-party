@@ -116,7 +116,7 @@ export default function AddItem({ householdId, location, setAddForm }) {
             //grocery list add new item
             <div id="addItemForm">
                 <h2>Add a New Item</h2>
-                <form onSubmit={handleGrocerySubmit}>
+                <form className="addForm" onSubmit={handleGrocerySubmit}>
                     <label for="name">Item name:
                         <input
                             id="name"
@@ -153,7 +153,7 @@ export default function AddItem({ householdId, location, setAddForm }) {
             // pantry add new item
             <div id="addItemForm">
                 <h2>Add a New Item</h2>
-                <form onSubmit={handlePantrySubmit}>
+                <form className="addForm" onSubmit={handlePantrySubmit}>
                     <label for="name">Item name:
                         <input
                             id="name"
