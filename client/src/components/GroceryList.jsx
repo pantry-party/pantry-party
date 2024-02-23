@@ -124,7 +124,7 @@ export default function GroceryList({setDrag, setDragIt, dragIt}) {
                                                 deleteItem(item.id)
                                             }}>{deleteIcon}</button>}
                                         </li >
-                                        {itemEdit && item.id === editId && <EditItem item={item} />}
+                                        {itemEdit && item.id === editId && <EditItem item={item} setItemEdit={setItemEdit} />}
                                     </ul>
                                 )
                             }
