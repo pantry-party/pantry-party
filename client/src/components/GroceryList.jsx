@@ -112,6 +112,7 @@ export default function GroceryList({setDrag, setDragIt, dragIt}) {
                                         >
                                             {item.ownerId ? <span className={`${item.color} initial`} title={`Belongs to ${item.ownerName}`} > {item.userInitial} </span> : <span className="initial">&nbsp; &nbsp;</span>}
                                             {!editMode && <input
+                                                className="groceryCheck"
                                                 type="checkbox"
                                                 defaultChecked={item.inPantry}
                                                 onChange={() => {
@@ -124,7 +125,9 @@ export default function GroceryList({setDrag, setDragIt, dragIt}) {
                                                 deleteItem(item.id)
                                             }}>{deleteIcon}</button>}
                                         </li >
-                                        {itemEdit && item.id === editId && <EditItem item={item} setItemEdit={setItemEdit} />}
+                                        <span className="groceryEdit"> 
+                                            {itemEdit && item.id === editId && <EditItem item={item} setItemEdit={setItemEdit} />}
+                                        </span> 
                                     </ul>
                                 )
                             }

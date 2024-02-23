@@ -116,7 +116,7 @@ export default function PantryList({ setDragIt, setDrag}) {
                 {week.items.map((item) => (
                   <li
                     key={item.id}
-                    className={`${item.color} pantryItemDetail edit${itemEdit}`}  
+                    className={` pantryItemDetail edit${itemEdit}`}  
                     draggable={true}
                     onDragStart={() => {setDragIt(item.id); setDrag(true);}}
                     onDragEnd={() => {setDrag(false)}}
