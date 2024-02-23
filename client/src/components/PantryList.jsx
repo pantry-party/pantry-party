@@ -99,7 +99,7 @@ export default function PantryList({ setDragIt, setDrag }) {
   return (
     <div className="pantryPage">
       {/* title, add new item button */}
-      <div className="pantryTop">
+      <div className="pantryTop polkadot">
         <h1>Your Pantry</h1>
         <div className="pantryIntro">
           <p className="instructions"> Click on the category button to edit your item! </p>

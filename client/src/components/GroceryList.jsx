@@ -66,7 +66,7 @@ export default function GroceryList({ setDrag, setDragIt, dragIt }) {
 
     return (<div className="groceryListPage">
         {/* title, subtitle, and add to list and edit buttons*/}
-        <div className="groceryTop">
+        <div className="groceryTop polkadot">
             <h1>Your Grocery List</h1>
             <div className="groceryIntro">
                 <p className="instructions">Check things off to add them to your pantry! Drag an item to change its category. </p>
