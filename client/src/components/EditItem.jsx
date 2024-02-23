@@ -7,7 +7,7 @@ import { categoriesContext } from "../storage/context.jsx"
 import { sharingIcon, notSharingIcon, alertIcon, deleteIcon } from "../styles/icons.jsx"
 import { useLocation } from "react-router-dom"
 
-export default function EditItem({ item }) {
+export default function EditItem({ item, setItemEdit }) {
     const user = useSelector((it) => it.state.user)
     const [key, setKey] = useState('')
     const location = useLocation()
@@ -41,8 +41,16 @@ export default function EditItem({ item }) {
             createItem(groceryCopy)
             setGroceryCopy({})
             setMove(false)
+            setItemEdit(false)
         }
     }, [itemEdit.isSuccess, move])
+
+    useEffect(() => {
+        if (name !== item.name) {
+            edit({id: item.id, name})
+            setItemEdit(false)
+        }
+    }, [name])
 
     useEffect(() => {
         if (changeForm === "base") {
@@ -72,18 +80,14 @@ export default function EditItem({ item }) {
         return <EditExpiry />
     } else if (changeForm === "base") {
         return <BaseForm />
-    } else if (changeForm === "empty") {
-        return (<>
-            {itemDeletion.isError && <p>Error removing item: {itemDeletion.error.error}</p>}
-            {itemDeletion.isSuccess && <p>item removed</p>}
-            {itemCreation.isSuccess && <p>item duplicated to groceryList</p>}
-        </>)
     }
 
     function handleSubmit(e) {
         e.preventDefault()
-
-        setChangeForm(key)
+        if (key) {
+            setChangeForm(key)  
+        }
+        
     }
 
     function saveChange(e) {
@@ -104,14 +108,6 @@ export default function EditItem({ item }) {
             editObj.sharing = null
         }
 
-        if (move) {
-            let copy = { ...item }
-            copy.inPantry = false
-            copy.dateMoved = new Date()
-            copy.expiry = null
-            setGroceryCopy(copy)
-        }
-
         if (inventory === "low") {
             editObj.isLow = true
 
@@ -121,6 +117,8 @@ export default function EditItem({ item }) {
         } else if (inventory === "delete" && move) {
             editObj.isLow = false
             editObj.inPantry = false
+            editObj.dateMoved = new Date()
+            editObj.expiry = null
         } else if (inventory === "not low") {
             editObj.isLow = false
         }
@@ -129,7 +127,15 @@ export default function EditItem({ item }) {
             editObj.expiry = expiry
         }
 
-        setChangeForm("base")
+        if (move) {
+            let copy = { ...item }
+            copy.inPantry = false
+            copy.dateMoved = new Date()
+            copy.expiry = null
+            setGroceryCopy(copy)
+        } else {
+            setItemEdit(false)
+        }
         edit(editObj)
     }
 
@@ -159,7 +165,7 @@ export default function EditItem({ item }) {
             </label>
             <br />
             <div className="editPantryButtons">
-                <button onClick={() => { setChangeForm("empty") }}>Back</button>
+                <button onClick={() => { setItemEdit(false) }}>Back</button>
                 &nbsp;
                 <button type="Submit"> Continue</button>
             </div>
@@ -167,10 +173,12 @@ export default function EditItem({ item }) {
     }
 
     function EditName() {
+        const [updateName, setUpdateName] = useState(name)
 
-        return (<form className="editForm" onSubmit={saveChange}>
+        return (<form className="editForm" onSubmit={(e) => {setName(updateName)}}>
+
             <label>Name:
-                <input value={name} onChange={(e) => { setName(e.target.value) }} />
+                <input value={updateName} onChange={(e) => {setUpdateName(e.target.value)}} />
             </label>
             <div className="editPantryButtons">
                 <button onClick={() => { setChangeForm("base") }}>Back</button>
@@ -274,11 +282,11 @@ export default function EditItem({ item }) {
                     <input type="radio" name={key} value={"low"} defaultChecked={inventory === "low"} />
                 </label>
                 <br />
-                <label>{finished}:
+                <label>{finished} &nbsp; {deleteIcon} :
                     <input type="radio" name={key} value={"delete"} defaultChecked={inventory === "delete"} />
                 </label>
                 <br />
-                <label>Not low
+                <label>Not low:
                     <input type="radio" name={key} value={"not low"} defaultChecked={inventory === "not low"} />
                 </label>
             </fieldset>
