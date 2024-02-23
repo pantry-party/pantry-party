@@ -1,6 +1,7 @@
 //content/display of the pantry
 import { useGetPantryItemsbyHouseholdIdQuery } from "../storage/pantryPartyApi"
 import { useContext, useState } from "react"
+import { Link } from "react-router-dom"
 import { addIcon, alertIcon, sharingIcon, notSharingIcon } from "../styles/icons"
 import AddItem from "./AddItem"
 import EditItem from "./EditItem"
@@ -24,7 +25,7 @@ export default function PantryList({ setDragIt, setDrag}) {
     return <div>Loading...</div>
   }
   if (error) {
-    return <div>Log in to open your pantry...{error.message}</div>
+    return <div><Link to={"/"}>Log in</Link> to open your pantry...</div>
   }
 
   function createWeeks() {
