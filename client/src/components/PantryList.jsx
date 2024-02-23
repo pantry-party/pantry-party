@@ -7,6 +7,7 @@ import EditItem from "./EditItem"
 import { categoriesContext } from "../storage/context.jsx"
 import { useSelector } from "react-redux"
 import "../styles/pantry.css"
+import { useNavigate } from "react-router-dom"
 
 export default function PantryList({ setDragIt, setDrag}) {
   const user = useSelector((it) => it.state.user)
@@ -16,7 +17,12 @@ export default function PantryList({ setDragIt, setDrag}) {
   const [itemEdit, setItemEdit] = useState(false)
   const [editId, setEditId] = useState("")
   const [addForm, setAddForm] = useState(false)
-  const [edit, setEdit] = useState("")
+  const [sort, setSort] = useState(false)
+  const navigate = useNavigate()
+
+  if (sort) {
+    navigate("/pantry/categories")
+  }
 
   const token = useSelector((it) => it.state.token)
 
@@ -100,7 +106,8 @@ export default function PantryList({ setDragIt, setDrag}) {
           ? <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton" > {addIcon} </button>
           : <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton clicked" > {addIcon} </button>
           }
-          </div>
+          <button title="Change Sorting" onClick={() => {setSort(true)}}>Sort by category</button>
+        </div>
       </div>
 
       {/* link to add form component */}
