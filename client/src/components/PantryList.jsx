@@ -5,14 +5,13 @@ import { Link } from "react-router-dom"
 import { addIcon, alertIcon, sharingIcon, notSharingIcon } from "../styles/icons"
 import AddItem from "./AddItem"
 import EditItem from "./EditItem"
-import { categoriesContext, userContext } from "../storage/context.jsx"
+import { categoriesContext } from "../storage/context.jsx"
 import { useSelector } from "react-redux"
 import "../styles/pantry.css"
 
 export default function PantryList({ setDragIt, setDrag }) {
   const user = useSelector((it) => it.state.user)
-  const userInfo = useContext(userContext)
-  const householdId = userInfo?.sharedHouse || userInfo?.defaultHouse
+  const householdId = user?.sharedHouse || user?.defaultHouse
   const { data = {}, error, isLoading } = useGetPantryItemsbyHouseholdIdQuery(householdId)
   const categories = useContext(categoriesContext)
   const [itemEdit, setItemEdit] = useState(false)

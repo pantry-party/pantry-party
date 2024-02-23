@@ -2,7 +2,7 @@
 import { useState, useContext } from "react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
-import { categoriesContext, userContext } from "../storage/context"
+import { categoriesContext } from "../storage/context"
 import { useGetGroceryItemsbyHouseholdIdQuery, useEditItemMutation, useDeleteItemMutation } from "../storage/pantryPartyApi"
 import { editIcon, addIcon, goBackIcon, deleteIcon } from "../styles/icons"
 import AddItem from "./AddItem"
@@ -14,8 +14,7 @@ import "../styles/drag-drop.css"
 
 export default function GroceryList({ setDrag, setDragIt, dragIt }) {
     const user = useSelector((it) => it.state.user)
-    const userInfo = useContext(userContext)
-    const householdId = userInfo?.sharedHouse || userInfo?.defaultHouse
+    const householdId = user?.sharedHouse || user?.defaultHouse
     const groceryPull = useGetGroceryItemsbyHouseholdIdQuery(householdId)
     const categories = useContext(categoriesContext)
     const groceryList = groceryPull.data
