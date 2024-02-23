@@ -1,6 +1,7 @@
 //content/display of grocery list
 import { useState, useContext } from "react"
 import { useSelector } from "react-redux"
+import { Link } from "react-router-dom"
 import { categoriesContext } from "../storage/context"
 import { useGetGroceryItemsbyHouseholdIdQuery, useEditItemMutation, useDeleteItemMutation } from "../storage/pantryPartyApi"
 import { editIcon, addIcon, goBackIcon, deleteIcon } from "../styles/icons"
@@ -32,7 +33,7 @@ export default function GroceryList({setDrag, setDragIt, dragIt}) {
     if (groceryPull.isLoading) {
         return <div>Pulling out grocery list...</div>
     } if (groceryPull.error) {
-        return <div>Your grocery list blew away...</div>
+        return <div>Your grocery list blew away...<Link to={"/"}> log in</Link> to catch it!</div>
     }
 
     function categoryOrder() {
@@ -112,6 +113,7 @@ export default function GroceryList({setDrag, setDragIt, dragIt}) {
                                         >
                                             {item.ownerId ? <span className={`${item.color} initial`} title={`Belongs to ${item.ownerName}`} > {item.userInitial} </span> : <span className="initial">&nbsp; &nbsp;</span>}
                                             {!editMode && <input
+                                                className="groceryCheck"
                                                 type="checkbox"
                                                 defaultChecked={item.inPantry}
                                                 onChange={() => {
@@ -125,7 +127,7 @@ export default function GroceryList({setDrag, setDragIt, dragIt}) {
                                             }}>{deleteIcon}</button>}
                                         </li >
                                         <span className="groceryEdit"> 
-                                        {itemEdit && item.id === editId && <EditItem item={item} />}
+                                            {itemEdit && item.id === editId && <EditItem item={item} setItemEdit={setItemEdit} />}
                                         </span> 
                                     </ul>
                                 )

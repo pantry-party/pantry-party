@@ -1,6 +1,7 @@
 //content/display of the pantry
 import { useGetPantryItemsbyHouseholdIdQuery } from "../storage/pantryPartyApi"
 import { useContext, useState } from "react"
+import { Link } from "react-router-dom"
 import { addIcon, alertIcon, sharingIcon, notSharingIcon } from "../styles/icons"
 import AddItem from "./AddItem"
 import EditItem from "./EditItem"
@@ -24,7 +25,7 @@ export default function PantryList({ setDragIt, setDrag}) {
     return <div>Loading...</div>
   }
   if (error) {
-    return <div>Log in to open your pantry...{error.message}</div>
+    return <div><Link to={"/"}>Log in</Link> to open your pantry...</div>
   }
 
   function createWeeks() {
@@ -84,16 +85,9 @@ export default function PantryList({ setDragIt, setDrag}) {
     }
   }
 
-  //format dateMoved
-  const dateType = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
-
   function parseDate(timestamp) {
     const date = new Date(timestamp)
-    return date.toLocaleDateString(undefined, dateType)
+    return date.toLocaleDateString()
   }
 
   return (
@@ -141,7 +135,7 @@ export default function PantryList({ setDragIt, setDrag}) {
                       {item.isLow && <p className="alert isLow" title="Running Low!"> &nbsp; {alertIcon}</p>}
                     </span>
                     {item.expiry && <div className="expiryDate"> <p>Exp. {parseDate(item.expiry)}</p> </div>}
-                    {itemEdit && item.id === editId && <EditItem item={item} />}
+                    {itemEdit && item.id === editId && <EditItem item={item} setItemEdit={setItemEdit} />}
                   </li>
                 ))}
               </ul>
