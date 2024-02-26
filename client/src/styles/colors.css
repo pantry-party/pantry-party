@@ -57,6 +57,14 @@
     color: lightgray;
 }
 
+.CBtrue {
+    color: #3d3d5c;
+}
+
+.CBtrue > svg > path {
+   fill: #3d3d5c;
+}
+
 .nosharing {
     color: #e60000; 
 }
@@ -125,6 +133,11 @@
     text-align: center;  
 }
 
+.initial.CBtrue {
+    background-color: #3d3d5c;
+}
+
+
 .pantryEditButton.red {
     background-color: #ff8080;
     color: #3d3d5c;
@@ -168,4 +181,12 @@
 .pantryEditButton:hover {
     background-color: #3d3d5c;
     color: #b3b3cc;
+}
+
+.pantryEditButton.CBtrue{
+    background-color: white;
+}
+
+.initial.CBtrue{
+    background-color: #3D3D5C;
 }

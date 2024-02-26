@@ -21,6 +21,7 @@ export default function PantryList({ setDragIt, setDrag }) {
   const [edit, setEdit] = useState("")
   const token = useSelector((it) => it.state.token)
   const [sortStyle, setSortStyle] = useState("date")
+  const [check, setCheck] = useState(false)
 
   if (isLoading) {
     return <div className="loggedout polkadot"><div className="login">Loading...</div></div> 
@@ -59,6 +60,9 @@ export default function PantryList({ setDragIt, setDrag }) {
         <div className="pantryIntro">
           <p className="instructions"> To edit, click the item icon! To delete, drag it to the menu.  </p>
           <div className="pantryButtons">
+            <label className="colorblind sort"> 
+              <input type="checkbox" default={false} onChange={()=>{setCheck(!check) ; console.log(check)}}> 
+              </input> Colorblind Mode </label>
             <label className="sort">Sort by: &nbsp;
               <select
                 title="Change Sorting"
@@ -100,27 +104,28 @@ export default function PantryList({ setDragIt, setDrag }) {
                     {/* edit item button */}
                     <span className="itemIcons">
                       {item.expiry && (parseDate(item.expiry) <= todayParse) &&
-                        <button title="Edit Item Details" onClick={() => { itemEditor(item.id) }} className={`${item.color} pantryEditButton expired`}>
+                        <button title="Edit Item Details" onClick={() => { itemEditor(item.id) }} className={`CB${check} ${item.color} pantryEditButton expired`}>
                           <i className={`${item.category}Icon`}> {categories.find((category) => item.category === category.name.toLowerCase()).icon} </i>
                           <i className="slashIcon"> {slashIcon} </i>
                         </button>}
                       {item.expiry && (parseDate(item.expiry) > todayParse) &&
-                        <button title="Edit Item Details" onClick={() => { itemEditor(item.id) }} className={`${item.color} pantryEditButton`}>
+                        <button title="Edit Item Details" onClick={() => { itemEditor(item.id) }} className={`CB${check} ${item.color} pantryEditButton`}>
                           <i className={`${item.category}Icon`}> {categories.find((category) => item.category === category.name.toLowerCase()).icon} </i>
                         </button>}
                       {!item.expiry &&
-                        <button title="Edit Item Details" onClick={() => { itemEditor(item.id) }} className={`${item.color} pantryEditButton`}>
+                        <button title="Edit Item Details" onClick={() => { itemEditor(item.id) }} className={`CB${check} ${item.color} pantryEditButton`}>
                           <i className={`${item.category}Icon`}> {categories.find((category) => item.category === category.name.toLowerCase()).icon} </i>
                         </button>}
                       {/* display alerts */}
-                      {item.sharing && <div className="alert sharing" title="EAT"> {sharingIcon}</div>}
-                      {item.sharing === false && <div className="alert nosharing" title="DO NOT eat"> {notSharingIcon}</div>}
+                      {item.sharing && <div className={`alert sharing CB${check}`} title="EAT"> {sharingIcon}</div>}
+                      {item.sharing === false && <div className={`alert nosharing CB${check}`} title="DO NOT eat"> {notSharingIcon}</div>}
                     </span>
                     <span className="itemName"><p><strong>{item.name} </strong></p>
-                      {item.isLow && <p className="alert isLow" title="Running Low!"> &nbsp; {alertIcon}</p>}
+                      {item.isLow && <p className={`alert isLow CB${check}`} title="Running Low!"> &nbsp; {alertIcon}</p>}
                     </span>
-                    {item.expiry && (parseDate(item.expiry) <= todayParse) && <div className="expiryDate expiredText"> <p>Exp. {parseDate(item.expiry)}</p> &nbsp; {expiredIcon} </div>}
-                    {item.expiry && (parseDate(item.expiry) > todayParse) && <div className="expiryDate"> <p>Exp. {parseDate(item.expiry)}</p> </div>}
+                    {item.expiry && (parseDate(item.expiry) <= todayParse) && <div className={`expiryDate expiredText CB${check}`}> <p>Exp. {parseDate(item.expiry)}</p> &nbsp; {expiredIcon} </div>}
+                    {item.expiry && (parseDate(item.expiry) > todayParse) && <div className={`expiryDate CB${check}`}> <p>Exp. {parseDate(item.expiry)}</p> </div>}
+                    {item.ownerId && check && <div className="ownerText"> <p> Owner: {user.name} </p></div>}
                     {itemEdit && item.id === editId && <EditItem item={item} setItemEdit={setItemEdit} />}
                   </li>
                 ))}
