@@ -2,7 +2,7 @@
 import { useGetPantryItemsbyHouseholdIdQuery } from "../storage/pantryPartyApi"
 import { useContext, useState } from "react"
 import { Link } from "react-router-dom"
-import { addIcon, alertIcon, sharingIcon, notSharingIcon } from "../styles/icons"
+import { addIcon, alertIcon, sharingIcon, notSharingIcon, slashIcon, expiredIcon } from "../styles/icons"
 import AddItem from "./AddItem"
 import EditItem from "./EditItem"
 import { categoriesContext } from "../storage/context.jsx"
@@ -18,7 +18,6 @@ export default function PantryList({ setDragIt, setDrag }) {
   const [editId, setEditId] = useState("")
   const [addForm, setAddForm] = useState(false)
   const [edit, setEdit] = useState("")
-
   const token = useSelector((it) => it.state.token)
 
   if (isLoading) {
@@ -70,6 +69,7 @@ export default function PantryList({ setDragIt, setDrag }) {
     return dateSet
   }
 
+
   const weeksArr = createWeeks()
   // console.log(weeksArr[weeksArr.length - 1])
 
@@ -90,13 +90,19 @@ export default function PantryList({ setDragIt, setDrag }) {
     return date.toLocaleDateString()
   }
 
+  const today = new Date()
+  const todayParse = parseDate(today)
+  console.log(todayParse)
+
+
+
   return (
     <div className="pantryPage">
       {/* title, add new item button */}
       <div className="pantryTop polkadot">
         <h1>Your Pantry</h1>
         <div className="pantryIntro">
-          <p className="instructions"> Click on the category button to edit your item! </p>
+          <p className="instructions"> To edit, click the item icon! To delete, drag it to the menu.  </p>
           {!addForm
             ? <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton" > {addIcon} </button>
             : <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton clicked" > {addIcon} </button>
@@ -124,9 +130,19 @@ export default function PantryList({ setDragIt, setDrag }) {
                   >
                     {/* edit item button */}
                     <span className="itemIcons">
-                      <button title="Edit Item Details" onClick={() => { itemEditor(item.id) }} className={`${item.color} pantryEditButton`}>
-                        {categories.find((category) => item.category === category.name.toLowerCase()).icon}
-                      </button>
+                      {item.expiry && (parseDate(item.expiry) <= todayParse) &&
+                        <button title="Edit Item Details" onClick={() => { itemEditor(item.id) }} className={`${item.color} pantryEditButton expired`}>
+                          <i className={`${item.category}Icon`}> {categories.find((category) => item.category === category.name.toLowerCase()).icon} </i>
+                          <i className="slashIcon"> {slashIcon} </i>
+                        </button>}
+                      {item.expiry && (parseDate(item.expiry) > todayParse) &&
+                        <button title="Edit Item Details" onClick={() => { itemEditor(item.id) }} className={`${item.color} pantryEditButton`}>
+                          <i className={`${item.category}Icon`}> {categories.find((category) => item.category === category.name.toLowerCase()).icon} </i>
+                        </button>}
+                      {!item.expiry &&
+                        <button title="Edit Item Details" onClick={() => { itemEditor(item.id) }} className={`${item.color} pantryEditButton`}>
+                          <i className={`${item.category}Icon`}> {categories.find((category) => item.category === category.name.toLowerCase()).icon} </i>
+                        </button>}
                       {/* display alerts */}
                       {item.sharing && <div className="alert sharing" title="EAT"> {sharingIcon}</div>}
                       {item.sharing === false && <div className="alert nosharing" title="DO NOT eat"> {notSharingIcon}</div>}
@@ -134,7 +150,8 @@ export default function PantryList({ setDragIt, setDrag }) {
                     <span className="itemName"><p><strong>{item.name} </strong></p>
                       {item.isLow && <p className="alert isLow" title="Running Low!"> &nbsp; {alertIcon}</p>}
                     </span>
-                    {item.expiry && <div className="expiryDate"> <p>Exp. {parseDate(item.expiry)}</p> </div>}
+                    {item.expiry && (parseDate(item.expiry) <= todayParse) && <div className="expiryDate expiredText"> <p>Exp. {parseDate(item.expiry)}</p> &nbsp; {expiredIcon} </div>}
+                    {item.expiry && (parseDate(item.expiry) > todayParse) && <div className="expiryDate"> <p>Exp. {parseDate(item.expiry)}</p> </div>}
                     {itemEdit && item.id === editId && <EditItem item={item} setItemEdit={setItemEdit} />}
                   </li>
                 ))}

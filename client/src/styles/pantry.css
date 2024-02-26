@@ -26,7 +26,7 @@
 .pantryWeekItems {
     list-style: none; 
     display: flex; 
-    justify-content: space-around;
+    justify-content: left;
     flex-wrap: wrap;
 }
 
@@ -63,12 +63,35 @@
     justify-content: center; 
 }
 
+.expiredText {
+    color: #e60000;
+    display: flex; 
+}
+
+.expired {
+    display: flex;
+    justify-content: center; 
+}
+
+.produceIcon {
+    position: relative; 
+}
+
+.slashIcon{
+    position: absolute; 
+    font-size: xx-large; 
+    transform: rotate(-5deg);
+    margin-top: -5px;
+    width: 42px;
+}
+
 .pantryItemDetail {
     display: flex;
     flex-direction: column; 
     align-items: center; 
-    width: 25%;
-    margin-bottom: 5px;
+    width: 20%;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
 }
 
 .pantryItemDetail > form > label {
