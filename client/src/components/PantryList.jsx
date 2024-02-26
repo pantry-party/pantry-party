@@ -2,7 +2,7 @@
 import { useGetPantryItemsbyHouseholdIdQuery } from "../storage/pantryPartyApi"
 import { useContext, useState } from "react"
 import { Link } from "react-router-dom"
-import { addIcon, alertIcon, sharingIcon, notSharingIcon, slashIcon, expiredIcon } from "../styles/icons"
+import { addIcon, alertIcon, sharingIcon, notSharingIcon, slashIcon, expiredIcon, userIcon } from "../styles/icons"
 import AddItem from "./AddItem"
 import EditItem from "./EditItem"
 import { categoriesContext } from "../storage/context.jsx"
@@ -19,6 +19,7 @@ export default function PantryList({ setDragIt, setDrag }) {
   const [addForm, setAddForm] = useState(false)
   const [edit, setEdit] = useState("")
   const token = useSelector((it) => it.state.token)
+  const [sortStyle, setSortStyle] = useState("date")
 
   if (isLoading) {
     return <div>Loading...</div>
