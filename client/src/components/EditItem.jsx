@@ -159,9 +159,9 @@ export default function EditItem({ item }) {
             </label>
             <br />
             <div className="editPantryButtons">
-                <button onClick={() => { setChangeForm("empty") }}>Back</button>
+                <button className="editFormButton" onClick={() => { setChangeForm("empty") }}>Back</button>
                 &nbsp;
-                <button type="Submit"> Continue</button>
+                <button className="editFormButton" type="Submit"> Continue</button>
             </div>
         </form>)
     }
@@ -173,9 +173,9 @@ export default function EditItem({ item }) {
                 <input value={name} onChange={(e) => { setName(e.target.value) }} />
             </label>
             <div className="editPantryButtons">
-                <button onClick={() => { setChangeForm("base") }}>Back</button>
+                <button className="editFormButton" onClick={() => { setChangeForm("base") }}>Back</button>
                 &nbsp;
-                <button type="submit" >Save</button>
+                <button className="editFormButton" type="submit" >Save</button>
             </div>
         </form>)
     }
@@ -200,9 +200,9 @@ export default function EditItem({ item }) {
                 })}
             </fieldset>
             <div className="editPantryButtons">
-                <button onClick={() => { setChangeForm("base") }}>Back</button>
+                <button className="editFormButton" onClick={() => { setChangeForm("base") }}>Back</button>
                 &nbsp;
-                <button type="submit" >Save</button>
+                <button className="editFormButton" type="submit" >Save</button>
             </div>
         </form>)
     }
@@ -225,9 +225,9 @@ export default function EditItem({ item }) {
                 </label>
             </fieldset>
             <div className="editPantryButtons">
-                <button onClick={() => { setChangeForm("base") }}>Back</button>
+                <button className="editFormButton" onClick={() => { setChangeForm("base") }}>Back</button>
                 &nbsp;
-                <button type="submit" >Save</button>
+                <button className="editFormButton" type="submit" >Save</button>
             </div>
         </form>)
     }
@@ -250,9 +250,9 @@ export default function EditItem({ item }) {
                 </label>
             </fieldset>
             <div className="editPantryButtons">
-                <button onClick={() => { setChangeForm("base") }}>Back</button>
+                <button className="editFormButton" onClick={() => { setChangeForm("base") }}>Back</button>
                 &nbsp;
-                <button type="submit" >Save</button>
+                <button className="editFormButton" type="submit" >Save</button>
             </div>
         </form>)
     }
@@ -287,9 +287,9 @@ export default function EditItem({ item }) {
             </label>
             <br />
             <div className="editPantryButtons">
-                <button onClick={() => { setBack(true); setChangeForm("base"); }}>Back</button>
+                <button className="editFormButton" onClick={() => { setBack(true); setChangeForm("base"); }}>Back</button>
                 &nbsp;
-                <button type="submit" >Save</button>
+                <button className="editFormButton" type="submit" >Save</button>
             </div>
         </form >)
     }
@@ -302,9 +302,9 @@ export default function EditItem({ item }) {
             </label>
             <br />
             <div className="editPantryButtons">
-                <button onClick={() => { setChangeForm("base") }}>Back</button>
+                <button className="editFormButton" onClick={() => { setChangeForm("base") }}>Back</button>
                 &nbsp;
-                <button type="submit" >Save</button>
+                <button className="editFormButton" type="submit" >Save</button>
             </div>
         </form>)
     }

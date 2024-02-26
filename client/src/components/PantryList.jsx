@@ -23,10 +23,10 @@ export default function PantryList({ setDragIt, setDrag }) {
   const [sortStyle, setSortStyle] = useState("date")
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div className="loggedout polkadot"><div className="login">Loading...</div></div> 
   }
   if (error) {
-    return <div><Link to={"/"}>Log in</Link> to open your pantry...</div>
+    return <div className="loggedout polkadot"><div className="login"><Link to={"/"}>Log in</Link> to open your pantry...</div></div>
   }
   const sortedArr = pantrySort(data, sortStyle)
 
@@ -58,22 +58,23 @@ export default function PantryList({ setDragIt, setDrag }) {
         <h1>Your Pantry</h1>
         <div className="pantryIntro">
           <p className="instructions"> To edit, click the item icon! To delete, drag it to the menu.  </p>
-          {!addForm
-            ? <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton" > {addIcon} </button>
-            : <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton clicked" > {addIcon} </button>
-          }
-          <label>Sort by: 
-            <select
-              title="Change Sorting"
-              onChange={(e) => {setSortStyle(e.target.value)}}
-              value={sortStyle}
-            >
-              <option value="date">Date Added</option>
-              <option value="category">Category</option>
-              {user.sharedHouse && <option value="owner">Ownership</option>}
-            </select>
-          </label>
-          
+          <div className="pantryButtons">
+            <label className="sort">Sort by: &nbsp;
+              <select
+                title="Change Sorting"
+                onChange={(e) => { setSortStyle(e.target.value) }}
+                value={sortStyle}
+              >
+                <option value="date">Date Added</option>
+                <option value="category">Category</option>
+                {user.sharedHouse && <option value="owner">Ownership</option>}
+              </select>
+            </label>
+            {!addForm
+              ? <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton" > {addIcon} </button>
+              : <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton clicked" > {addIcon} </button>
+            }
+          </div>
         </div>
         {/* link to add form component */}
         {addForm && <div className="pantryAddForm"><AddItem householdId={householdId} location="pantry" /></div>}
@@ -83,7 +84,7 @@ export default function PantryList({ setDragIt, setDrag }) {
         {sortedArr.map((section, index) => {
           if (section.items.length) {
             return (<div key={index} className="pantryWeek">
-              <h3 className="weekH3">{section.name}
+              <h3 className="weekH3">{section.name} &nbsp;
                 {sortStyle === "category" && section.icon}
                 {sortStyle === "ownership" && <span className={section.color}>{userIcon}</span>}
               </h3>

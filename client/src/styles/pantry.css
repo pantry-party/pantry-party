@@ -1,3 +1,13 @@
+.loggedout {
+height: 100vh;
+margin: -5px;
+padding-top: 20%; 
+}
+
+.loggedout > .login {
+    padding: 10px;
+}
+
 .pantryIntro {
     display: flex; 
     justify-content: space-between;
@@ -6,6 +16,20 @@
 .pantryTop {
     margin: 0 -5px;
     padding-top: 10px;
+}
+
+.pantryButtons {
+    display: flex; 
+    align-items: center; 
+}
+.sort { 
+    display: flex; 
+    justify-content: space-between;
+    background-color: #b3b3cc; 
+    padding: 8px;
+    height: fit-content; 
+    border-radius: 8px;
+    margin: 5px 2px;
 }
 
 .weekH3 {
@@ -30,7 +54,7 @@
 }
 
 .editPantryButtons {
-    text-align: center; 
+    text-align: center;
 }
 
 .pantryEditButton {
@@ -130,8 +154,19 @@
     }
     .pantryIntro {
         justify-content: center; 
-        padding-bottom: 5px;
+        padding: 5px;
         flex-direction: column-reverse; 
+    }
+    .pantryButtons {
+        flex-direction: column;
+        align-items: inherit; 
+        margin: 5px;
+    }
+    .groceryButton {
+        height: fit-content; 
+    }
+    .sort {
+        justify-content: center; 
     }
     .weekH3 {
         font-size: 1.3em;

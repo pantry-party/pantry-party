@@ -31,9 +31,9 @@ export default function GroceryList({ setDrag, setDragIt, dragIt }) {
     const token = useSelector((it) => it.state.token)
 
     if (groceryPull.isLoading) {
-        return <div>Pulling out grocery list...</div>
+        return <div className="loggedout polkadot"><div className="login">Pulling out grocery list...</div></div> 
     } if (groceryPull.error) {
-        return <div>Your grocery list blew away...<Link to={"/"}> log in</Link> to catch it!</div>
+        return <div className="loggedout polkadot"><div className="login">Your grocery list blew away...<Link to={"/"}> log in</Link> to catch it!</div></div>
     }
 
     function categoryOrder() {
