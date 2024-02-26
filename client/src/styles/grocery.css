@@ -127,6 +127,7 @@ label {
     padding: 5px 10px 10px 10px;
     border-radius: 5%; 
     width: auto;
+    margin-top: 5px; 
 }
 
 .groceryEdit {
