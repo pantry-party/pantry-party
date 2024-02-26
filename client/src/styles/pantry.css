@@ -1,3 +1,12 @@
+.loggedout {
+height: 100vh;
+margin: -5px;
+padding-top: 20%; 
+}
+
+.loggedout > .login {
+    padding: 10px;
+}
 
 .pantryIntro {
     display: flex; 

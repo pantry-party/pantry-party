@@ -23,10 +23,10 @@ export default function PantryList({ setDragIt, setDrag }) {
   const [sortStyle, setSortStyle] = useState("date")
 
   if (isLoading) {
-    return <div>Loading...</div>
+    return <div className="loggedout polkadot"><div className="login">Loading...</div></div> 
   }
   if (error) {
-    return <div><Link to={"/"}>Log in</Link> to open your pantry...</div>
+    return <div className="loggedout polkadot"><div className="login"><Link to={"/"}>Log in</Link> to open your pantry...</div></div>
   }
   const sortedArr = pantrySort(data, sortStyle)
 
@@ -86,7 +86,7 @@ export default function PantryList({ setDragIt, setDrag }) {
         {sortedArr.map((section, index) => {
           if (section.items.length) {
             return (<div key={index} className="pantryWeek">
-              <h3 className="weekH3">{section.name}
+              <h3 className="weekH3">{section.name} &nbsp;
                 {sortStyle === "category" && section.icon}
                 {sortStyle === "ownership" && <span className={section.color}>{userIcon}</span>}
               </h3>
