@@ -30,7 +30,6 @@ export default function PantryList({ setDragIt, setDrag }) {
   }
 
   const sortedArr = pantrySort(data, sortStyle)
-  console.log(sortedArr)
 
   //edit items
   function itemEditor(itemId) {

@@ -1,11 +1,10 @@
-import { useContext, useState } from "react"
+import { useContext } from "react"
 import { categoriesContext } from "../storage/context.jsx"
 import { householdContext } from "../storage/context.jsx"
 
 export function pantrySort (data, sortStyle) {
     const categories = useContext(categoriesContext)
     const household = useContext(householdContext)
-    console.log(household)
 
     function createWeeks() {
         //print out all mondays from 1 year ago to today
@@ -85,6 +84,7 @@ export function pantrySort (data, sortStyle) {
             })
             items.push(itemholder)
         })
+        return items
     }
 
     if (sortStyle === "date") {
