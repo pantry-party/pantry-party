@@ -7,7 +7,6 @@ import PantryList from "./components/PantryList"
 import GroceryList from "./components/GroceryList"
 import { householdContext } from "./storage/context.jsx"
 
-
 function App() {
   const [household, setHousehold] = useState({})
   const [drag, setDrag] = useState(false)
