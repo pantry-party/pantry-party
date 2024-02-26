@@ -76,6 +76,7 @@ export default function GroceryList({ setDrag, setDragIt, dragIt }) {
                     <label className="colorblind sort">
                         <input type="checkbox" default={false} onChange={() => { setCheck(!check); console.log(check) }}>
                         </input> Colorblind Mode </label>
+                        <div className="spacer"> &nbsp; </div>
                     {!editMode
                         ? <button className="groceryButton" title="Edit Items" onClick={() => { setEditMode(true) }}>{editIcon}</button>
                         : <button className="groceryButton clicked" title="Close Editor" onClick={() => { setEditMode(false); setItemEdit(false) }}>{goBackIcon}</button>}
