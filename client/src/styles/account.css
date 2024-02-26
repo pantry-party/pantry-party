@@ -182,3 +182,8 @@
         width: 80%; 
     }
 }
+
+.piechart{
+    position: absolute;
+    background-color: white;
+}
