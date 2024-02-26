@@ -60,22 +60,23 @@ export default function PantryList({ setDragIt, setDrag }) {
         <h1>Your Pantry</h1>
         <div className="pantryIntro">
           <p className="instructions"> To edit, click the item icon! To delete, drag it to the menu.  </p>
-          {!addForm
-            ? <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton" > {addIcon} </button>
-            : <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton clicked" > {addIcon} </button>
-          }
-          <label>Sort by: 
-            <select
-              title="Change Sorting"
-              onChange={(e) => {setSortStyle(e.target.value)}}
-              value={sortStyle}
-            >
-              <option value="date">Date Added</option>
-              <option value="category">Category</option>
-              {user.sharedHouse && <option value="owner">Ownership</option>}
-            </select>
-          </label>
-          
+          <div className="pantryButtons">
+            <label className="sort">Sort by: &nbsp;
+              <select
+                title="Change Sorting"
+                onChange={(e) => { setSortStyle(e.target.value) }}
+                value={sortStyle}
+              >
+                <option value="date">Date Added</option>
+                <option value="category">Category</option>
+                {user.sharedHouse && <option value="owner">Ownership</option>}
+              </select>
+            </label>
+            {!addForm
+              ? <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton" > {addIcon} </button>
+              : <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton clicked" > {addIcon} </button>
+            }
+          </div>
         </div>
         {/* link to add form component */}
         {addForm && <div className="pantryAddForm"><AddItem householdId={householdId} location="pantry" /></div>}
