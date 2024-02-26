@@ -14,7 +14,7 @@ import "../styles/drag-drop.css"
 
 export default function GroceryList({ setDrag, setDragIt, dragIt }) {
     const user = useSelector((it) => it.state.user)
-    const householdId = user.sharedHouse || user.defaultHouse
+    const householdId = user?.sharedHouse || user?.defaultHouse
     const groceryPull = useGetGroceryItemsbyHouseholdIdQuery(householdId)
     const categories = useContext(categoriesContext)
     const groceryList = groceryPull.data

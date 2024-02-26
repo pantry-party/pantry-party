@@ -84,9 +84,9 @@ export default function AccountDisplay({ household, setHousehold }) {
                 <h3> {household.name} &nbsp; {!userInfo.sharedHouse ? <span className="accountEditButton" onClick={() => { setShowHouseholdEdits(!showHouseholdEdits); setShowUserEdits(false) }}>{plusIcon}</span> : <span className="accountEditButton" onClick={() => { setShowHouseholdEdits(!showHouseholdEdits); setShowUserEdits(false); setDisplayForm("") }}>{editIcon}</span>}  </h3>
                 {household.users && household.users.map((user) => {
                     return (
-                        <div className="userInfo">
+                        <div className="userInfo" key={user.id}>
                             <p className={user.color} > {userIcon} &nbsp; </p>
-                            <p key={user.id} id={user.id}> {user.name} </p>
+                            <p id={user.id}> {user.name} </p>
                         </div>
                     )
                 })}
