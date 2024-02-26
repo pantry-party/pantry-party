@@ -2,12 +2,13 @@
 import { useGetPantryItemsbyHouseholdIdQuery } from "../storage/pantryPartyApi"
 import { useContext, useState } from "react"
 import { Link } from "react-router-dom"
-import { addIcon, alertIcon, sharingIcon, notSharingIcon } from "../styles/icons"
+import { addIcon, alertIcon, sharingIcon, notSharingIcon, userIcon } from "../styles/icons"
 import AddItem from "./AddItem"
 import EditItem from "./EditItem"
 import { categoriesContext } from "../storage/context.jsx"
 import { useSelector } from "react-redux"
 import "../styles/pantry.css"
+import { pantrySort } from "./PantrySort.jsx"
 
 export default function PantryList({ setDragIt, setDrag }) {
   const user = useSelector((it) => it.state.user)
@@ -17,10 +18,10 @@ export default function PantryList({ setDragIt, setDrag }) {
   const [itemEdit, setItemEdit] = useState(false)
   const [editId, setEditId] = useState("")
   const [addForm, setAddForm] = useState(false)
-  const [edit, setEdit] = useState("")
+  const [sortStyle, setSortStyle] = useState("date")
 
   const token = useSelector((it) => it.state.token)
-
+  
   if (isLoading) {
     return <div>Loading...</div>
   }
@@ -28,50 +29,7 @@ export default function PantryList({ setDragIt, setDrag }) {
     return <div><Link to={"/"}>Log in</Link> to open your pantry...</div>
   }
 
-  function createWeeks() {
-    //print out all mondays from 1 year ago to today
-    let dateSet = []
-    let day
-    let weekStart
-    let weekEnd
-    for (let i = 0; i < 366; i++) {
-      day = new Date()
-      day.setDate(day.getDate() - 365)
-      day.setHours(0, 0, 0, 0)
-      day.setDate(day.getDate() + i)
-      if (day.getDay() === 1) {
-        weekStart = day
-      } else if (i === 365 || day.getDay() === 0 && weekStart) {
-        weekEnd = day
-      }
-
-      if (day.getDay() === 1 && i === 365) {
-        weekEnd = day
-      }
-
-      if (weekStart && weekEnd) {
-        let week = { weekStart, weekEnd, items: [] }
-        dateSet.push(week)
-        weekStart = null
-        weekEnd = null
-      }
-    }
-
-    data.forEach((item) => {
-      let moved = new Date(item.dateMoved)
-      moved.setHours(0, 0, 0, 0)
-      dateSet.forEach((week) => {
-        if (week.weekStart <= moved && moved <= week.weekEnd) {
-          week.items.push(item)
-        }
-      })
-    })
-
-    return dateSet
-  }
-
-  const weeksArr = createWeeks()
-  // console.log(weeksArr[weeksArr.length - 1])
+  const sortedArr = pantrySort(data, sortStyle)
 
   //edit items
   function itemEditor(itemId) {
@@ -101,20 +59,33 @@ export default function PantryList({ setDragIt, setDrag }) {
             ? <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton" > {addIcon} </button>
             : <button title="Add New Item" onClick={() => { setAddForm(!addForm) }} className="groceryButton clicked" > {addIcon} </button>
           }
+          <label>Sort by: 
+            <select
+              title="Change Sorting"
+              onChange={(e) => {setSortStyle(e.target.value)}}
+              value={sortStyle}
+            >
+              <option value="date">Date Added</option>
+              <option value="category">Category</option>
+              {user.sharedHouse && <option value="owner">Ownership</option>}
+            </select>
+          </label>
+          
         </div>
-
-
         {/* link to add form component */}
         {addForm && <div className="pantryAddForm"><AddItem householdId={householdId} location="pantry" /></div>}
       </div>
       {/* display items and icons */}
       <div className="pantryItems">
-        {weeksArr.map((week) => {
-          if (week.items.length) {
-            return (<div key={week.weekStart} className="pantryWeek">
-              <h3 className="weekH3">Week of {week.weekStart.toLocaleDateString()} </h3>
+        {sortedArr.map((section, index) => {
+          if (section.items.length) {
+            return (<div key={index} className="pantryWeek">
+              <h3 className="weekH3">{section.name}
+                {sortStyle === "category" && section.icon}
+                {sortStyle === "ownership" && <span className={section.color}>{userIcon}</span>}
+              </h3>
               <ul className="pantryWeekItems">
-                {week.items.map((item) => (
+                {section.items.map((item) => (
                   <li
                     key={item.id}
                     className={` pantryItemDetail edit${itemEdit}`}
