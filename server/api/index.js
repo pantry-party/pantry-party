@@ -15,4 +15,7 @@ router.use('/users', require('./users'));
 // ROUTER: /api/items
 router.use('/items', require('./items'));
 
+// ROUTER: /api/messages
+router.use('/messages', require('./messages'));
+
 module.exports = router;

@@ -1,5 +1,3 @@
-const client = require('./client.js')
-
 //Households require a name and may contain a joinCode
 const households = [
     { name: "Cara's Household" },
