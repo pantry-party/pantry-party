@@ -39,7 +39,6 @@ export const passwordIcon = <FontAwesomeIcon icon={faUserGear} />
 export const nameIcon = <FontAwesomeIcon icon={faUserPen} /> 
 
 // navigation icons
-
 import { faBasketShopping, faKitchenSet, faUser, faPlus, faMinus, faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 
 export const groceryListIcon = <FontAwesomeIcon icon={faBasketShopping} />

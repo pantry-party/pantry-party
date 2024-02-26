@@ -84,7 +84,6 @@ export default function GroceryList({ setDrag, setDragIt, dragIt }) {
             </div>
 
             {/* link to add form component */}
-
             {addForm && <div className="groceryAddForm"> <AddItem householdId={householdId} location="groceryList" setAddForm={setAddForm} /> </div>}
         </div>
         {/* alphabetically ordered categories -- add logic for populated cats first */}

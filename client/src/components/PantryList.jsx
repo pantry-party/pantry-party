@@ -51,8 +51,6 @@ export default function PantryList({ setDragIt, setDrag }) {
   const todayParse = parseDate(today)
   console.log(todayParse)
 
-
-
   return (
     <div className="pantryPage">
       {/* title, add new item button */}
