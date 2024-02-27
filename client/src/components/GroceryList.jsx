@@ -25,13 +25,14 @@ export default function GroceryList({ setDrag, setDragIt, dragIt }) {
     const [editId, setEditId] = useState("")
     const [addForm, setAddForm] = useState(false)
     const [dragCat, setDragCat] = useState("")
+    const [check, setCheck] = useState(false)
     let orderedCategories = []
 
     // Redux states for token and user passing
     const token = useSelector((it) => it.state.token)
 
     if (groceryPull.isLoading) {
-        return <div className="loggedout polkadot"><div className="login">Pulling out grocery list...</div></div> 
+        return <div className="loggedout polkadot"><div className="login">Pulling out grocery list...</div></div>
     } if (groceryPull.error) {
         return <div className="loggedout polkadot"><div className="login">Your grocery list blew away...<Link to={"/"}> log in</Link> to catch it!</div></div>
     }
@@ -72,6 +73,10 @@ export default function GroceryList({ setDrag, setDragIt, dragIt }) {
             <div className="groceryIntro">
                 <p className="instructions">Check things off to add them to your pantry! Drag an item to change its category. </p>
                 <span className="groceryButtonArea">
+                    <label className="colorblind sort">
+                        <input type="checkbox" default={false} onChange={() => { setCheck(!check); console.log(check) }}>
+                        </input> Colorblind Mode </label>
+                        <div className="spacer"> &nbsp; </div>
                     {!editMode
                         ? <button className="groceryButton" title="Edit Items" onClick={() => { setEditMode(true) }}>{editIcon}</button>
                         : <button className="groceryButton clicked" title="Close Editor" onClick={() => { setEditMode(false); setItemEdit(false) }}>{goBackIcon}</button>}
@@ -111,7 +116,7 @@ export default function GroceryList({ setDrag, setDragIt, dragIt }) {
                                             onDragStart={() => { setDragIt(item.id); setDrag(true); }}
                                             onDragEnd={() => { setDrag(false) }}
                                         >
-                                            {item.ownerId ? <span className={`${item.color} initial`} title={`Belongs to ${item.ownerName}`} > {item.userInitial} </span> : <span className="initial">&nbsp; &nbsp;</span>}
+                                            {item.ownerId ? <span className={`${item.color} CB${check} initial`} title={`Belongs to ${item.ownerName}`} > {item.userInitial} </span> : <span className="initial">&nbsp; &nbsp;</span>}
                                             {!editMode && <input
                                                 className="groceryCheck"
                                                 type="checkbox"
@@ -126,9 +131,9 @@ export default function GroceryList({ setDrag, setDragIt, dragIt }) {
                                                 deleteItem(item.id)
                                             }}>{deleteIcon}</button>}
                                         </li >
-                                        <span className="groceryEdit"> 
+                                        <span className="groceryEdit">
                                             {itemEdit && item.id === editId && <EditItem item={item} setItemEdit={setItemEdit} />}
-                                        </span> 
+                                        </span>
                                     </ul>
                                 )
                             }
