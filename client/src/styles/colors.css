@@ -1,10 +1,28 @@
+.navcolors {
+    background-color:  #b3b3cc;
+    color: #3d3d5c;
+}
+
+.clicked {
+    color:  #b3b3cc;
+    background-color: #3d3d5c;
+}
+
+.polkadot {
+    background-color: #e5e5f7;
+    opacity: 0.8;
+    background-image:  radial-gradient(#9292b9 0.75px, transparent 0.75px), radial-gradient(#9292b9 0.75px, #e5e5f7 0.75px);
+    background-size: 32px 32px;
+    background-position: 0 0,15px 15px;
+    color: #3D3D5C;
+}
 
 .test {
     color: white; 
 }
 
 .red {
-    color: #ff6666; 
+    color: #ff8080; 
 }
 
 .orange {
@@ -51,13 +69,8 @@
     color: blue; 
 }
 
-.navcolors {
-    background-color:  #b3b3cc;
-    color: #3d3d5c;
-}
-
 .initial.red {
-    background-color: #ff6666;
+    background-color: #ff8080;
     color: white;
     font-weight: bold; 
     text-align: center;  
@@ -112,7 +125,47 @@
     text-align: center;  
 }
 
-.clicked {
-    color:  #b3b3cc;
+.pantryEditButton.red {
+    background-color: #ff8080;
+    color: #3d3d5c;
+}
+
+.pantryEditButton.orange{
+    background-color: #ff9966;
+    color: #3d3d5c;
+}
+
+.pantryEditButton.yellow {
+    background-color: #ffff5c;
+    color: #3d3d5c;
+}
+
+.pantryEditButton.green {
+    background-color: #99ff99;
+    color: #3d3d5c;
+}
+
+.pantryEditButton.teal {
+    background-color: #70dbdb;
+    color: #3d3d5c;
+}
+
+.pantryEditButton.blue {
+    background-color: #4da6ff;
+    color: #3d3d5c;
+}
+
+.pantryEditButton.purple {
+    background-color: #bb99ff; 
+    color: #3d3d5c; 
+}
+
+.pantryEditButton.pink {
+    background-color: #ffcce6;
+    color: #3d3d5c;
+}
+
+.pantryEditButton:hover {
     background-color: #3d3d5c;
+    color: #b3b3cc;
 }

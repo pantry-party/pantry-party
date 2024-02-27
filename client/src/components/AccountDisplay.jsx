@@ -46,7 +46,7 @@ export default function AccountDisplay({ household, setHousehold }) {
                         <h2 className={userInfo.color}> {userIcon} &nbsp; </h2>
                         <h2> Welcome &nbsp; </h2>
                         <h2 className={userInfo.color} id={userInfo.id}>{userInfo.name}! &nbsp; </h2>
-                        <h2> {<span onClick={() => { setShowUserEdits(!showUserEdits); setDisplayForm(""); setColorButton(""); setNameButton(""); setUserNameButton(""); setPasswordButton(""); setShowHouseholdEdits(false) }}>{editIcon}</span>} </h2>
+                        <h2> {<span className="accountEditButton" onClick={() => { setShowUserEdits(!showUserEdits); setDisplayForm(""); setColorButton(""); setNameButton(""); setUserNameButton(""); setPasswordButton(""); setShowHouseholdEdits(false) }}>{editIcon}</span>} </h2>
                     </div>
                     <div className="accountButtons">
                         {/* Choose your color */}
@@ -81,12 +81,12 @@ export default function AccountDisplay({ household, setHousehold }) {
 
         return (
             <div className="householdInfo">
-                <h3> {household.name} &nbsp; {!userInfo.sharedHouse ? <span onClick={() => { setShowHouseholdEdits(!showHouseholdEdits); setShowUserEdits(false) }}>{plusIcon}</span> : <span onClick={() => { setShowHouseholdEdits(!showHouseholdEdits); setShowUserEdits(false); setDisplayForm("") }}>{editIcon}</span>}  </h3>
+                <h3> {household.name} &nbsp; {!userInfo.sharedHouse ? <span className="accountEditButton" onClick={() => { setShowHouseholdEdits(!showHouseholdEdits); setShowUserEdits(false) }}>{plusIcon}</span> : <span className="accountEditButton" onClick={() => { setShowHouseholdEdits(!showHouseholdEdits); setShowUserEdits(false); setDisplayForm("") }}>{editIcon}</span>}  </h3>
                 {household.users && household.users.map((user) => {
                     return (
-                        <div className="userInfo">
+                        <div className="userInfo" key={user.id}>
                             <p className={user.color} > {userIcon} &nbsp; </p>
-                            <p key={user.id} id={user.id}> {user.name} </p>
+                            <p id={user.id}> {user.name} </p>
                         </div>
                     )
                 })}
@@ -127,7 +127,7 @@ export default function AccountDisplay({ household, setHousehold }) {
     }
 
     return (
-        <div>
+        <div className="homepage polkadot">
             {!userInfo?.username && !register &&
                 <div className="login">
                     <Login userInfo={userInfo} />

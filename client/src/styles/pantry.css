@@ -1,7 +1,35 @@
+.loggedout {
+height: 100vh;
+margin: -5px;
+padding-top: 20%; 
+}
+
+.loggedout > .login {
+    padding: 10px;
+}
 
 .pantryIntro {
     display: flex; 
     justify-content: space-between;
+}
+
+.pantryTop {
+    margin: 0 -5px;
+    padding-top: 10px;
+}
+
+.pantryButtons {
+    display: flex; 
+    align-items: center; 
+}
+.sort { 
+    display: flex; 
+    justify-content: space-between;
+    background-color: #b3b3cc; 
+    padding: 8px;
+    height: fit-content; 
+    border-radius: 8px;
+    margin: 5px 2px;
 }
 
 .weekH3 {
@@ -11,7 +39,7 @@
 }
 
 .pantryAddForm {
-    margin-bottom: 5px;
+    padding-bottom: 5px;
 }
 
 .pantryWeek {
@@ -21,12 +49,12 @@
 .pantryWeekItems {
     list-style: none; 
     display: flex; 
-    justify-content: space-around;
+    justify-content: left;
     flex-wrap: wrap;
 }
 
 .editPantryButtons {
-    text-align: center; 
+    text-align: center;
 }
 
 .pantryEditButton {
@@ -58,12 +86,35 @@
     justify-content: center; 
 }
 
+.expiredText {
+    color: #e60000;
+    display: flex; 
+}
+
+.expired {
+    display: flex;
+    justify-content: center; 
+}
+
+.produceIcon {
+    position: relative; 
+}
+
+.slashIcon{
+    position: absolute; 
+    font-size: xx-large; 
+    transform: rotate(-5deg);
+    margin-top: -5px;
+    width: 42px;
+}
+
 .pantryItemDetail {
     display: flex;
     flex-direction: column; 
     align-items: center; 
-    width: 25%;
-    margin-bottom: 5px;
+    width: 20%;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
 }
 
 .pantryItemDetail > form > label {
@@ -103,8 +154,19 @@
     }
     .pantryIntro {
         justify-content: center; 
-        padding-bottom: 5px;
+        padding: 5px;
         flex-direction: column-reverse; 
+    }
+    .pantryButtons {
+        flex-direction: column;
+        align-items: inherit; 
+        margin: 5px;
+    }
+    .groceryButton {
+        height: fit-content; 
+    }
+    .sort {
+        justify-content: center; 
     }
     .weekH3 {
         font-size: 1.3em;
@@ -121,15 +183,3 @@
         width: 100%; 
     }
 }
-
-/* 
-DONE week names: h3, remove the second date, gray,  smaller top margin, left-align -> make sure grocery list h3s are black
-DONE week sections: border-bottom gray (add border bottom to pantry intro, space-evenly instead of space-around
-DONE item names: p, bold
-root: width needs to change, do the side nav first and see
-DONE icons: x-large, width: 42px
-DONE add <p> Click on the category icon to edit the item! </p> 
-DONE move add item button to correct placement
-DONE add forms  - no border, light gray background, border radius 2% (also for input), align inputs/labels
-DONE grocery list: set instructions to <p> w/ className instructions
-*/

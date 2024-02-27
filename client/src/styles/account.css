@@ -1,34 +1,103 @@
+.homepage {
+    margin: 0px -5px;
+    height: 100vh; 
+    padding-top: 20%;
+}
+
+.login {
+    padding-bottom: 10px;
+    width: 60%;
+    background-color: #b3b3cc;
+    border-radius: 3%;
+    margin: auto; 
+}
+
 .loginForm {
-    width: 40%;
+    width: 50%;
     margin: 0 auto; 
+    padding-bottom: 10px;
+    padding-top: 10px; 
+}
+
+.loginForm > h3 {
+    margin: 0px; 
+    padding-top: 20px; 
+    padding-bottom: 10px;
+}
+
+.loginForm > label {
+    display: grid; 
+    grid-template: 1fr/30% 50%; 
+    text-align: left; 
+    margin-bottom: 5px;
+    margin-left: 20%;
     padding-bottom: 5px;
 }
 
+.loginForm > button {
+    background-color:#3d3d5c;
+    color: #b3b3cc;
+}
+
+.register {
+    padding-bottom: 10px;
+    width: 60%;
+    background-color: #b3b3cc;
+    border-radius: 3%;
+    margin: auto; 
+}
+
 .registerForm {
-    width: 40%; 
+    width: 70%; 
     margin: 0 auto; 
     padding-bottom: 10px;
 }
 
+.registerForm > h3 {
+    margin: 0px; 
+    padding-top: 20px; 
+    padding-bottom: 5px;
+}
+
 .registerForm > label {
-    display: flex; 
-    justify-content: space-between; 
+    display: grid; 
+    grid-template: 1fr/50% 50%; 
+    text-align: left; 
+    margin-bottom: 5px;
+    margin-left: 20%;
+}
+
+.registerForm > button { 
+    background-color:#3d3d5c;
+    color: #b3b3cc;
 }
 
 .setRegisterButton {
-    background-color: white; 
+    background-color: inherit; 
     color: blue; 
     border: none; 
 }
 
 .setRegisterButton:hover {
-    background-color: white; 
+    background-color: #b3b3cc; 
     color: #747bff; 
 }
 
 .setRegisterButton:focus,
 .setRegisterButton:focus-visible {
   outline: none;
+}
+
+.accountPage {
+    background-color: #e5e5f7ab;
+    margin-top: 0px;
+}
+
+.accountEditButton:hover {
+    background-color: #3d3d5c;
+    color: #b3b3cc;
+    padding: 2px;
+    border-radius: 20%;
 }
 
 .welcome {
@@ -84,6 +153,34 @@
 }
 
 @media screen and (max-width: 800px) {
+    .homepage { 
+        height: 100vh; 
+        padding-top: 10%;
+        overflow: hidden;
+        margin-right: 0px;
+    }
+    
+    .login {
+        width: 90%; 
+    }
+
+    .register {
+        width: 90%;
+    }
+
+    .loginForm {
+        width: 90%; 
+    }
+
+    .registerForm {
+        width: 100%; 
+    }
+
+    .registerForm > label {
+        margin-left: 2%;
+        margin-right: 2%;
+    }
+    
     .householdForm {
         width: 80%;
     }

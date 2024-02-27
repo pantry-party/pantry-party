@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 // categories icons
-import { faBottleDroplet, faCow, faBowlRice, faSnowflake, faUtensils, faCircleQuestion, faAppleWhole, faDrumstickBite } from '@fortawesome/free-solid-svg-icons'
+import { faBottleDroplet, faCow, faBowlRice, faSnowflake, faUtensils, faCircleQuestion, faAppleWhole, faDrumstickBite, faViruses } from '@fortawesome/free-solid-svg-icons'
 
 export const bottlesIcon = <FontAwesomeIcon icon={faBottleDroplet} />
 export const dairyIcon = <FontAwesomeIcon icon={faCow} />
@@ -11,6 +11,7 @@ export const mealsIcon = <FontAwesomeIcon icon={faUtensils} />
 export const otherIcon = <FontAwesomeIcon icon={faCircleQuestion} />
 export const produceIcon = <FontAwesomeIcon icon={faAppleWhole} />
 export const proteinIcon = <FontAwesomeIcon icon={faDrumstickBite} />
+export const expiredIcon = <FontAwesomeIcon icon={faViruses} flip="horizontal" />
 
 // alerts icons
 import { faCircleExclamation, faCircleInfo, faPencil, faTrash, faCirclePlus, faPalette, faCircleCheck } from '@fortawesome/free-solid-svg-icons'
@@ -38,7 +39,6 @@ export const passwordIcon = <FontAwesomeIcon icon={faUserGear} />
 export const nameIcon = <FontAwesomeIcon icon={faUserPen} /> 
 
 // navigation icons
-
 import { faBasketShopping, faKitchenSet, faUser, faPlus, faMinus, faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'
 
 export const groceryListIcon = <FontAwesomeIcon icon={faBasketShopping} />
@@ -50,9 +50,10 @@ export const downIcon = <FontAwesomeIcon icon={faCaretDown} />
 export const upIcon = <FontAwesomeIcon icon={faCaretUp} />
 
 // action icons 
-import { faArrowRotateLeft, faXmark, faCircleXmark, faCircleH} from '@fortawesome/free-solid-svg-icons'
+import { faArrowRotateLeft, faXmark, faCircleXmark, faCircleH, faSlash} from '@fortawesome/free-solid-svg-icons'
 
 export const goBackIcon = <FontAwesomeIcon icon={faArrowRotateLeft} />
 export const xIcon = <FontAwesomeIcon icon={faXmark} />
 export const xCircleIcon = <FontAwesomeIcon icon={faCircleXmark} />
 export const initialIcon = <FontAwesomeIcon icon={faCircleH} />
+export const slashIcon = <FontAwesomeIcon icon={faSlash} flip="horizontal" />
