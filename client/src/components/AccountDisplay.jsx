@@ -93,7 +93,7 @@ export default function AccountDisplay({ household, setHousehold }) {
                     return (
                         <>
                             <AccountStats user={user}/>
-                            {/* <div className="userInfo" key={user.id}>
+                            {/* {/* <div className="userInfo" key={user.id}>
                                 <p className={user.color} > {userIcon} &nbsp; </p>
                                 <p id={user.id}> {user.name} </p>
                             </div>
