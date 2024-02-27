@@ -9,7 +9,7 @@ export const pantryPartyApi = createApi({
             return headers;
         }
     }),
-    tagTypes: ["Item", "User", "Household"],
+    tagTypes: ["Item", "User", "Household", "Messages"],
     endpoints: (builder) => ({
         getUser: builder.query({
             query: (id) => `/users/${id}`,
@@ -42,6 +42,33 @@ export const pantryPartyApi = createApi({
         getGroceryItemsbyHouseholdId: builder.query({
             query: (id) => `/items/household/${id}/grocerylist`,
             providesTags: ["Item", "User"]
+        }),
+        getMessagesbyHouseholdId: builder.query({
+            query: (id) => `/messages/${id}`,
+            providesTags: ["Messages", "User", "Household"]
+        }),
+        createMessage: builder.mutation({
+            query: (data) => ({
+            url: "/messages",
+            method: "POST",
+            body: {...data} 
+            }),
+            invalidatesTags: ["Messages"]
+        }),
+        updateMessage: builder.mutation({
+            query: (data) => ({
+            url: `/messages/${data.id}`,
+            method: "PUT",
+            body: {...data}
+            }),
+            invalidatesTags: ["Messages"]
+        }),
+        deleteMessage: builder.mutation({
+            query: (id) => ({
+            url: `/messages/${id}`,
+            method: "DELETE"
+            }),
+            invalidatesTags: ["Messages"]
         }),
         createUser: builder.mutation({
             query: (data) => ({
@@ -126,6 +153,10 @@ export const {
     useGetItemsbyHouseholdIdQuery,
     useGetPantryItemsbyHouseholdIdQuery,
     useGetGroceryItemsbyHouseholdIdQuery,
+    useGetMessagesbyHouseholdIdQuery,
+    useCreateMessageMutation,
+    useUpdateMessageMutation,
+    useDeleteMessageMutation,
     useCreateUserMutation,
     useLoginUserMutation,
     useEditUserMutation,
