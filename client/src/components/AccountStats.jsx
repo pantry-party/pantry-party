@@ -7,7 +7,7 @@ export default function AccountStats({ user }) {
     const ownerCounts = useGetCountsbyOwnerQuery(user.id)
     const data = ownerCounts.data
     const newOwners = []
-    const PieColors = ["#bce893", "#44a7e1", "#556cfb", "#f4b040"];
+    const PieColors = [];
 
     // ownerCounts[0].name="grocery"
     // ownerCounts[1].name="pantry"
@@ -25,8 +25,31 @@ export default function AccountStats({ user }) {
         newOwners.push(user) 
     })
 
-    // console.log(newOwners)
-    // console.log(ownerCounts)
+    // colors
+    if (user.color === "red") {
+        PieColors.push("#ff8080", "#ff4d4d")
+    }
+    if (user.color === "orange") {
+        PieColors.push("#ff9966", "#ffbb99")
+    }
+    if (user.color === "yellow") {
+        PieColors.push("#ffff33", "#ffff99")
+    }
+    if (user.color === "green") {
+        PieColors.push("#99ff99", "#66ff66")
+    }
+    if (user.color === "teal") {
+        PieColors.push("#70dbdb", "#33cccc")
+    }
+    if (user.color === "blue") {
+        PieColors.push("#4da6ff", "#80bfff")
+    }
+    if (user.color === "purple") {
+        PieColors.push("#bb99ff", "#9966ff" )
+    }
+    if (user.color === "pink") {
+        PieColors.push("#ffcce6", "#ff99ce")
+    }
 
     return (<>
         <div className="userInfo" key={user.id}>
@@ -34,7 +57,7 @@ export default function AccountStats({ user }) {
             <p id={user.id}> {user.name} </p>
         </div>
         {console.log(newOwners)}
-        <PieChart className="piechart" width={100} height={100} title="Hello">
+        <PieChart className="piechart" width={100} height={100} title={`${user.name}'s Stats`}>
             
             {console.log('here')}
             {console.log(newOwners)}
