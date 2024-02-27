@@ -1,4 +1,4 @@
-import { alertIcon, sharingIcon, notSharingIcon, editIcon, deleteIcon, addIcon, initialIcon, downIcon, upIcon} from "../styles/icons"
+import { alertIcon, sharingIcon, notSharingIcon, editIcon, deleteIcon, addIcon, downIcon, upIcon, userIcon} from "../styles/icons"
 import { useContext, useState } from "react"
 import { categoriesContext } from "../storage/context"
 import "../styles/nav.css"
@@ -13,7 +13,7 @@ export default function KeyAccordion() {
                 <li className="alertkey" id="noSharing" >{notSharingIcon} Please don't eat</li>
                 <li className="alertkey" id="sharing">{sharingIcon} Please eat</li>
                 <li className="alertkey" id="isLow">{alertIcon} Running Low</li>
-                <li className="alertkey">{initialIcon} Belongs to User</li>
+                <li className="alertkey">{userIcon} Belongs to User</li>
             </ul>
             <ul className="accordion">Item Actions
                 <li className="actionkey">{addIcon} Add</li>
