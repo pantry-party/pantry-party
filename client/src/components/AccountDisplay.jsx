@@ -6,12 +6,9 @@ import { updateToken, updateUser } from "../storage/slice"
 import Login from "./Login"
 import Messages from "./Messages"
 import { PieChart, Pie } from 'recharts'
-import { userIcon, addUsersIcon, removeUserIcon, createHouseholdIcon, joinHouseholdIcon, leaveHouseholdIcon, renameHouseholdIcon, colorIcon, passwordIcon, nameIcon, editIcon, plusIcon } from "../styles/icons"
 import {
-    pantryPartyApi, useGetHouseholdbyIdQuery, useGetCountsbyOwnerQuery,
-    useGetCountsbyHouseholdQuery
+    pantryPartyApi, useGetHouseholdbyIdQuery
 } from "../storage/pantryPartyApi"
-
 import Register from "./Register"
 import "../styles/colors.css"
 import { ColorForm, NameForm, UsernameForm, PasswordForm, SharedHouseholdForm, JoinHouseholdForm, RenameHouseholdForm, LeaveHouseholdForm, RemoveMemberForm } from "./AccountFunctions"
@@ -95,15 +92,7 @@ export default function AccountDisplay({ household, setHousehold }) {
                 {household.users && household.users.map((user) => {
                     return (
                         <>
-                            <AccountStats user={user}/>
-                            {/* {/* <div className="userInfo" key={user.id}>
-                                <p className={user.color} > {userIcon} &nbsp; </p>
-                                <p id={user.id}> {user.name} </p>
-                            </div>
-
-                            <PieChart width={200} height={200}>
-                                <Pie data={ownerCounts} dataKey="items" outerRadius={70} fill="green" />
-                            </PieChart> */}
+                            <AccountStats user={user} />
                         </>
                     )
                 })}
@@ -161,11 +150,14 @@ export default function AccountDisplay({ household, setHousehold }) {
             {userInfo?.username &&
                 <div className="accountPage">
                     {accountInfo()}
-                    {householdInfo()}
+                    <div className="householdArea">
+                        {householdInfo()}
+                        <Messages id={userInfo.sharedHouse} />
+                    </div>
                     {accountOptions()}
                     <button className="logOutButton" onClick={() => { logout() }}> Log out </button>
                 </div>}
-            <Messages id={userInfo.sharedHouse}/>
+
         </div>
     )
 }

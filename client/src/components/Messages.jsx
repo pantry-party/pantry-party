@@ -87,46 +87,54 @@ export default function Messages({ id }) {
     }
 
     return (
-        <>
-            <div>
-                <h3>Message Board <span onClick={(e) => { setShowAdd(!showAdd) }}>{addNoteIcon}</span></h3>
-                {showAdd &&
-                    <>
-                        <input
-                            type="text"
-                            placeholder="Add a message"
-                            value={content}
-                            onChange={(e) => { setContent(e.target.value) }}
-                        ></input>
-                        <span onClick={handleAdd}> {addIcon}</ span>
-                        <br />
-                    </>}
+        <div className="messageArea">
+            <h3>Message Board <span className="accountEditButton" onClick={(e) => { setShowAdd(!showAdd) }}>{addNoteIcon}</span></h3>
+            {showAdd &&
+                <div className="messageEdit" id="addMessage">
+                    <textarea
+                        rows={3}
+                        cols={25}
+                        maxLength={255}
+                        placeholder="Add a Message"
+                        value={content}
+                        onChange={(event) => { setContent(event.target.value) }}
+                    />
+                    <span onClick={handleAdd}> {addIcon}</ span>
+                </div>}
+            <div className="messageBoard">
                 {messagesData.map((message) => {
                     return (
-                        <>
-                            <span>{parseDate(message.date)}</span>
-                            <span className={`${message.color} CB${check} initial`} title={`Belongs to ${message.name}`} > {message.userInitial} </span>
-                            {/* {<span>{message.content}</span>} */}
+                        <div className={`message ${message.color}`} >
+                            <span className="messageDate"><strong> {parseDate(message.date)} </strong> </span>
+                            {/* <span className={`${message.color} CB${check} initial`} title={`Belongs to ${message.name}`} > {message.userInitial} </span> */}
                             {edits && message.id === editId
-                                ? <> <input
-                                    type="text"
-                                    value={editcontent}
-                                    onChange={(e) => { setEditcontent(e.target.value) }}>
-                                </input>
+                                ? <div className="messageEdit">
+                                    <textarea
+                                        rows={3}
+                                        cols={25}
+                                        maxLength={255}
+                                        value={editcontent}
+                                        onChange={(event) => { setEditContent(event.target.value) }}
+                                    />
                                     &nbsp;
-                                    <span onClick={handleEdits}>{sharingIcon}</span></>
-                                : <span>{message.content}</span>}
-                            &nbsp;
-                            {!edits && message.userId === userInfo.id &&
-                                <>
-                                    <span onClick={(e) => { showEditor(message.id, message.content) }}>{editIcon}</span>
-                                    &nbsp;
-                                    <span onClick={(e) => { deleteMessage(message.id) }}>{deleteIcon}</span>
+                                    <span onClick={handleEdits}>{sharingIcon}</span>
+                                </div>
+                                : <>
+                                    <span className="messageText">
+                                        <p id="messageBody">{message.content}</p>
+                                        <p id="messageUser"> -{message.name}</p>
+                                    </span>
+                                    <span className="messageEdits"> </span>
                                 </>}
-                            <br />
-                        </>)
+                            {!edits && message.userId === userInfo.id &&
+                                <span className="messageEdits">
+                                    <span className="messageEditButton" onClick={(e) => { deleteMessage(message.id) }}>{deleteIcon}</span>
+                                    &nbsp;
+                                    <span className="messageEditButton" onClick={(e) => { showEditor(message.id, message.content) }}>{editIcon}</span>
+                                </span>}
+                        </div>)
                 })}
             </div>
-        </>
+        </div>
     )
 }
