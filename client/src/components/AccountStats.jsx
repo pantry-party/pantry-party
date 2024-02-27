@@ -1,5 +1,5 @@
 import React from 'react'
-import { PieChart, Pie, Cell, Bar, ResponsiveContainer } from 'recharts'
+import { PieChart, Pie, Cell, LabelList, Bar, ResponsiveContainer } from 'recharts'
 import { useGetCountsbyOwnerQuery, useGetCountsbyHouseholdQuery } from "../storage/pantryPartyApi"
 import { userIcon } from "../styles/icons"
 
@@ -57,8 +57,8 @@ export default function AccountStats({ user }) {
             <p id={user.id}> {user.name} </p>
         </div>
         {console.log(newOwners)}
-        <PieChart className="piechart" width={100} height={100} title={`${user.name}'s Stats`}>
-            
+        <PieChart className="piechart" width={150} height={200} title={`${user.name}'s Stats`}>
+
             {console.log('here')}
             {console.log(newOwners)}
             <Pie
@@ -70,11 +70,14 @@ export default function AccountStats({ user }) {
                 fill={user.color}
                 >
             {newOwners.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={PieColors[index]} />
+              <Cell key={`cell-${index}`} fill={PieColors[index]} stroke="black"/>
             ))}
+               <LabelList 
+                dataKey="name"
+                fill="black"
+                />
             </Pie>
              {console.log('there')}
         </PieChart>
-        
     </>)
 }
