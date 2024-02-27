@@ -6,12 +6,10 @@ import { updateToken, updateUser } from "../storage/slice"
 import Login from "./Login"
 import Messages from "./Messages"
 import { PieChart, Pie } from 'recharts'
-import { userIcon, addUsersIcon, removeUserIcon, createHouseholdIcon, joinHouseholdIcon, leaveHouseholdIcon, renameHouseholdIcon, colorIcon, passwordIcon, nameIcon, editIcon, plusIcon } from "../styles/icons"
 import {
     pantryPartyApi, useGetHouseholdbyIdQuery, useGetCountsbyOwnerQuery,
     useGetCountsbyHouseholdQuery
 } from "../storage/pantryPartyApi"
-
 import Register from "./Register"
 import "../styles/colors.css"
 import { ColorForm, NameForm, UsernameForm, PasswordForm, SharedHouseholdForm, JoinHouseholdForm, RenameHouseholdForm, LeaveHouseholdForm, RemoveMemberForm } from "./AccountFunctions"
