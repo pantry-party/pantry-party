@@ -4,7 +4,7 @@ const util = require('./util')
 const getHouseholdMessages = async (id) => {
     try {
         const { rows } = await client.query(`
-            SELECT messages.*, users.name, users.color
+            SELECT messages.*, users.name, users.color, SUBSTRING(users.name, 1, 1) AS "userInitial"
             FROM messages
             INNER JOIN users ON messages."userId" = users.id
             WHERE "householdId" = $1

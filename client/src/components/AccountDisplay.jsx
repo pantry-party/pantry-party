@@ -1,14 +1,15 @@
 //display of account information
 
 import { useState } from "react"
-import { userIcon, addUsersIcon, removeUserIcon, createHouseholdIcon, joinHouseholdIcon, leaveHouseholdIcon, renameHouseholdIcon, colorIcon, passwordIcon, nameIcon, editIcon, plusIcon } from "../styles/icons"
-import { useGetHouseholdbyIdQuery, pantryPartyApi } from "../storage/pantryPartyApi"
-import Register from "./Register"
-import "../styles/colors.css"
-import Login from "./Login"
-import { ColorForm, NameForm, UsernameForm, PasswordForm, SharedHouseholdForm, JoinHouseholdForm, RenameHouseholdForm, LeaveHouseholdForm, RemoveMemberForm } from "./AccountFunctions"
 import { useSelector, useDispatch } from "react-redux"
 import { updateToken, updateUser } from "../storage/slice"
+import { useGetHouseholdbyIdQuery, pantryPartyApi } from "../storage/pantryPartyApi"
+import Login from "./Login"
+import Messages from "./Messages"
+import Register from "./Register"
+import "../styles/colors.css"
+import { ColorForm, NameForm, UsernameForm, PasswordForm, SharedHouseholdForm, JoinHouseholdForm, RenameHouseholdForm, LeaveHouseholdForm, RemoveMemberForm } from "./AccountFunctions"
+import { userIcon, addUsersIcon, removeUserIcon, createHouseholdIcon, joinHouseholdIcon, leaveHouseholdIcon, renameHouseholdIcon, colorIcon, passwordIcon, nameIcon, editIcon, plusIcon } from "../styles/icons"
 import "../styles/account.css"
 
 export default function AccountDisplay({ household, setHousehold }) {
@@ -148,6 +149,7 @@ export default function AccountDisplay({ household, setHousehold }) {
                     {accountOptions()}
                     <button className="logOutButton" onClick={() => { logout() }}> Log out </button>
                 </div>}
+            <Messages id={userInfo.sharedHouse}/>
         </div>
     )
 }
