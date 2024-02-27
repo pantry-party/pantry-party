@@ -190,3 +190,43 @@
 .initial.CBtrue{
     background-color: #3D3D5C;
 }
+
+.piechartReds{
+color: #ff8080;
+color: #ff4d4d;
+}
+
+.piechartOranges{
+    color: #ffbb99; 
+    color: #ff9966; 
+}
+
+.piechartYellows{
+    color: #ffff99; 
+    color:#ffff33; 
+}
+
+.piechartGreens{
+    color:#99ff99;
+    color: #66ff66; 
+}
+
+.piechartTeals{
+    color: #70dbdb;
+    color: #33cccc;
+}
+
+.piechartBlues{
+    color: #80bfff;
+    color:#4da6ff;
+}
+
+.piechartPurples{
+    color: #bb99ff;
+    color: #9966ff; 
+}
+
+.piechartPinks {
+    color: #ffcce6;
+    color: #ff99ce; 
+}

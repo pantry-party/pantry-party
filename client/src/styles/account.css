@@ -1,6 +1,6 @@
 .homepage {
     margin: 0px -5px;
-    height: 100vh; 
+    height: 100%; 
     padding-top: 20%;
 }
 
@@ -13,7 +13,7 @@
 }
 
 .loginForm {
-    width: 50%;
+    width: 80%;
     margin: 0 auto; 
     padding-bottom: 10px;
     padding-top: 10px; 
@@ -116,6 +116,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-bottom: 10px;
 }
 
 .logOutButton {
@@ -143,10 +144,13 @@
 .accountForm {
     width: 50%; 
     margin: 0 auto; 
+    text-align: center; 
 }
 
 .accountForm > label {
+    margin-top: 5px;
     padding: 5px;
+    justify-content: center;
 }
 
 .householdForm {
@@ -160,9 +164,8 @@
 
 @media screen and (max-width: 800px) {
     .homepage { 
-        height: 100vh; 
+        height: 100%; 
         padding-top: 10%;
-        overflow: hidden;
         margin-right: 0px;
     }
     

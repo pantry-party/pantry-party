@@ -30,10 +30,10 @@ export default function AccountStats({ user }) {
         PieColors.push("#ff8080", "#ff4d4d")
     }
     if (user.color === "orange") {
-        PieColors.push("#ff9966", "#ffbb99")
+        PieColors.push("#ffbb99", "#ff9966")
     }
     if (user.color === "yellow") {
-        PieColors.push("#ffff33", "#ffff99")
+        PieColors.push("#ffff99", "#ffff33")
     }
     if (user.color === "green") {
         PieColors.push("#99ff99", "#66ff66")
@@ -42,7 +42,7 @@ export default function AccountStats({ user }) {
         PieColors.push("#70dbdb", "#33cccc")
     }
     if (user.color === "blue") {
-        PieColors.push("#4da6ff", "#80bfff")
+        PieColors.push("#80bfff", "#4da6ff")
     }
     if (user.color === "purple") {
         PieColors.push("#bb99ff", "#9966ff" )
@@ -64,13 +64,14 @@ export default function AccountStats({ user }) {
             <Pie
                 data={newOwners}
                 dataKey="value"
+                nameKey="name"
                 outerRadius={50}
                 cx="50%"
                 cy="50%"
                 fill={user.color}
                 >
             {newOwners.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={PieColors[index]} />
+              <Cell key={`cell-${index}`} fill={PieColors[index]} stroke="#3D3D5C"/>
             ))}
             </Pie>
              {console.log('there')}
