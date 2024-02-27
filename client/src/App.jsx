@@ -6,6 +6,7 @@ import AccountDisplay from "./components/AccountDisplay"
 import PantryList from "./components/PantryList"
 import GroceryList from "./components/GroceryList"
 import { householdContext } from "./storage/context.jsx"
+import Messages from "./components/Messages.jsx"
 
 function App() {
   const [household, setHousehold] = useState({})

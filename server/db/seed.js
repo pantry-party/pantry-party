@@ -4,6 +4,7 @@ const client = require('./client')
 const { households } = require('./seedDataHouseholds')
 const { users } = require('./seedDataUsers')
 const { items } = require('./seedDataItems')
+const { messages } = require("./seedDataMessages")
 
 //Drop tables for data cleanliness
 const dropTables = async () => {
@@ -11,6 +12,7 @@ const dropTables = async () => {
         console.log("Starting to drop tables...")
         await client.query(`
         DROP TABLE IF EXISTS items;
+        DROP TABLE IF EXISTS messages;
         DROP TABLE IF EXISTS users;
         DROP TABLE IF EXISTS households;
         `)
@@ -25,10 +27,11 @@ const createTables = async () => {
     try {
         console.log("Building tables...")
         await client.query(`
+
         CREATE TABLE households (
             id SERIAL PRIMARY KEY,
             name varchar(100) NOT NULL,
-            "joinCode" varchar(7)
+            "joinCode" char(6)
         );
 
         CREATE TABLE users (
@@ -53,12 +56,21 @@ const createTables = async () => {
             "ownerId" INTEGER REFERENCES users(id),
             "householdId" INTEGER REFERENCES households(id) NOT NULL
         );
+
+        CREATE TABLE messages (
+            id SERIAL PRIMARY KEY,
+            content varchar(255) NOT NULL,
+            "userId" INTEGER REFERENCES users(id),
+            "householdId" INTEGER REFERENCES households(id) NOT NULL,
+            date timestamp NOT NULL
+        );
         `)
         console.log("Tables built!")
     } catch (error) {
         console.error(error)
     }
 }
+
 
 //Populate tables to have data later
 //Create households
@@ -118,6 +130,25 @@ const createInitialItems = async () => {
     }
 }
 
+//Create messages
+const createInitialMessages = async () => {
+    try {
+        console.log('Initializing messages table...')
+        for (const message of messages) {
+            const {
+                rows: [messages]
+            } = await client.query(`
+                INSERT INTO messages(content, "userId", "householdId", date)
+                VALUES($1, $2, $3, $4);
+            `, [message.content, message.user , message.household, message.date]
+            )
+        }
+        console.log("Messages initialized!")
+    } catch (error) {
+        throw error
+    }
+}
+
 //Call all our functions to build our database
 const buildDb = async () => {
     try {
@@ -130,6 +161,7 @@ const buildDb = async () => {
         await createInitialHouseholds()
         await createInitialUsers()
         await createInitialItems()
+        await createInitialMessages()
 
     } catch (error) {
         console.error(error)
