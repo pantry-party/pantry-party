@@ -3,14 +3,21 @@
 import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { updateToken, updateUser } from "../storage/slice"
-import { useGetHouseholdbyIdQuery, pantryPartyApi } from "../storage/pantryPartyApi"
 import Login from "./Login"
 import Messages from "./Messages"
+import { PieChart, Pie } from 'recharts'
+import { userIcon, addUsersIcon, removeUserIcon, createHouseholdIcon, joinHouseholdIcon, leaveHouseholdIcon, renameHouseholdIcon, colorIcon, passwordIcon, nameIcon, editIcon, plusIcon } from "../styles/icons"
+import {
+    pantryPartyApi, useGetHouseholdbyIdQuery, useGetCountsbyOwnerQuery,
+    useGetCountsbyHouseholdQuery
+} from "../storage/pantryPartyApi"
+
 import Register from "./Register"
 import "../styles/colors.css"
 import { ColorForm, NameForm, UsernameForm, PasswordForm, SharedHouseholdForm, JoinHouseholdForm, RenameHouseholdForm, LeaveHouseholdForm, RemoveMemberForm } from "./AccountFunctions"
 import { userIcon, addUsersIcon, removeUserIcon, createHouseholdIcon, joinHouseholdIcon, leaveHouseholdIcon, renameHouseholdIcon, colorIcon, passwordIcon, nameIcon, editIcon, plusIcon } from "../styles/icons"
 import "../styles/account.css"
+import AccountStats from "./AccountStats"
 
 export default function AccountDisplay({ household, setHousehold }) {
     const userInfo = useSelector((it) => it.state.user)
@@ -19,6 +26,8 @@ export default function AccountDisplay({ household, setHousehold }) {
     const householdId = userInfo?.sharedHouse || userInfo?.defaultHouse
     const householdDetails = useGetHouseholdbyIdQuery(householdId)
     const [register, setRegister] = useState(false)
+
+    // const householdCounts = useGetCountsbyHouseholdQuery(householdId)
 
     const [displayForm, setDisplayForm] = useState("")
     const [showUserEdits, setShowUserEdits] = useState(false)
@@ -77,7 +86,7 @@ export default function AccountDisplay({ household, setHousehold }) {
         }
 
         if (householdDetails.isloading) {
-            return <div> Loading... </div>
+            return <div> Searching the house... </div>
         }
 
         return (
@@ -85,10 +94,17 @@ export default function AccountDisplay({ household, setHousehold }) {
                 <h3> {household.name} &nbsp; {!userInfo.sharedHouse ? <span className="accountEditButton" onClick={() => { setShowHouseholdEdits(!showHouseholdEdits); setShowUserEdits(false) }}>{plusIcon}</span> : <span className="accountEditButton" onClick={() => { setShowHouseholdEdits(!showHouseholdEdits); setShowUserEdits(false); setDisplayForm("") }}>{editIcon}</span>}  </h3>
                 {household.users && household.users.map((user) => {
                     return (
-                        <div className="userInfo" key={user.id}>
-                            <p className={user.color} > {userIcon} &nbsp; </p>
-                            <p id={user.id}> {user.name} </p>
-                        </div>
+                        <>
+                            <AccountStats user={user}/>
+                            {/* {/* <div className="userInfo" key={user.id}>
+                                <p className={user.color} > {userIcon} &nbsp; </p>
+                                <p id={user.id}> {user.name} </p>
+                            </div>
+
+                            <PieChart width={200} height={200}>
+                                <Pie data={ownerCounts} dataKey="items" outerRadius={70} fill="green" />
+                            </PieChart> */}
+                        </>
                     )
                 })}
             </div>
