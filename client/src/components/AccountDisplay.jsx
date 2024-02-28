@@ -90,6 +90,7 @@ export default function AccountDisplay({ household, setHousehold }) {
         return (
             <div className="householdInfo">
                 <h3> {household.name} &nbsp; {!userInfo.sharedHouse ? <span className="accountEditButton" onClick={() => { setShowHouseholdEdits(!showHouseholdEdits); setShowUserEdits(false) }}>{plusIcon}</span> : <span className="accountEditButton" onClick={() => { setShowHouseholdEdits(!showHouseholdEdits); setShowUserEdits(false); setDisplayForm("") }}>{editIcon}</span>}  </h3>
+                {accountOptions()}
                 {household.users && <HouseholdStats household={household} />}
                 {household.users && household.users.map((user) => {
                     return (
@@ -152,11 +153,12 @@ export default function AccountDisplay({ household, setHousehold }) {
             {userInfo?.username &&
                 <div className="accountPage">
                         {accountInfo()}
+                        
                     <div className="householdArea">
                         {householdInfo()}
                         <Messages id={userInfo.sharedHouse} />
                     </div>
-                    {accountOptions()}
+                    
                 </div>}
 
         </div>

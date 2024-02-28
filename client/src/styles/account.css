@@ -101,7 +101,6 @@
 }
 
 .accountArea {
-    
     width: 100%;
 }
 
@@ -157,6 +156,7 @@
     column-gap: 5px; 
     width: 80%; 
     margin: 0 auto; 
+    padding-bottom: 5px;
 }
 
 .accountForm {
@@ -274,6 +274,15 @@ textarea {
     .accountInfo {
         flex-direction: column;
         margin-bottom: 5px;
+    }
+
+    .accountButtons {
+        display: flex; 
+        flex-direction: column; 
+    }
+
+    .accountOptions {
+        width: 100%;
     }
 
     .welcome {
