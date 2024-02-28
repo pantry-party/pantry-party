@@ -1,7 +1,11 @@
 .homepage {
     margin: 0px -5px;
-    height: 100%; 
     padding-top: 20%;
+    height: max-content;
+}
+
+.stretch {
+    height: 100vh;
 }
 
 .login {
@@ -335,8 +339,12 @@ textarea {
         grid-template: 1fr/1fr 1fr;
     }
 
-    .homepage {
+    .stretch {
         height: 100vh;
+    }
+
+    .homepage {
+        height: max-content;
     }
 
     .householdMember {
