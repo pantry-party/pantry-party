@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { useSelector } from "react-redux"
 import { useGetMessagesbyHouseholdIdQuery, useUpdateMessageMutation, useDeleteMessageMutation, useCreateMessageMutation } from "../storage/pantryPartyApi"
 import { addNoteIcon, editIcon, deleteIcon, addIcon, sharingIcon } from "../styles/icons"
@@ -11,7 +11,6 @@ export default function Messages({ id }) {
     const [create, created] = useCreateMessageMutation()
     const [edit, edited] = useUpdateMessageMutation()
     const [deleteMessage, deletedMessage] = useDeleteMessageMutation()
-    const [check, setCheck] = useState(false)
 
     const [showAdd, setShowAdd] = useState(false)
     const [content, setContent] = useState("")
@@ -20,16 +19,6 @@ export default function Messages({ id }) {
     const [edits, setEdits] = useState(false)
     const [editId, setEditId] = useState(null)
     const [editcontent, setEditcontent] = useState("")
-
-    useEffect(() => {
-        if (created.isSuccess && !edited.isSuccess) {
-            console.log(created.data)
-            edit({ id: 4, content: "updated" })
-        } else if (edited.isSuccess) {
-            console.log(edited.data)
-            deleteMessage(4)
-        }
-    }, [created.isSuccess, edited.isSuccess])
 
     if (messages.isLoading) {
         return <div>Reading sticky notes...</div>
@@ -67,14 +56,10 @@ export default function Messages({ id }) {
         if (!editcontent) {
             alert("Please delete note instead of leaving it blank")
         } else {
-            try {
-                await edit({
-                    id: editId,
-                    content: editcontent
-                })
-            } catch (error) {
-                setError(error.message)
-            }
+            await edit({
+                id: editId,
+                content: editcontent
+            })
         }
         setEdits(false)
         setEditcontent("")
@@ -88,7 +73,7 @@ export default function Messages({ id }) {
 
     return (
         <div className="messageArea">
-            <h3>Message Board <span className="accountEditButton" onClick={(e) => { setShowAdd(!showAdd) }}>{addNoteIcon}</span></h3>
+            <h3>Message Board <span className="accountEditButton" onClick={() => { setShowAdd(!showAdd) }}>{addNoteIcon}</span></h3>
             {showAdd &&
                 <div className="messageEdit" id="addMessage">
                     <textarea
@@ -104,9 +89,8 @@ export default function Messages({ id }) {
             <div className="messageBoard">
                 {messagesData.map((message) => {
                     return (
-                        <div className={`message ${message.color}`} >
+                        <div className={`message ${message.color}`} key={message.id} >
                             <span className="messageDate"><strong> {parseDate(message.date)} </strong> </span>
-                            {/* <span className={`${message.color} CB${check} initial`} title={`Belongs to ${message.name}`} > {message.userInitial} </span> */}
                             {edits && message.id === editId
                                 ? <div className="messageEdit">
                                     <textarea
@@ -128,9 +112,9 @@ export default function Messages({ id }) {
                                 </>}
                             {!edits && message.userId === userInfo.id &&
                                 <span className="messageEdits">
-                                    <span className="messageEditButton" onClick={(e) => { deleteMessage(message.id) }}>{deleteIcon}</span>
+                                    <span className="messageEditButton" onClick={() => { deleteMessage(message.id) }}>{deleteIcon}</span>
                                     &nbsp;
-                                    <span className="messageEditButton" onClick={(e) => { showEditor(message.id, message.content) }}>{editIcon}</span>
+                                    <span className="messageEditButton" onClick={() => { showEditor(message.id, message.content) }}>{editIcon}</span>
                                 </span>}
                         </div>)
                 })}
