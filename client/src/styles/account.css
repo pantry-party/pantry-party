@@ -294,7 +294,7 @@ textarea {
     }
 
     .householdArea {
-        flex-direction: column;
+        flex-direction: column-reverse;
     }
 
     .householdInfo {
