@@ -137,6 +137,11 @@ export function HouseholdStats ({household}) {
                     fill="#3D3D5C"
                     position="outside"
                 />
+                <LabelList
+                    dataKey="count"
+                    fill="#3D3D5C"
+                    position="inside"
+                />
             </Pie>
         </PieChart>
     )
