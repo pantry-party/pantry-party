@@ -50,7 +50,6 @@ export default function PantryList({ setDragIt, setDrag }) {
 
   const today = new Date()
   const todayParse = parseDate(today)
-  console.log(todayParse)
 
   return (
     <div className="pantryPage">
@@ -101,7 +100,6 @@ export default function PantryList({ setDragIt, setDrag }) {
                     onDragStart={() => { setDragIt(item.id); setDrag(true); }}
                     onDragEnd={() => { setDrag(false) }}
                   >
-                    {console.log(item)}
                     {/* edit item button */}
                     <span className="itemIcons">
                       {item.expiry && (parseDate(item.expiry) <= todayParse) &&
