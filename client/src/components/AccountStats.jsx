@@ -53,7 +53,7 @@ export default function AccountStats({ user }) {
             <p className={user.color} > {userIcon} &nbsp; </p>
             <p id={user.id}> {user.name} </p>
         </div>
-        <PieChart className="piechart" width={150} height={200} title={`${user.name}'s Stats`}>
+        <PieChart className="piechart" width={250} height={200} title={`${user.name}'s Stats`}>
             <Pie
                 data={newOwners}
                 dataKey="value"
@@ -69,6 +69,12 @@ export default function AccountStats({ user }) {
                 <LabelList
                     dataKey="name"
                     fill="#3D3D5C"
+                    position="outside"
+                />
+                <LabelList
+                    dataKey="value"
+                    fill="#3D3D5C"
+                    position="inside"
                 />
             </Pie>
         </PieChart>
