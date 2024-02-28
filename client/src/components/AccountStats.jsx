@@ -3,7 +3,7 @@ import { PieChart, Pie, Cell, LabelList, Bar, ResponsiveContainer } from 'rechar
 import { useGetCountsbyOwnerQuery, useGetCountsbyHouseholdQuery, useGetItemsbyHouseholdIdQuery } from "../storage/pantryPartyApi"
 import { userIcon } from "../styles/icons"
 
-export default function AccountStats({ user}) {
+export default function AccountStats({ user }) {
     const ownerCounts = useGetCountsbyOwnerQuery(user.id)
     const data = ownerCounts.data
     const newOwners = []
@@ -21,7 +21,6 @@ export default function AccountStats({ user}) {
         }
         newOwners.push(user)
     })
-
 
     // colors
     if (user.color === "red") {
@@ -76,24 +75,22 @@ export default function AccountStats({ user}) {
     </>)
 }
 
-export function HouseholdStats ({household}) {
+export function HouseholdStats({ household }) {
     const householdItemsList = []
     const householdMembers = household.users
     const householdColors = ["#d3d3d3"]
     const householdItems = useGetItemsbyHouseholdIdQuery(household.id)
     const items = householdItems.data
 
-    console.log(household)
-
     householdMembers.map((member) => {
-        if (member.color === "red") {householdColors.push("#ff4d4d")}
-        if (member.color === "orange") {householdColors.push("#ff9966")}
-        if (member.color === "yellow") {householdColors.push("#ffff33")}
-        if (member.color === "green") {householdColors.push("#66ff66")}
-        if (member.color === "teal") {householdColors.push("#33cccc")}
-        if (member.color === "blue") {householdColors.push("#4da6ff")}
-        if (member.color === "purple") {householdColors.push("#9966ff")}
-        if (member.color === "pink") {householdColors.push("#ff99ce")}
+        if (member.color === "red") { householdColors.push("#ff4d4d") }
+        if (member.color === "orange") { householdColors.push("#ff9966") }
+        if (member.color === "yellow") { householdColors.push("#ffff33") }
+        if (member.color === "green") { householdColors.push("#66ff66") }
+        if (member.color === "teal") { householdColors.push("#33cccc") }
+        if (member.color === "blue") { householdColors.push("#4da6ff") }
+        if (member.color === "purple") { householdColors.push("#9966ff") }
+        if (member.color === "pink") { householdColors.push("#ff99ce") }
     })
 
     if (householdItems.isLoading) {
@@ -104,7 +101,6 @@ export function HouseholdStats ({household}) {
     householdMembers.map((member) => {
         householdItemsList.push({ name: member.id, count: 0, user: member.name })
     })
-
 
     items.map((item) => {
         let newItems = []
@@ -117,10 +113,9 @@ export function HouseholdStats ({household}) {
             householdItemsList.push(newItems)
         }
     })
-    console.log(householdItemsList)
 
     return (
-    <PieChart className="piechart" width={250} height={200} title={`Household Stats`}>
+        <PieChart className="piechart" width={250} height={200} title={`Household Stats`}>
             <Pie
                 data={householdItemsList}
                 dataKey="count"
