@@ -1,6 +1,6 @@
 .homepage {
     margin: 0px -5px;
-    height: max-content; 
+    height: 100%; 
     padding-top: 20%;
 }
 
@@ -90,7 +90,7 @@
 
 .accountPage {
     background-color: #e5e5f7ab;
-    margin-top: 0px;
+    margin-top: -18%;
 }
 
 .accountEditButton:hover {
@@ -200,6 +200,10 @@
     width: 50%; 
 }
 
+.noMessages {
+    align-self: center; 
+}
+
 #messageUser {
     font-family: fantasy;
 }
@@ -224,8 +228,8 @@ textarea {
 
 @media screen and (max-width: 800px) {
     .homepage { 
-        height: max-content;
-        padding-top: 10%;
+        height: 100%;
+        padding-top: 20%;
         margin-right: 0px;
     }
     
@@ -271,7 +275,7 @@ textarea {
     }
 }
 
-@media screen and (min-width: 800px) and (max-width: 1000px) {
+@media screen and (min-width: 800px) and (max-width: 1200px) {
     .messageBoard {
         grid-template: 1fr/1fr 1fr;
     }

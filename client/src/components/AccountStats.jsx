@@ -53,7 +53,8 @@ export default function AccountStats({ user }) {
             <p className={user.color} > {userIcon} &nbsp; </p>
             <p id={user.id}> {user.name} </p>
         </div>
-        <PieChart className="piechart" width={250} height={200} title={`${user.name}'s Stats`}>
+        
+        <PieChart className="piechart" width={250} height={150} title={`${user.name}'s Stats`}>
             <Pie
                 data={newOwners}
                 dataKey="value"
@@ -119,9 +120,17 @@ export function HouseholdStats({ household }) {
             householdItemsList.push(newItems)
         }
     })
+    const cleanup = () => {
+        householdItemsList.map((item)=> {
+            if (item.count === 0) {
+                householdItemsList.pop(item)
+            }
+        })
+    }
+    cleanup()
 
     return (
-        <PieChart className="piechart" width={250} height={200} title={`Household Stats`}>
+        <PieChart className="piechart" width={300} height={150} title={`Household Stats`}>
             <Pie
                 data={householdItemsList}
                 dataKey="count"
