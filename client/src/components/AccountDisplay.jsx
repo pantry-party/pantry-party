@@ -7,8 +7,7 @@ import Login from "./Login"
 import Messages from "./Messages"
 import { PieChart, Pie } from 'recharts'
 import {
-    pantryPartyApi, useGetHouseholdbyIdQuery, useGetCountsbyOwnerQuery,
-    useGetCountsbyHouseholdQuery
+    pantryPartyApi, useGetHouseholdbyIdQuery
 } from "../storage/pantryPartyApi"
 import Register from "./Register"
 import "../styles/colors.css"
@@ -92,7 +91,7 @@ export default function AccountDisplay({ household, setHousehold }) {
                 {household.users && household.users.map((user) => {
                     return (
                         <>
-                            <AccountStats user={user}/>
+                            <AccountStats user={user} />
                         </>
                     )
                 })}
@@ -150,11 +149,14 @@ export default function AccountDisplay({ household, setHousehold }) {
             {userInfo?.username &&
                 <div className="accountPage">
                     {accountInfo()}
-                    {householdInfo()}
+                    <div className="householdArea">
+                        {householdInfo()}
+                        <Messages id={userInfo.sharedHouse} />
+                    </div>
                     {accountOptions()}
                     <button className="logOutButton" onClick={() => { logout() }}> Log out </button>
                 </div>}
-            <Messages id={userInfo.sharedHouse}/>
+
         </div>
     )
 }
