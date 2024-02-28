@@ -312,7 +312,7 @@ textarea {
     }
 
     .homepage {
-        height: 100vh;
+        height: max-content;
     }
 
     .messageArea {
