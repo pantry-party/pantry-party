@@ -53,7 +53,7 @@ export default function AccountStats({ user }) {
         PieColors.push("#ffcce6", "#ff99ce")
     }
 
-    return (<>
+    return (<div className="householdMember">
         <div className="userInfo" key={user.id}>
             <p className={user.color} > {userIcon} &nbsp; </p>
             <p id={user.id}> {user.name} </p>
@@ -83,7 +83,7 @@ export default function AccountStats({ user }) {
                 />
             </Pie>
         </PieChart>
-    </>)
+    </div>)
 }
 
 export function HouseholdStats({ household }) {
