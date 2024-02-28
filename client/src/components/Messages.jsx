@@ -34,7 +34,7 @@ export default function Messages({ id }) {
     if (messages.isLoading) {
         return <div>Reading sticky notes...</div>
     } else if (messages.isError) {
-        return <div>No sticky notes found</div>
+        return <div className="noMessages"><p>No sticky notes found</p></div>
     }
 
     function parseDate(timestamp) {
@@ -114,7 +114,7 @@ export default function Messages({ id }) {
                                         cols={25}
                                         maxLength={255}
                                         value={editcontent}
-                                        onChange={(event) => { setEditContent(event.target.value) }}
+                                        onChange={(event) => { setEditcontent(event.target.value) }}
                                     />
                                     &nbsp;
                                     <span onClick={handleEdits}>{sharingIcon}</span>

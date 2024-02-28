@@ -1,6 +1,6 @@
 .homepage {
     margin: 0px -5px;
-    height: max-content; 
+    height: 100%; 
     padding-top: 20%;
 }
 
@@ -90,7 +90,7 @@
 
 .accountPage {
     background-color: #e5e5f7ab;
-    margin-top: 0px;
+    margin-top: -18%;
 }
 
 .accountEditButton:hover {
@@ -100,9 +100,19 @@
     border-radius: 20%;
 }
 
+.accountArea {
+    width: 100%;
+}
+
 .welcome {
     display: flex; 
     justify-content: center; 
+    width: 50%;
+}
+
+.accountInfo {
+    display: flex; 
+    width: 100%;
 }
 
 .userInfo {
@@ -129,7 +139,9 @@
     background-color: #3d3d5c;
     font-weight: bold;
     border-color: #3d3d5c;
-    margin: 10px; 
+    margin: 0 auto; 
+    height: fit-content;
+    align-self: center;
 }
 
 .logOutButton:hover {
@@ -144,6 +156,7 @@
     column-gap: 5px; 
     width: 80%; 
     margin: 0 auto; 
+    padding-bottom: 5px;
 }
 
 .accountForm {
@@ -200,6 +213,10 @@
     width: 50%; 
 }
 
+.noMessages {
+    align-self: center; 
+}
+
 #messageUser {
     font-family: fantasy;
 }
@@ -225,7 +242,7 @@ textarea {
 @media screen and (max-width: 800px) {
     .homepage { 
         height: max-content;
-        padding-top: 10%;
+        padding-top: 20%;
         margin-right: 0px;
     }
     
@@ -249,6 +266,24 @@ textarea {
         margin-left: 2%;
         margin-right: 2%;
     }
+
+    .accountInfo {
+        flex-direction: column;
+        margin-bottom: 5px;
+    }
+
+    .accountButtons {
+        display: flex; 
+        flex-direction: column; 
+    }
+
+    .accountOptions {
+        width: 100%;
+    }
+
+    .welcome {
+        width: 100%;
+    }
     
     .householdForm {
         width: 80%;
@@ -271,7 +306,7 @@ textarea {
     }
 }
 
-@media screen and (min-width: 800px) and (max-width: 1000px) {
+@media screen and (min-width: 800px) and (max-width: 1200px) {
     .messageBoard {
         grid-template: 1fr/1fr 1fr;
     }

@@ -16,7 +16,7 @@ export default function AccountStats({ user }) {
     data.forEach((ele) => {
         let location = { value: +ele.items }
         if (location.value > 0) {
-            height = 200
+            height = 150
         }
 
         if (!ele.inPantry) {
@@ -124,9 +124,17 @@ export function HouseholdStats({ household }) {
             householdItemsList.push(newItems)
         }
     })
+    const cleanup = () => {
+        householdItemsList.map((item)=> {
+            if (item.count === 0) {
+                householdItemsList.pop(item)
+            }
+        })
+    }
+    cleanup()
 
     return (
-        <PieChart className="piechart" width={250} height={200} title={`Household Stats`}>
+        <PieChart className="piechart" width={300} height={150} title={`Household Stats`}>
             <Pie
                 data={householdItemsList}
                 dataKey="count"
