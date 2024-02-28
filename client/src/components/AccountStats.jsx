@@ -1,25 +1,30 @@
-import React from 'react'
-import { PieChart, Pie, Cell, LabelList, Bar, ResponsiveContainer } from 'recharts'
-import { useGetCountsbyOwnerQuery, useGetCountsbyHouseholdQuery, useGetItemsbyHouseholdIdQuery } from "../storage/pantryPartyApi"
+import { PieChart, Pie, Cell, LabelList } from 'recharts'
+import { useGetCountsbyOwnerQuery, useGetItemsbyHouseholdIdQuery } from "../storage/pantryPartyApi"
 import { userIcon } from "../styles/icons"
 
 export default function AccountStats({ user }) {
     const ownerCounts = useGetCountsbyOwnerQuery(user.id)
     const data = ownerCounts.data
-    const newOwners = []
+    const newOwners= []
     const PieColors = []
+    let height = 0
 
     if (ownerCounts.isLoading) {
         return <>is loading...</>
     }
+
     data.forEach((ele) => {
-        let user = { name, value: +ele.items }
-        if (!ele.inPantry) {
-            user.name = "grocery"
-        } else {
-            user.name = "pantry"
+        let location = { value: +ele.items }
+        if (location.value > 0) {
+            height = 150
         }
-        newOwners.push(user)
+
+        if (!ele.inPantry) {
+            location.name = "grocery"
+        } else {
+            location.name = "pantry"
+        }
+        newOwners.push(location)
     })
 
     // colors
@@ -53,8 +58,7 @@ export default function AccountStats({ user }) {
             <p className={user.color} > {userIcon} &nbsp; </p>
             <p id={user.id}> {user.name} </p>
         </div>
-        
-        <PieChart className="piechart" width={250} height={150} title={`${user.name}'s Stats`}>
+        <PieChart className="piechart" width={250} height={height} title={`${user.name}'s Stats`}>
             <Pie
                 data={newOwners}
                 dataKey="value"
