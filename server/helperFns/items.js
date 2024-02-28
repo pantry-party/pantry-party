@@ -72,11 +72,11 @@ const getItemsByHouseholdPantry = async (householdId) => {
     try {
         const { rows }
             = await client.query(`
-        SELECT items.*, users.color
+        SELECT items.*, users.color, SUBSTRING(users.name, 1, 1) as "userInitial", users.name as "ownerName"
         FROM items
         LEFT JOIN users ON items."ownerId" = users.id
         WHERE "householdId" = $1 AND "inPantry" = true
-        ORDER BY "dateMoved", category;
+        ORDER BY category, "dateMoved";
         `, [householdId]
             )
         return rows
@@ -93,7 +93,7 @@ const getItemsByHouseholdGroceryList = async (householdId) => {
         FROM items
         LEFT JOIN users ON items."ownerId" = users.id
         WHERE "householdId" = $1 AND "inPantry" = false
-        ORDER BY category, "dateMoved";
+        ORDER BY category;
         `, [householdId]
             )
         return rows

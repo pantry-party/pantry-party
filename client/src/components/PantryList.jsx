@@ -101,6 +101,7 @@ export default function PantryList({ setDragIt, setDrag }) {
                     onDragStart={() => { setDragIt(item.id); setDrag(true); }}
                     onDragEnd={() => { setDrag(false) }}
                   >
+                    {console.log(item)}
                     {/* edit item button */}
                     <span className="itemIcons">
                       {item.expiry && (parseDate(item.expiry) <= todayParse) &&
@@ -125,7 +126,7 @@ export default function PantryList({ setDragIt, setDrag }) {
                     </span>
                     {item.expiry && (parseDate(item.expiry) <= todayParse) && <div className={`expiryDate expiredText CB${check}`}> <p>Exp. {parseDate(item.expiry)}</p> &nbsp; {expiredIcon} </div>}
                     {item.expiry && (parseDate(item.expiry) > todayParse) && <div className={`expiryDate CB${check}`}> <p>Exp. {parseDate(item.expiry)}</p> </div>}
-                    {item.ownerId && check && <div className="ownerText"> <p> Owner: {user.name} </p></div>}
+                    {item.ownerId && check && <div className="ownerText"> <p> Owner: {item.ownerName} </p></div>}
                     {itemEdit && item.id === editId && <EditItem item={item} setItemEdit={setItemEdit} />}
                   </li>
                 ))}
