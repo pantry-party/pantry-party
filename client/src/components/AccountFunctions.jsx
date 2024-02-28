@@ -33,7 +33,7 @@ export const ColorForm = ({ setDisplayForm, setColorButton }) => {
                     <option value={""}> Select </option>
                     {colors.map((color, index) => {
                         return (
-                            <option key={index} value={color} className={color}> {color} </option>
+                            <option key={index} value={color} className={`${color} message`}> {color} </option>
                         )
                     })}
                 </select>
