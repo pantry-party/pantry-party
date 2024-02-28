@@ -44,7 +44,7 @@ const getItemsByUser = async (ownerId) => {
         WHERE "ownerId"=$1
         ORDER BY category;
         `, [ownerId]
-        )
+            )
         return rows
     } catch (error) {
         throw error
@@ -72,11 +72,11 @@ const getItemsByHouseholdPantry = async (householdId) => {
     try {
         const { rows }
             = await client.query(`
-        SELECT items.*, users.color
+        SELECT items.*, users.color, SUBSTRING(users.name, 1, 1) as "userInitial", users.name as "ownerName"
         FROM items
         LEFT JOIN users ON items."ownerId" = users.id
         WHERE "householdId" = $1 AND "inPantry" = true
-        ORDER BY "dateMoved", category;
+        ORDER BY category, "dateMoved";
         `, [householdId]
             )
         return rows
@@ -93,7 +93,7 @@ const getItemsByHouseholdGroceryList = async (householdId) => {
         FROM items
         LEFT JOIN users ON items."ownerId" = users.id
         WHERE "householdId" = $1 AND "inPantry" = false
-        ORDER BY category, "dateMoved";
+        ORDER BY category;
         `, [householdId]
             )
         return rows
@@ -144,15 +144,48 @@ const updateItem = async (id, fields) => {
 
 async function deleteItem(id) {
     try {
-        const {rows } = await client.query(
-            ` DELETE FROM items
+        const { rows } = await client.query(
+            ` 
+            DELETE FROM items
             WHERE id=$1
             RETURNING *;
             `, [id])
-            return rows[0]
+        return rows[0]
     } catch (error) {
         throw error
     }
 }
 
-module.exports = {getAllItems, getItemById, getItemsByHousehold, getItemsByHouseholdPantry, getItemsByHouseholdGroceryList, getItemsByUser, createItem, updateItem, deleteItem}
+const getCountsbyOwner = async (ownerId) => {
+    try {
+        const { rows } = await client.query(
+            `
+            SELECT "inPantry", COUNT(id) as items 
+            FROM items 
+            WHERE "ownerId"=$1
+            GROUP BY "inPantry","ownerId";
+            `, [ownerId]
+        )
+        return rows
+    } catch (error) {
+        throw error
+    }
+}
+
+const getCountsbyHousehold = async (householdId) => {
+    try {
+        const { rows } = await client.query(
+            `
+            SELECT "inPantry", COUNT(id) as items 
+            FROM items 
+            WHERE "householdId"=$1
+            GROUP BY "inPantry","householdId";
+            `, [householdId]
+        )
+        return rows
+    } catch (error) {
+        throw error
+    }
+}
+
+module.exports = { getAllItems, getItemById, getItemsByHousehold, getItemsByHouseholdPantry, getItemsByHouseholdGroceryList, getItemsByUser, createItem, updateItem, deleteItem, getCountsbyOwner, getCountsbyHousehold }

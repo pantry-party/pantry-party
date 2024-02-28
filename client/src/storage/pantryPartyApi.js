@@ -74,7 +74,7 @@ export const pantryPartyApi = createApi({
             query: (data) => ({
                 url: "/users/register",
                 method: "POST",
-                body: {...data}
+                body: { ...data }
             }),
             invalidatesTags: ["User"]
         }),
@@ -82,7 +82,7 @@ export const pantryPartyApi = createApi({
             query: (data) => ({
                 url: "/users/login",
                 method: "POST",
-                body: {...data}
+                body: { ...data }
             }),
             invalidatesTags: ["User"]
         }),
@@ -90,7 +90,7 @@ export const pantryPartyApi = createApi({
             query: (data) => ({
                 url: `/users/${data.id}`,
                 method: 'PATCH',
-                body: {...data}
+                body: { ...data }
             }),
             invalidatesTags: ["User", "Household"]
         }),
@@ -98,7 +98,7 @@ export const pantryPartyApi = createApi({
             query: (data) => ({
                 url: "/households/user",
                 method: "POST",
-                body: {...data}
+                body: { ...data }
             }),
             invalidatesTags: ["Household"]
         }),
@@ -106,7 +106,7 @@ export const pantryPartyApi = createApi({
             query: (data) => ({
                 url: "/households/shared",
                 method: "POST",
-                body: {...data}
+                body: { ...data }
             }),
             invalidatesTags: ["Household"]
         }),
@@ -114,7 +114,7 @@ export const pantryPartyApi = createApi({
             query: (data) => ({
                 url: `/households/${data.id}`,
                 method: "PUT",
-                body: {...data}
+                body: { ...data }
             }),
             invalidatesTags: ["Household"]
         }),
@@ -122,7 +122,7 @@ export const pantryPartyApi = createApi({
             query: (data) => ({
                 url: "/items",
                 method: "POST",
-                body: {...data}
+                body: { ...data }
             }),
             invalidatesTags: ["Item"]
         }),
@@ -130,7 +130,7 @@ export const pantryPartyApi = createApi({
             query: (data) => ({
                 url: `/items/${data.id}`,
                 method: "PATCH",
-                body: {...data}
+                body: { ...data }
             }),
             invalidatesTags: ["Item"]
         }),
@@ -140,6 +140,14 @@ export const pantryPartyApi = createApi({
                 method: "DELETE"
             }),
             invalidatesTags: ["Item"]
+        }),
+        getCountsbyOwner: builder.query({
+            query: (id) => `/items/count/owner/${id}`,
+            providesTags: ["Item", "User", "Household"]
+        }),
+        getCountsbyHousehold: builder.query({
+            query: (id) => `/items/count/household/${id}`,
+            providesTags: ["Item", "Household"]
         })
     })
 })
@@ -166,4 +174,6 @@ export const {
     useCreateItemMutation,
     useEditItemMutation,
     useDeleteItemMutation,
+    useGetCountsbyOwnerQuery,
+    useGetCountsbyHouseholdQuery
 } = pantryPartyApi

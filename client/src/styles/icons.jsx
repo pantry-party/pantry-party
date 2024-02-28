@@ -26,7 +26,7 @@ export const sharingIcon = <FontAwesomeIcon icon={faCircleCheck} />
 export const notSharingIcon = <FontAwesomeIcon icon={faCircleXmark} />
 
 // accounts icons
-import { faCircleUser, faUserPlus, faUserMinus, faHouseUser, faHouseMedical, faHouseCircleXmark, faHouseCircleExclamation, faUserGear, faUserPen } from '@fortawesome/free-solid-svg-icons'
+import { faCircleUser, faUserPlus, faUserMinus, faHouseUser, faHouseMedical, faHouseCircleXmark, faHouseCircleExclamation, faUserGear, faUserPen, faPenToSquare, faNoteSticky } from '@fortawesome/free-solid-svg-icons'
 
 export const userIcon = <FontAwesomeIcon icon={faCircleUser} />
 export const addUsersIcon = <FontAwesomeIcon icon={faUserPlus} />
@@ -37,6 +37,7 @@ export const leaveHouseholdIcon = <FontAwesomeIcon icon={faHouseCircleXmark} />
 export const renameHouseholdIcon = <FontAwesomeIcon icon={faHouseCircleExclamation} />
 export const passwordIcon = <FontAwesomeIcon icon={faUserGear} />
 export const nameIcon = <FontAwesomeIcon icon={faUserPen} /> 
+export const addNoteIcon = <FontAwesomeIcon icon={faPenToSquare} /> 
 
 // navigation icons
 import { faBasketShopping, faKitchenSet, faUser, faPlus, faMinus, faCaretDown, faCaretUp } from '@fortawesome/free-solid-svg-icons'

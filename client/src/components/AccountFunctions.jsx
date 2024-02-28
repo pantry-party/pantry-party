@@ -28,12 +28,12 @@ export const ColorForm = ({ setDisplayForm, setColorButton }) => {
 
     return (
         <form id="colorForm" className="accountForm" onSubmit={(e) => { colorFormSubmit(e, newColor)}}>
-            <label> Colors:
+            <label> Colors:&nbsp;
                 <select required name="colors" onChange={(e) => { setNewColor(e.target.value) }}>
                     <option value={""}> Select </option>
                     {colors.map((color, index) => {
                         return (
-                            <option key={index} value={color} className={color}> {color} </option>
+                            <option key={index} value={color} className={`${color} message`}> {color} </option>
                         )
                     })}
                 </select>

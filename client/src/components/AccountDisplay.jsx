@@ -1,15 +1,20 @@
 //display of account information
 
 import { useState } from "react"
-import { userIcon, addUsersIcon, removeUserIcon, createHouseholdIcon, joinHouseholdIcon, leaveHouseholdIcon, renameHouseholdIcon, colorIcon, passwordIcon, nameIcon, editIcon, plusIcon } from "../styles/icons"
-import { useGetHouseholdbyIdQuery, pantryPartyApi } from "../storage/pantryPartyApi"
-import Register from "./Register"
-import "../styles/colors.css"
-import Login from "./Login"
-import { ColorForm, NameForm, UsernameForm, PasswordForm, SharedHouseholdForm, JoinHouseholdForm, RenameHouseholdForm, LeaveHouseholdForm, RemoveMemberForm } from "./AccountFunctions"
 import { useSelector, useDispatch } from "react-redux"
 import { updateToken, updateUser } from "../storage/slice"
+import Login from "./Login"
+import Messages from "./Messages"
+import { PieChart, Pie } from 'recharts'
+import {
+    pantryPartyApi, useGetHouseholdbyIdQuery
+} from "../storage/pantryPartyApi"
+import Register from "./Register"
+import "../styles/colors.css"
+import { ColorForm, NameForm, UsernameForm, PasswordForm, SharedHouseholdForm, JoinHouseholdForm, RenameHouseholdForm, LeaveHouseholdForm, RemoveMemberForm } from "./AccountFunctions"
+import { userIcon, addUsersIcon, removeUserIcon, createHouseholdIcon, joinHouseholdIcon, leaveHouseholdIcon, renameHouseholdIcon, colorIcon, passwordIcon, nameIcon, editIcon, plusIcon } from "../styles/icons"
 import "../styles/account.css"
+import AccountStats, { HouseholdStats } from "./AccountStats"
 
 export default function AccountDisplay({ household, setHousehold }) {
     const userInfo = useSelector((it) => it.state.user)
@@ -41,12 +46,15 @@ export default function AccountDisplay({ household, setHousehold }) {
     const accountInfo = () => {
         return (
             <>
-                <div className="accountInfo">
-                    <div className="welcome">
-                        <h2 className={userInfo.color}> {userIcon} &nbsp; </h2>
-                        <h2> Welcome &nbsp; </h2>
-                        <h2 className={userInfo.color} id={userInfo.id}>{userInfo.name}! &nbsp; </h2>
-                        <h2> {<span className="accountEditButton" onClick={() => { setShowUserEdits(!showUserEdits); setDisplayForm(""); setColorButton(""); setNameButton(""); setUserNameButton(""); setPasswordButton(""); setShowHouseholdEdits(false) }}>{editIcon}</span>} </h2>
+                <div className="accountArea">
+                    <div className="accountInfo">
+                        <div className="welcome">
+                            <h2 className={userInfo.color}> {userIcon} &nbsp; </h2>
+                            <h2> Welcome &nbsp; </h2>
+                            <h2 className={userInfo.color} id={userInfo.id}>{userInfo.name}! &nbsp; </h2>
+                            <h2> {<span className="accountEditButton" onClick={() => { setShowUserEdits(!showUserEdits); setDisplayForm(""); setColorButton(""); setNameButton(""); setUserNameButton(""); setPasswordButton(""); setShowHouseholdEdits(false) }}>{editIcon}</span>} </h2>
+                        </div>
+                        <button className="logOutButton" onClick={() => { logout() }}> Log out </button>
                     </div>
                     <div className="accountButtons">
                         {/* Choose your color */}
@@ -76,18 +84,19 @@ export default function AccountDisplay({ household, setHousehold }) {
         }
 
         if (householdDetails.isloading) {
-            return <div> Loading... </div>
+            return <div> Searching the house... </div>
         }
 
         return (
             <div className="householdInfo">
                 <h3> {household.name} &nbsp; {!userInfo.sharedHouse ? <span className="accountEditButton" onClick={() => { setShowHouseholdEdits(!showHouseholdEdits); setShowUserEdits(false) }}>{plusIcon}</span> : <span className="accountEditButton" onClick={() => { setShowHouseholdEdits(!showHouseholdEdits); setShowUserEdits(false); setDisplayForm("") }}>{editIcon}</span>}  </h3>
+                {accountOptions()}
+                {household.users && <HouseholdStats household={household} />}
                 {household.users && household.users.map((user) => {
                     return (
-                        <div className="userInfo" key={user.id}>
-                            <p className={user.color} > {userIcon} &nbsp; </p>
-                            <p id={user.id}> {user.name} </p>
-                        </div>
+                        <>
+                            <AccountStats user={user} />
+                        </>
                     )
                 })}
             </div>
@@ -126,28 +135,35 @@ export default function AccountDisplay({ household, setHousehold }) {
         setAccountMessage("")
     }
 
-    return (
-        <div className="homepage polkadot">
-            {!userInfo?.username && !register &&
+    return (<div className="homepage polkadot">
+
+        {!userInfo?.username && !register &&
+            <div className="stretch">
                 <div className="login">
                     <Login userInfo={userInfo} />
                     <p> Don't have an account? </p>
                     <button className="setRegisterButton" onClick={() => { setRegister(true) }}> Sign up! </button>
-                </div>}
-            {!userInfo?.username && register &&
+                </div>
+            </div>}
+        {!userInfo?.username && register &&
+            <div className="stretch">
                 <div className="register">
                     <Register userInfo={userInfo} />
                     <p> Already have an account? </p>
                     <button className="setRegisterButton" onClick={() => { setRegister(false) }}> Log in! </button>
                 </div>
-            }
-            {userInfo?.username &&
-                <div className="accountPage">
-                    {accountInfo()}
+            </div>
+        }
+        {userInfo?.username &&
+            <div className="accountPage">
+                {accountInfo()}
+                <div className="householdArea">
                     {householdInfo()}
-                    {accountOptions()}
-                    <button className="logOutButton" onClick={() => { logout() }}> Log out </button>
-                </div>}
-        </div>
-    )
+                    <Messages id={userInfo.sharedHouse} />
+                </div>
+
+            </div>}
+
+    </div>
+        )
 }

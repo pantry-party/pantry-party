@@ -53,6 +53,46 @@
     color: #ffcce6;
 }
 
+.message.red {
+    background-color: #ff8080; 
+    color: #3d3d5c;
+}
+
+.message.orange {
+    background-color: #ff9966;
+    color: #3d3d5c;
+}
+
+.message.yellow {
+    background-color: #ffff5c;
+    color: #3d3d5c; 
+}
+
+.message.green { 
+    background-color: #99ff99;
+    color: #3d3d5c;  
+}
+
+.message.teal {
+    background-color: #70dbdb;
+    color: #3d3d5c;
+}
+
+.message.blue {
+    background-color: #4da6ff;
+    color: #3d3d5c;
+}
+
+.message.purple {
+    background-color: #bb99ff;
+    color: #3d3d5c; 
+}
+
+.message.pink {
+    background-color: #ffcce6;
+    color: #3d3d5c;
+}
+
 .gray {
     color: lightgray;
 }
@@ -189,4 +229,44 @@
 
 .initial.CBtrue{
     background-color: #3D3D5C;
+}
+
+.piechartReds{
+color: #ff8080;
+color: #ff4d4d;
+}
+
+.piechartOranges{
+    color: #ffbb99; 
+    color: #ff9966; 
+}
+
+.piechartYellows{
+    color: #ffff99; 
+    color:#ffff33; 
+}
+
+.piechartGreens{
+    color:#99ff99;
+    color: #66ff66; 
+}
+
+.piechartTeals{
+    color: #70dbdb;
+    color: #33cccc;
+}
+
+.piechartBlues{
+    color: #80bfff;
+    color:#4da6ff;
+}
+
+.piechartPurples{
+    color: #bb99ff;
+    color: #9966ff; 
+}
+
+.piechartPinks {
+    color: #ffcce6;
+    color: #ff99ce; 
 }

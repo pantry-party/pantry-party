@@ -50,7 +50,6 @@ export default function PantryList({ setDragIt, setDrag }) {
 
   const today = new Date()
   const todayParse = parseDate(today)
-  console.log(todayParse)
 
   return (
     <div className="pantryPage">
@@ -125,7 +124,7 @@ export default function PantryList({ setDragIt, setDrag }) {
                     </span>
                     {item.expiry && (parseDate(item.expiry) <= todayParse) && <div className={`expiryDate expiredText CB${check}`}> <p>Exp. {parseDate(item.expiry)}</p> &nbsp; {expiredIcon} </div>}
                     {item.expiry && (parseDate(item.expiry) > todayParse) && <div className={`expiryDate CB${check}`}> <p>Exp. {parseDate(item.expiry)}</p> </div>}
-                    {item.ownerId && check && <div className="ownerText"> <p> Owner: {user.name} </p></div>}
+                    {item.ownerId && check && <div className="ownerText"> <p> Owner: {item.ownerName} </p></div>}
                     {itemEdit && item.id === editId && <EditItem item={item} setItemEdit={setItemEdit} />}
                   </li>
                 ))}

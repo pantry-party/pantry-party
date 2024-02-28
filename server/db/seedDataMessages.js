@@ -7,13 +7,13 @@ const messages = [
         date: "2024-01-08"
     },
     {
-        content: "DO NOT touch the chips I left on the counter! They are a for the party.",
+        content: "DO NOT touch the chips I left on the counter! They are for a party.",
         user: 7,
         household: 5,
         date: "2024-01-12"
     },
     {
-        content: "Has anyone seen the honey? I can't seem to find it in its usual cabinet",
+        content: "Has anyone seen the honey? I can't seem to find it in its usual cabinet.",
         user: 8,
         household: 5,
         date: "2024-02-02"

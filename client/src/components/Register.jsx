@@ -77,14 +77,14 @@ export default function Register() {
                     value={color}
                     onChange={(event) => { setColor(event.target.value) }}
                 >
-                    <option value="red">Red</option>
-                        <option value="orange">Orange</option>
-                        <option value="yellow">Yellow</option>
-                        <option value="green">Green</option>
-                        <option value="teal">Teal</option>
-                        <option value="blue">Blue</option>
-                        <option value="purple"> Purple </option>
-                        <option value="pink"> Pink </option> 
+                    <option value="red" className="message red">Red</option>
+                    <option value="orange" className="message orange">Orange</option>
+                    <option value="yellow" className="message yellow">Yellow</option>
+                    <option value="green" className="message green">Green</option>
+                    <option value="teal" className="message teal" >Teal</option>
+                    <option value="blue" className="message blue">Blue</option>
+                    <option value="purple" className="message purple"> Purple </option>
+                    <option value="pink" className="message pink"> Pink </option>
                 </select>
             </label>
             <button type="submit">Create Account</button>
