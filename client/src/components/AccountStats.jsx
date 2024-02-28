@@ -55,8 +55,8 @@ export default function AccountStats({ user }) {
 
     return (<div className="householdMember">
         <div className="userInfo" key={user.id}>
-            <p className={user.color} > {userIcon} &nbsp; </p>
-            <p id={user.id}> {user.name} </p>
+            <h4 className={user.color} > {userIcon} &nbsp; </h4>
+            <h4 id={user.id}> {user.name} </h4>
         </div>
         <PieChart className="piechart" width={250} height={height} title={`${user.name}'s Stats`}>
             <Pie

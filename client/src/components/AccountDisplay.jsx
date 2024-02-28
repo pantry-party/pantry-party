@@ -135,32 +135,35 @@ export default function AccountDisplay({ household, setHousehold }) {
         setAccountMessage("")
     }
 
-    return (
-        <div className="homepage polkadot">
-            {!userInfo?.username && !register &&
+    return (<div className="homepage polkadot">
+
+        {!userInfo?.username && !register &&
+            <div className="stretch">
                 <div className="login">
                     <Login userInfo={userInfo} />
                     <p> Don't have an account? </p>
                     <button className="setRegisterButton" onClick={() => { setRegister(true) }}> Sign up! </button>
-                </div>}
-            {!userInfo?.username && register &&
+                </div>
+            </div>}
+        {!userInfo?.username && register &&
+            <div className="stretch">
                 <div className="register">
                     <Register userInfo={userInfo} />
                     <p> Already have an account? </p>
                     <button className="setRegisterButton" onClick={() => { setRegister(false) }}> Log in! </button>
                 </div>
-            }
-            {userInfo?.username &&
-                <div className="accountPage">
-                        {accountInfo()}
-                        
-                    <div className="householdArea">
-                        {householdInfo()}
-                        <Messages id={userInfo.sharedHouse} />
-                    </div>
-                    
-                </div>}
+            </div>
+        }
+        {userInfo?.username &&
+            <div className="accountPage">
+                {accountInfo()}
+                <div className="householdArea">
+                    {householdInfo()}
+                    <Messages id={userInfo.sharedHouse} />
+                </div>
 
-        </div>
-    )
+            </div>}
+
+    </div>
+        )
 }
