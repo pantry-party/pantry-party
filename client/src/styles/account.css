@@ -100,9 +100,20 @@
     border-radius: 20%;
 }
 
+.accountArea {
+    
+    width: 100%;
+}
+
 .welcome {
     display: flex; 
     justify-content: center; 
+    width: 50%;
+}
+
+.accountInfo {
+    display: flex; 
+    width: 100%;
 }
 
 .userInfo {
@@ -129,7 +140,9 @@
     background-color: #3d3d5c;
     font-weight: bold;
     border-color: #3d3d5c;
-    margin: 10px; 
+    margin: 0 auto; 
+    height: fit-content;
+    align-self: center;
 }
 
 .logOutButton:hover {
@@ -252,6 +265,15 @@ textarea {
     .registerForm > label {
         margin-left: 2%;
         margin-right: 2%;
+    }
+
+    .accountInfo {
+        flex-direction: column;
+        margin-bottom: 5px;
+    }
+
+    .welcome {
+        width: 100%;
     }
     
     .householdForm {

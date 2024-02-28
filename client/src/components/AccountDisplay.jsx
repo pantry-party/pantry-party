@@ -14,7 +14,7 @@ import "../styles/colors.css"
 import { ColorForm, NameForm, UsernameForm, PasswordForm, SharedHouseholdForm, JoinHouseholdForm, RenameHouseholdForm, LeaveHouseholdForm, RemoveMemberForm } from "./AccountFunctions"
 import { userIcon, addUsersIcon, removeUserIcon, createHouseholdIcon, joinHouseholdIcon, leaveHouseholdIcon, renameHouseholdIcon, colorIcon, passwordIcon, nameIcon, editIcon, plusIcon } from "../styles/icons"
 import "../styles/account.css"
-import AccountStats, {HouseholdStats} from "./AccountStats"
+import AccountStats, { HouseholdStats } from "./AccountStats"
 
 export default function AccountDisplay({ household, setHousehold }) {
     const userInfo = useSelector((it) => it.state.user)
@@ -46,12 +46,15 @@ export default function AccountDisplay({ household, setHousehold }) {
     const accountInfo = () => {
         return (
             <>
-                <div className="accountInfo">
-                    <div className="welcome">
-                        <h2 className={userInfo.color}> {userIcon} &nbsp; </h2>
-                        <h2> Welcome &nbsp; </h2>
-                        <h2 className={userInfo.color} id={userInfo.id}>{userInfo.name}! &nbsp; </h2>
-                        <h2> {<span className="accountEditButton" onClick={() => { setShowUserEdits(!showUserEdits); setDisplayForm(""); setColorButton(""); setNameButton(""); setUserNameButton(""); setPasswordButton(""); setShowHouseholdEdits(false) }}>{editIcon}</span>} </h2>
+                <div className="accountArea">
+                    <div className="accountInfo">
+                        <div className="welcome">
+                            <h2 className={userInfo.color}> {userIcon} &nbsp; </h2>
+                            <h2> Welcome &nbsp; </h2>
+                            <h2 className={userInfo.color} id={userInfo.id}>{userInfo.name}! &nbsp; </h2>
+                            <h2> {<span className="accountEditButton" onClick={() => { setShowUserEdits(!showUserEdits); setDisplayForm(""); setColorButton(""); setNameButton(""); setUserNameButton(""); setPasswordButton(""); setShowHouseholdEdits(false) }}>{editIcon}</span>} </h2>
+                        </div>
+                        <button className="logOutButton" onClick={() => { logout() }}> Log out </button>
                     </div>
                     <div className="accountButtons">
                         {/* Choose your color */}
@@ -87,7 +90,7 @@ export default function AccountDisplay({ household, setHousehold }) {
         return (
             <div className="householdInfo">
                 <h3> {household.name} &nbsp; {!userInfo.sharedHouse ? <span className="accountEditButton" onClick={() => { setShowHouseholdEdits(!showHouseholdEdits); setShowUserEdits(false) }}>{plusIcon}</span> : <span className="accountEditButton" onClick={() => { setShowHouseholdEdits(!showHouseholdEdits); setShowUserEdits(false); setDisplayForm("") }}>{editIcon}</span>}  </h3>
-                {household.users && <HouseholdStats household={household} /> }
+                {household.users && <HouseholdStats household={household} />}
                 {household.users && household.users.map((user) => {
                     return (
                         <>
@@ -148,13 +151,12 @@ export default function AccountDisplay({ household, setHousehold }) {
             }
             {userInfo?.username &&
                 <div className="accountPage">
-                    {accountInfo()}
+                        {accountInfo()}
                     <div className="householdArea">
                         {householdInfo()}
                         <Messages id={userInfo.sharedHouse} />
                     </div>
                     {accountOptions()}
-                    <button className="logOutButton" onClick={() => { logout() }}> Log out </button>
                 </div>}
 
         </div>
